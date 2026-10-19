@@ -1,0 +1,3388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>KinetiQ Hire v2.9</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 160%22><rect width=%22160%22 height=%22160%22 rx=%2234%22 fill=%22%23FF5514%22/><path d=%22M78 20 L34 36 C34 68 42 94 78 134 C114 94 122 68 122 36 Z%22 fill=%22white%22/><circle cx=%2278%22 cy=%2264%22 r=%2224%22 fill=%22%23FF5514%22/><path d=%22M92 78 L112 98%22 stroke=%22%23FF5514%22 stroke-width=%2211%22 stroke-linecap=%22square%22/><polygon points=%2270,50 80,50 91,64 80,78 70,78 81,64%22 fill=%22white%22/><path d=%22M28 84 C12 108 42 114 86 92 C126 72 150 36 112 28 C134 38 118 64 82 82 C46 98 22 98 28 84 Z%22 fill=%22white%22/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    .hidden { display: none !important; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 74%, #e2e8f0 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    /* KinetiQ Hire Brand Typography */
+    .kinetiq-brand-font {
+      font-family: 'Montserrat', 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* =================================================================== */
+    /* SILKY GOOGLE CALENDAR-STYLE SPLASH & WORKSPACE TRANSITION           */
+    /* =================================================================== */
+    #splashScreen {
+      background-color: #FF5514;
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      will-change: opacity, transform, filter;
+      transition:
+        opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #splashScreen.splash-exit {
+      opacity: 0;
+      transform: scale(1.06);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .splash-brand-enter {
+      animation: logoPopIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes logoPopIn {
+      0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    #mainWorkspace {
+      opacity: 0;
+      transform: translateY(16px) scale(0.985);
+      filter: blur(6px);
+      will-change: opacity, transform, filter;
+      transition:
+        opacity 0.78s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.78s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.78s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #mainWorkspace.workspace-active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
+    .white-gel-panel {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(20px);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 14px 32px -12px rgba(15, 23, 42, 0.08);
+    }
+
+    .ash-gel-panel {
+      background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+      border: 1px solid #cbd5e1;
+    }
+
+    /* =================================================================== */
+    /* ORANGISH THEME (OPPOSITE TO GENERAL THEME) FOR CANDIDATURE,         */
+    /* EDIT MODAL, CALENDAR MODAL & 3D CANDIDATURE CARDS                   */
+    /* =================================================================== */
+    .orangish-theme-modal {
+      background: linear-gradient(145deg, #ff5514 0%, #ea580c 55%, #c2410c 100%);
+      border: 2px solid #fdba74;
+      color: #ffffff;
+      box-shadow: 0 24px 48px -12px rgba(194, 65, 12, 0.45);
+    }
+
+    .orangish-inner-panel {
+      background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1px solid #fdba74;
+      color: #431407;
+    }
+
+    .orangish-card-3d {
+      background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 65%, #fed7aa 100%);
+      border: 1.5px solid #fb923c;
+      box-shadow: 0 8px 18px -6px rgba(234, 88, 12, 0.18);
+      transition: all 0.2s ease;
+    }
+    .orangish-card-3d:hover {
+      transform: translateY(-3px);
+      border-color: #ea580c;
+      box-shadow: 0 14px 24px -8px rgba(234, 88, 12, 0.32);
+    }
+
+    /* Alternating Tracker Rows: 1st Light Orange, 2nd White, 3rd Light Orange */
+    .tracker-row-orange {
+      background-color: #fff0e5;
+    }
+    .tracker-row-orange:hover {
+      background-color: #ffe4d1;
+    }
+    .tracker-row-white {
+      background-color: #ffffff;
+    }
+    .tracker-row-white:hover {
+      background-color: #fff7ed;
+    }
+
+    /* Clean White Boxes */
+    .white-box-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+      box-shadow: 0 3px 8px -2px rgba(15, 23, 42, 0.06);
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+    .white-box-btn:hover {
+      background: #ffffff;
+      border-color: #fb923c;
+      color: #fb923c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px -4px rgba(251, 146, 60, 0.2);
+    }
+
+    /* Light Orange Selected View Button (Table View / 3D Board) */
+    .view-btn-selected {
+      background: #ffffff;
+      border: 2px solid #fb923c !important;
+      color: #fb923c !important;
+      box-shadow: 0 4px 12px -2px rgba(251, 146, 60, 0.25);
+    }
+
+    /* Ocean Blue Theme exclusively for Tequila */
+    .ocean-header {
+      background: linear-gradient(135deg, #005f87 0%, #0077b6 55%, #0284c7 100%);
+    }
+    .ocean-trigger-btn {
+      background: #ffffff;
+      border: 1.5px solid #0077b6;
+      color: #006994;
+      box-shadow: 0 10px 24px -6px rgba(0, 119, 182, 0.28);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .ocean-trigger-btn:hover {
+      border-color: #005f87;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -6px rgba(0, 119, 182, 0.38);
+    }
+    .ocean-input:focus {
+      outline: none;
+      border-color: #0077b6;
+      box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+    }
+
+    .gel-input {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+    }
+    .gel-input:focus {
+      outline: none;
+      border-color: #fb923c;
+      box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+    }
+
+    /* Smooth Right-Side Drawers (Hamburger & Google Tasks) */
+    #rightHamburgerDrawer,
+    #rightTasksDrawer {
+      transform: translateX(105%);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #rightHamburgerDrawer.open,
+    #rightTasksDrawer.open {
+      transform: translateX(0);
+    }
+
+    .kanban-col {
+      min-width: 285px;
+      max-width: 285px;
+    }
+
+    @media (max-width: 640px) {
+      .kanban-col {
+        min-width: 260px;
+        max-width: 260px;
+      }
+    }
+  </style>
+
+  <script>
+    // ===================================================================
+    // PERMANENT DEFAULT GOOGLE CLOUD APPS SCRIPT URL
+    // Automatically connects on ANY new PC, laptop, or mobile phone
+    // ===================================================================
+    const DEFAULT_CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyalium00VeY2U7DTgt1rPshoML7c2tmcA-u6KFfVZIphG6fGIdyApdePb1n4a87k-hfw/exec";
+
+    // 7 PIPELINE STATUSES
+    const STATUSES = [
+      "Prospect",
+      "Ok to process",
+      "Processed",
+      "Pre hire",
+      "Joined",
+      "HOLD",
+      "Not to proceed"
+    ];
+
+    // SOLID VIBRANT BOX COLOURS WITH WHITE FONT FOR PIPELINE STATUS
+    const STATUS_HEX_MAP = {
+      "Prospect": "#0284c7",       // Sky Blue
+      "Ok to process": "#ff5514",  // KinetiQ Vibrant Orange
+      "Processed": "#9333ea",      // Purple
+      "Pre hire": "#0077b6",       // Ocean Blue
+      "Joined": "#10b981",         // Emerald Green
+      "HOLD": "#eab308",           // Amber Gold
+      "Not to proceed": "#64748b"  // Slate Grey
+    };
+
+    const STATUS_FONT_COLORS = {
+      "Prospect": "text-sky-600",
+      "Ok to process": "text-orange-600",
+      "Processed": "text-purple-600",
+      "Pre hire": "text-[#0077b6]",
+      "Joined": "text-emerald-600",
+      "HOLD": "text-yellow-600",
+      "Not to proceed": "text-slate-500"
+    };
+
+    const PIE_HEX_COLORS = [
+      "#ff5514", "#0284c7", "#9333ea", "#0ea5e9",
+      "#10b981", "#eab308", "#64748b", "#334155"
+    ];
+
+    const LEGACY_MAP = {
+      "Suitable": "Prospect",
+      "Should check with the manager": "HOLD",
+      "Ok from manager to proceed": "Ok to process",
+      "Ready to process": "Ok to process",
+      "Processed to the client": "Processed",
+      "Pre-hire": "Pre hire",
+      "Prehire": "Pre hire"
+    };
+
+    let candidates = [];
+    let scheduleItems = []; // Unified Calendar Reminders + Interviews + Google Tasks
+    let tequilaChatHistory = []; // Persistent Tequila AI Chatbot Conversations
+    let tequilaSearchExports = {}; // Stores matched candidate lists for Tequila CSV export
+    let currentView = 'table';
+    let sheetScriptUrl = DEFAULT_CLOUD_SCRIPT_URL;
+    let firestoreProjectId = '';
+    let firestoreApiKey = '';
+    let lastCloudSyncAt = '';
+    let currentChartDimension = 'status';
+    let draggedId = null;
+
+    // Multi-Select State
+    let selectionMode = false;
+    let selectedCandidateIds = new Set();
+
+    // Rejection Modal State
+    let rejectTargetIds = [];
+    let rejectChannel = 'whatsapp'; // 'whatsapp' | 'mail'
+
+    // Google Calendar Event vs Task Chooser State
+    let pendingGcalItem = null;
+
+    // Calendar & Tasks UI State
+    let calYear = new Date().getFullYear();
+    let calMonth = new Date().getMonth();
+    let selectedCalDate = new Date().toISOString().slice(0, 10);
+    let currentTaskTab = 'active'; // 'active' | 'starred' | 'completed'
+    let activeDetailCandidateId = null;
+
+    function normalizeCandidateList(raw) {
+      if (!Array.isArray(raw)) return [];
+      return raw
+        .filter(c => c && typeof c === 'object' && c.id !== '__tt_cloud_meta__' && c.name !== '__CLOUD_META__')
+        .map(c => {
+          let st = c.status || "Prospect";
+          if (LEGACY_MAP[st]) st = LEGACY_MAP[st];
+          if (!STATUSES.includes(st)) st = "Prospect";
+          const ts = c.statusChangedAt || c.updatedAt || new Date().toISOString();
+          return {
+            id: String(c.id || 'cand_' + Math.random().toString(36).slice(2)),
+            name: String(c.name || 'Unnamed'),
+            position: String(c.position || ''),
+            client: String(c.client || ''),
+            gmail: String(c.gmail || ''),
+            contact: String(c.contact || ''),
+            experience: String(c.experience || ''),
+            status: st,
+            notes: String(c.notes || ''),
+            archived: Boolean(c.archived),
+            statusChangedAt: ts,
+            statusHistory: Array.isArray(c.statusHistory) ? c.statusHistory : [{ status: st, changedAt: ts }],
+            updatedAt: c.updatedAt || ts
+          };
+        });
+    }
+
+    function loadSavedState() {
+      try {
+        const raw = JSON.parse(localStorage.getItem('tt_candidates_v1') || '[]');
+        candidates = normalizeCandidateList(raw);
+      } catch (e) { candidates = []; }
+
+      try {
+        const rawSched = JSON.parse(localStorage.getItem('tt_schedule_v1') || '[]');
+        scheduleItems = Array.isArray(rawSched) ? rawSched : [];
+      } catch (e) { scheduleItems = []; }
+
+      try {
+        const rawChat = JSON.parse(localStorage.getItem('tt_tequila_chat_v1') || '[]');
+        tequilaChatHistory = Array.isArray(rawChat) ? rawChat : [];
+      } catch (e) { tequilaChatHistory = []; }
+
+      currentView = localStorage.getItem('tt_view_v1') || 'table';
+
+      // Always fall back to DEFAULT_CLOUD_SCRIPT_URL so new PCs connect automatically
+      const savedUrl = (localStorage.getItem('tt_sheet_url_v1') || '').trim();
+      sheetScriptUrl = savedUrl || DEFAULT_CLOUD_SCRIPT_URL;
+      localStorage.setItem('tt_sheet_url_v1', sheetScriptUrl);
+
+      firestoreProjectId = localStorage.getItem('tt_firestore_project_v1') || '';
+      firestoreApiKey = localStorage.getItem('tt_firestore_apikey_v1') || '';
+      lastCloudSyncAt = localStorage.getItem('tt_last_sync_v1') || '';
+    }
+
+    function saveScheduleState(skipCloudSync = false) {
+      localStorage.setItem('tt_schedule_v1', JSON.stringify(scheduleItems));
+      window.renderNotifications();
+      window.renderTasksList();
+      window.updateCloudStatsUI();
+      if (!document.getElementById('calendarModal')?.classList.contains('hidden')) {
+        window.renderCalendarGrid();
+      }
+      if (activeDetailCandidateId && !document.getElementById('detailModal')?.classList.contains('hidden')) {
+        window.openDetailModal(activeDetailCandidateId);
+      }
+      if (!skipCloudSync) {
+        window.syncAllToGoogleCloud();
+      }
+    }
+
+    function saveTequilaChatState(skipCloudSync = false) {
+      if (tequilaChatHistory.length > 100) {
+        tequilaChatHistory = tequilaChatHistory.slice(-100);
+      }
+      localStorage.setItem('tt_tequila_chat_v1', JSON.stringify(tequilaChatHistory));
+      window.updateCloudStatsUI();
+      if (!skipCloudSync) {
+        window.syncAllToGoogleCloud();
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatDateTime(isoStr) {
+      if (!isoStr) return 'Not recorded';
+      const d = new Date(isoStr);
+      if (isNaN(d.getTime())) return String(isoStr);
+      return d.toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true
+      });
+    }
+
+    function formatShortDate(dateStr, timeStr) {
+      if (!dateStr) return 'No due date';
+      const d = new Date(dateStr + 'T' + (timeStr || '09:00'));
+      if (isNaN(d.getTime())) return dateStr + (timeStr ? ' ' + timeStr : '');
+      const opts = { day: '2-digit', month: 'short', year: 'numeric' };
+      const datePart = d.toLocaleDateString('en-IN', opts);
+      if (!timeStr) return datePart;
+      const timePart = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+      return `${datePart}, ${timePart}`;
+    }
+
+    window.getTimeOfDayGreeting = function () {
+      const hr = new Date().getHours();
+      if (hr >= 5 && hr < 12) return 'Good morning';
+      if (hr >= 12 && hr < 17) return 'Good afternoon';
+      if (hr >= 17 && hr < 21) return 'Good evening';
+      return 'Good night';
+    };
+
+    // ===================================================================
+    // GOOGLE CALENDAR EVENT VS TASK CHOOSER
+    // ===================================================================
+    window.buildGoogleCalendarEventUrl = function (item) {
+      const title = encodeURIComponent(`[KinetiQ Hire] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}`);
+      const details = encodeURIComponent(
+        `Candidate: ${item.candidateName || 'N/A'}\nPosition: ${item.position || 'N/A'}\nClient: ${item.client || 'N/A'}\nNotes: ${item.notes || ''}`
+      );
+      const dateClean = (item.date || new Date().toISOString().slice(0, 10)).replace(/-/g, '');
+      let datesParam = `${dateClean}/${dateClean}`;
+      if (item.time) {
+        const [hh, mm] = item.time.split(':');
+        const startH = String(hh || '09').padStart(2, '0');
+        const startM = String(mm || '00').padStart(2, '0');
+        const endH = String((parseInt(startH, 10) + 1) % 24).padStart(2, '0');
+        datesParam = `${dateClean}T${startH}${startM}00/${dateClean}T${endH}${startM}00`;
+      }
+      return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${datesParam}&details=${details}`;
+    };
+
+    window.buildGoogleCalendarDayPageUrl = function (item) {
+      const dateStr = item.date || new Date().toISOString().slice(0, 10);
+      const [yyyy, mm, dd] = dateStr.split('-');
+      return `https://calendar.google.com/calendar/u/0/r/day/${yyyy}/${ parseInt(mm, 10) }/${ parseInt(dd, 10) }`;
+    };
+
+    window.openGoogleCalChoice = function (itemId) {
+      const item = scheduleItems.find(i => i.id === itemId);
+      if (!item) return;
+      pendingGcalItem = item;
+      const titleEl = document.getElementById('gcalChoiceItemTitle');
+      const subEl = document.getElementById('gcalChoiceItemSub');
+      if (titleEl) titleEl.textContent = item.title + (item.candidateName ? ` — ${item.candidateName}` : '');
+      if (subEl) subEl.textContent = `${formatShortDate(item.date, item.time)}${item.client ? ` • ${item.client}` : ''}`;
+      document.getElementById('gcalChoiceModal').classList.remove('hidden');
+    };
+
+    window.closeGoogleCalChoice = function () {
+      document.getElementById('gcalChoiceModal').classList.add('hidden');
+      pendingGcalItem = null;
+    };
+
+    window.proceedGoogleCalChoice = function (mode) {
+      if (!pendingGcalItem) return;
+      const item = pendingGcalItem;
+      const summaryText = `[KinetiQ Hire] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}\nDate: ${formatShortDate(item.date, item.time)}\nCandidate: ${item.candidateName || 'N/A'} (${item.position || 'N/A'} - ${item.client || 'N/A'})\nNotes: ${item.notes || ''}`;
+
+      if (mode === 'event') {
+        window.open(window.buildGoogleCalendarEventUrl(item), '_blank', 'noopener');
+      } else if (mode === 'task') {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(summaryText).catch(() => {});
+        }
+        window.open('https://calendar.google.com/calendar/u/0/r/tasks', '_blank', 'noopener');
+      } else if (mode === 'daypage') {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(summaryText).catch(() => {});
+        }
+        window.open(window.buildGoogleCalendarDayPageUrl(item), '_blank', 'noopener');
+      }
+      window.closeGoogleCalChoice();
+    };
+
+    // 1. Silky Google Calendar-Style Auto Transition
+    window.enterTrackerWorkspace = function () {
+      const splash = document.getElementById('splashScreen');
+      const main = document.getElementById('mainWorkspace');
+      const bot = document.getElementById('tequilaWidget');
+
+      if (main) {
+        main.classList.remove('hidden');
+        requestAnimationFrame(function () {
+          main.classList.add('workspace-active');
+        });
+      }
+      if (splash) {
+        splash.classList.add('splash-exit');
+        setTimeout(function () {
+          splash.classList.add('hidden');
+        }, 720);
+      }
+      if (bot) {
+        setTimeout(function () {
+          bot.classList.remove('hidden');
+        }, 420);
+      }
+    };
+
+    window.showSplashScreen = function () {
+      const splash = document.getElementById('splashScreen');
+      const main = document.getElementById('mainWorkspace');
+      const bot = document.getElementById('tequilaWidget');
+      if (bot) bot.classList.add('hidden');
+      if (main) main.classList.remove('workspace-active');
+      if (splash) {
+        splash.classList.remove('hidden');
+        requestAnimationFrame(function () {
+          splash.classList.remove('splash-exit');
+        });
+        setTimeout(function () {
+          window.enterTrackerWorkspace();
+        }, 1000);
+      }
+    };
+
+    // 2. Right-Side Hamburger Drawer
+    window.toggleHamburgerMenu = function (open) {
+      const drawer = document.getElementById('rightHamburgerDrawer');
+      const backdrop = document.getElementById('hamburgerBackdrop');
+      if (!drawer || !backdrop) return;
+      if (open) {
+        window.toggleTasksDrawer(false);
+        backdrop.classList.remove('hidden');
+        drawer.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+        backdrop.classList.add('hidden');
+      }
+    };
+
+    // 3. Google Tasks-Style Right Drawer
+    window.toggleTasksDrawer = function (open) {
+      const drawer = document.getElementById('rightTasksDrawer');
+      const backdrop = document.getElementById('tasksBackdrop');
+      if (!drawer || !backdrop) return;
+      if (open) {
+        window.toggleHamburgerMenu(false);
+        window.populateCandidateSelects();
+        window.renderTasksList();
+        backdrop.classList.remove('hidden');
+        drawer.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+        backdrop.classList.add('hidden');
+      }
+    };
+
+    window.setTaskTab = function (tab) {
+      currentTaskTab = tab;
+      ['active', 'starred', 'completed'].forEach(t => {
+        const btn = document.getElementById('taskTab_' + t);
+        if (btn) {
+          if (t === tab) {
+            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF5514] text-white transition';
+          } else {
+            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition';
+          }
+        }
+      });
+      window.renderTasksList();
+    };
+
+    window.addTaskFromDrawer = function (e) {
+      e.preventDefault();
+      const titleEl = document.getElementById('taskTitleInput');
+      const dateEl = document.getElementById('taskDateInput');
+      const timeEl = document.getElementById('taskTimeInput');
+      const candEl = document.getElementById('taskCandSelect');
+      const notesEl = document.getElementById('taskNotesInput');
+
+      const title = (titleEl?.value || '').trim();
+      if (!title) return;
+
+      const candId = candEl?.value || '';
+      const candObj = candidates.find(c => c.id === candId);
+
+      scheduleItems.unshift({
+        id: 'sched_' + Date.now(),
+        title,
+        date: dateEl?.value || new Date().toISOString().slice(0, 10),
+        time: timeEl?.value || '10:00',
+        notes: (notesEl?.value || '').trim(),
+        candidateId: candObj ? candObj.id : '',
+        candidateName: candObj ? candObj.name : '',
+        position: candObj ? candObj.position : '',
+        client: candObj ? candObj.client : '',
+        completed: false,
+        starred: false,
+        createdAt: new Date().toISOString()
+      });
+
+      if (titleEl) titleEl.value = '';
+      if (notesEl) notesEl.value = '';
+      saveScheduleState();
+    };
+
+    window.toggleScheduleCompleted = function (id) {
+      const item = scheduleItems.find(i => i.id === id);
+      if (item) {
+        item.completed = !item.completed;
+        saveScheduleState();
+      }
+    };
+
+    window.toggleScheduleStarred = function (id) {
+      const item = scheduleItems.find(i => i.id === id);
+      if (item) {
+        item.starred = !item.starred;
+        saveScheduleState();
+      }
+    };
+
+    window.deleteScheduleItem = function (id) {
+      scheduleItems = scheduleItems.filter(i => i.id !== id);
+      saveScheduleState();
+    };
+
+    window.renderTasksList = function () {
+      const container = document.getElementById('tasksListContainer');
+      const badge = document.getElementById('headerTaskCountBadge');
+      const activeCount = scheduleItems.filter(i => !i.completed).length;
+      if (badge) {
+        badge.textContent = activeCount;
+        badge.classList.toggle('hidden', activeCount === 0);
+      }
+      if (!container) return;
+
+      let filtered = [];
+      if (currentTaskTab === 'active') filtered = scheduleItems.filter(i => !i.completed);
+      else if (currentTaskTab === 'starred') filtered = scheduleItems.filter(i => !i.completed && i.starred);
+      else filtered = scheduleItems.filter(i => i.completed);
+
+      filtered.sort((a, b) => {
+        const da = (a.date || '9999-99-99') + ' ' + (a.time || '23:59');
+        const db = (b.date || '9999-99-99') + ' ' + (b.time || '23:59');
+        return da.localeCompare(db);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-slate-500 text-xs">No tasks in this view. Add a task above or inside any candidate profile.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        return `
+          <div class="bg-white rounded-xl p-3 border border-slate-200 hover:border-[#FF5514] transition flex items-start gap-3">
+            <button type="button" onclick="window.toggleScheduleCompleted('${escapeHtml(item.id)}')"
+                    class="mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition cursor-pointer ${item.completed ? 'bg-[#FF5514] border-[#FF5514] text-white' : 'border-slate-400 hover:border-[#FF5514]'}"
+                    title="Mark Completed">
+              ${item.completed ? '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+            </button>
+
+            <div class="flex-1 min-w-0">
+              <div class="text-xs font-extrabold ${item.completed ? 'line-through text-slate-400' : 'text-slate-900'} break-words">
+                ${escapeHtml(item.title)}
+              </div>
+              ${item.notes ? `<div class="text-[11px] text-slate-600 mt-0.5 break-words">${escapeHtml(item.notes)}</div>` : ''}
+              <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px] font-bold text-[#FF5514]">
+                  ${escapeHtml(formatShortDate(item.date, item.time))}
+                </span>
+                ${item.candidateName ? `
+                  <button type="button" onclick="window.toggleTasksDrawer(false); window.openDetailModal('${escapeHtml(item.candidateId)}');"
+                          class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-[10px] font-bold cursor-pointer hover:bg-[#FF5514] transition">
+                    ${escapeHtml(item.candidateName)}
+                  </button>
+                ` : ''}
+                <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
+                        class="px-2 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-bold text-slate-700 hover:border-[#FF5514] hover:text-[#FF5514] transition cursor-pointer">
+                  + Google Cal (Event / Task)
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-center gap-1.5 shrink-0">
+              <button type="button" onclick="window.toggleScheduleStarred('${escapeHtml(item.id)}')"
+                      class="text-slate-400 hover:text-[#FF5514] cursor-pointer" title="Star Task">
+                <svg class="w-4 h-4 ${item.starred ? 'fill-[#FF5514] text-[#FF5514]' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </button>
+              <button type="button" onclick="window.deleteScheduleItem('${escapeHtml(item.id)}')"
+                      class="text-slate-400 hover:text-slate-900 text-xs font-bold cursor-pointer" title="Delete Task">
+                &times;
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    // 4. Calendar Modal & Functions
+    window.populateCandidateSelects = function () {
+      const active = candidates.filter(c => !c.archived);
+      const opts = '<option value="">General Work / No Candidate Linked</option>' +
+        active.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)} (${escapeHtml(c.position)} - ${escapeHtml(c.client)})</option>`).join('');
+      const calSel = document.getElementById('calCandSelect');
+      const taskSel = document.getElementById('taskCandSelect');
+      if (calSel) calSel.innerHTML = opts;
+      if (taskSel) taskSel.innerHTML = opts;
+
+      const dateInput = document.getElementById('taskDateInput');
+      if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
+    };
+
+    window.openCalendarModal = function (dateStr) {
+      if (dateStr) {
+        selectedCalDate = dateStr;
+        const d = new Date(dateStr + 'T00:00:00');
+        if (!isNaN(d.getTime())) {
+          calYear = d.getFullYear();
+          calMonth = d.getMonth();
+        }
+      }
+      window.populateCandidateSelects();
+      const calDateField = document.getElementById('calDateInput');
+      if (calDateField) calDateField.value = selectedCalDate;
+      window.renderCalendarGrid();
+      document.getElementById('calendarModal').classList.remove('hidden');
+    };
+
+    window.closeCalendarModal = function () {
+      document.getElementById('calendarModal').classList.add('hidden');
+    };
+
+    window.changeCalendarMonth = function (delta) {
+      calMonth += delta;
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      else if (calMonth < 0) { calMonth = 11; calYear--; }
+      window.renderCalendarGrid();
+    };
+
+    window.selectCalendarDay = function (dateStr) {
+      selectedCalDate = dateStr;
+      const calDateField = document.getElementById('calDateInput');
+      if (calDateField) calDateField.value = selectedCalDate;
+      window.renderCalendarGrid();
+    };
+
+    window.saveCalendarReminder = function (e) {
+      e.preventDefault();
+      const titleEl = document.getElementById('calTitleInput');
+      const dateEl = document.getElementById('calDateInput');
+      const timeEl = document.getElementById('calTimeInput');
+      const candEl = document.getElementById('calCandSelect');
+      const notesEl = document.getElementById('calNotesInput');
+
+      const title = (titleEl?.value || '').trim();
+      if (!title) return;
+
+      const candId = candEl?.value || '';
+      const candObj = candidates.find(c => c.id === candId);
+      const chosenDate = dateEl?.value || selectedCalDate;
+
+      scheduleItems.unshift({
+        id: 'sched_' + Date.now(),
+        title,
+        date: chosenDate,
+        time: timeEl?.value || '10:00',
+        notes: (notesEl?.value || '').trim(),
+        candidateId: candObj ? candObj.id : '',
+        candidateName: candObj ? candObj.name : '',
+        position: candObj ? candObj.position : '',
+        client: candObj ? candObj.client : '',
+        completed: false,
+        starred: false,
+        createdAt: new Date().toISOString()
+      });
+
+      selectedCalDate = chosenDate;
+      if (titleEl) titleEl.value = '';
+      if (notesEl) notesEl.value = '';
+      saveScheduleState();
+    };
+
+    window.renderCalendarGrid = function () {
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const titleEl = document.getElementById('calMonthYearTitle');
+      if (titleEl) titleEl.textContent = `${monthNames[calMonth]} ${calYear}`;
+
+      const firstDay = new Date(calYear, calMonth, 1).getDay();
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      const daysGrid = document.getElementById('calDaysGrid');
+      if (daysGrid) {
+        let html = '';
+        for (let i = 0; i < firstDay; i++) {
+          html += `<div class="h-10 sm:h-11 rounded-xl bg-orange-100/60"></div>`;
+        }
+        for (let d = 1; d <= daysInMonth; d++) {
+          const mStr = String(calMonth + 1).padStart(2, '0');
+          const dStr = String(d).padStart(2, '0');
+          const fullDate = `${calYear}-${mStr}-${dStr}`;
+          const dayItems = scheduleItems.filter(i => i.date === fullDate && !i.completed);
+          const isSelected = fullDate === selectedCalDate;
+          const isToday = fullDate === todayStr;
+
+          let btnCls = 'bg-white text-slate-900 border-orange-200 hover:border-[#FF5514]';
+          if (isSelected) btnCls = 'bg-[#ea580c] text-white border-white font-black shadow-md';
+          else if (isToday) btnCls = 'bg-slate-900 text-white border-slate-900 font-extrabold';
+
+          html += `
+            <button type="button" onclick="window.selectCalendarDay('${fullDate}')"
+                    class="h-10 sm:h-11 rounded-xl border text-xs flex flex-col items-center justify-center relative transition cursor-pointer ${btnCls}">
+              <span>${d}</span>
+              ${dayItems.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full mt-0.5 ${isSelected ? 'bg-white' : 'bg-[#FF5514]'}"></span>` : ''}
+            </button>
+          `;
+        }
+        daysGrid.innerHTML = html;
+      }
+
+      const agendaLabel = document.getElementById('calSelectedDateLabel');
+      if (agendaLabel) agendaLabel.textContent = `Schedule for ${formatShortDate(selectedCalDate, '')}`;
+
+      const agendaList = document.getElementById('calDayAgendaList');
+      if (agendaList) {
+        const items = scheduleItems.filter(i => i.date === selectedCalDate);
+        if (items.length === 0) {
+          agendaList.innerHTML = `<div class="p-4 text-center text-orange-900/70 text-xs font-medium">No reminders or interviews on this date.</div>`;
+        } else {
+          agendaList.innerHTML = items.map(item => {
+            return `
+              <div class="bg-white rounded-xl p-3 border border-orange-200 flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" ${item.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(item.id)}')" class="accent-[#FF5514] cursor-pointer" />
+                    <span class="text-xs font-extrabold ${item.completed ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(item.title)}</span>
+                  </div>
+                  <div class="text-[11px] font-bold text-[#ea580c] mt-1">${escapeHtml(item.time || 'All Day')} ${item.candidateName ? `• ${escapeHtml(item.candidateName)} (${escapeHtml(item.client)})` : ''}</div>
+                  ${item.notes ? `<div class="text-[11px] text-slate-600 mt-0.5">${escapeHtml(item.notes)}</div>` : ''}
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
+                          class="px-2.5 py-1 rounded-lg bg-[#FF5514] hover:bg-[#ea580c] text-white text-[10px] font-extrabold transition cursor-pointer">
+                    Google Cal
+                  </button>
+                  <button type="button" onclick="window.deleteScheduleItem('${escapeHtml(item.id)}')"
+                          class="text-slate-400 hover:text-slate-900 text-sm font-bold px-1 cursor-pointer">&times;</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    };
+
+    // 5. Notification Center
+    window.getUpcomingAlerts = function () {
+      const now = new Date();
+      const alerts = [];
+
+      scheduleItems.filter(i => !i.completed && i.date).forEach(item => {
+        const dt = new Date(item.date + 'T' + (item.time || '09:00'));
+        if (isNaN(dt.getTime())) return;
+        const diffMs = dt.getTime() - now.getTime();
+        const diffHours = diffMs / (1000 * 60 * 60);
+
+        if (diffHours <= 24 && diffHours >= -48) {
+          let urgency = 'Within 1 Day';
+          let badgeCls = 'bg-slate-900 text-white';
+          if (diffHours < 0) {
+            urgency = 'Due Now / Overdue';
+            badgeCls = 'bg-[#FF5514] text-white';
+          } else if (diffHours <= 1) {
+            const mins = Math.max(1, Math.round(diffMs / 60000));
+            urgency = `In ${mins} min(s) (Within 1 Hour)`;
+            badgeCls = 'bg-[#FF5514] text-white';
+          } else {
+            const hrs = Math.round(diffHours);
+            urgency = `In ${hrs} hour(s) (Within 1 Day)`;
+            badgeCls = 'bg-slate-800 text-white';
+          }
+          alerts.push({ item, diffMs, urgency, badgeCls });
+        }
+      });
+
+      return alerts.sort((a, b) => a.diffMs - b.diffMs);
+    };
+
+    window.renderNotifications = function () {
+      const alerts = window.getUpcomingAlerts();
+      const badge = document.getElementById('notifCountBadge');
+      if (badge) {
+        badge.textContent = alerts.length;
+        badge.classList.toggle('hidden', alerts.length === 0);
+      }
+
+      const listEl = document.getElementById('notifListContainer');
+      if (!listEl) return;
+
+      if (alerts.length === 0) {
+        listEl.innerHTML = `<div class="p-8 text-center text-slate-500 text-xs">No reminders or deadlines due within the next 24 hours.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = alerts.map(({ item, urgency, badgeCls }) => {
+        return `
+          <div class="bg-white rounded-2xl p-3.5 border border-slate-200 flex items-start justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold ${badgeCls}">${escapeHtml(urgency)}</span>
+                <span class="text-xs font-extrabold text-slate-900">${escapeHtml(item.title)}</span>
+              </div>
+              <div class="text-[11px] font-bold text-[#FF5514]">
+                ${escapeHtml(formatShortDate(item.date, item.time))}
+                ${item.candidateName ? ` • Candidate: ${escapeHtml(item.candidateName)} (${escapeHtml(item.client)})` : ''}
+              </div>
+              ${item.notes ? `<div class="text-xs text-slate-600">${escapeHtml(item.notes)}</div>` : ''}
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
+                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-slate-800">Google Cal</button>
+              <button type="button" onclick="window.toggleScheduleCompleted('${escapeHtml(item.id)}')"
+                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF5514]">Done</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    window.openNotificationsModal = function () {
+      window.renderNotifications();
+      document.getElementById('notificationsModal').classList.remove('hidden');
+    };
+
+    window.closeNotificationsModal = function () {
+      document.getElementById('notificationsModal').classList.add('hidden');
+    };
+
+    // 6. View Switcher (Table / 3D Board) - Selected Font & Outline in Light Orange (#fb923c)
+    window.setView = function (view) {
+      currentView = view;
+      localStorage.setItem('tt_view_v1', view);
+      const tCont = document.getElementById('tableViewContainer');
+      const bCont = document.getElementById('boardViewContainer');
+      const tBtn = document.getElementById('btnTableView');
+      const bBtn = document.getElementById('btnBoardView');
+
+      if (view === 'board') {
+        tCont.classList.add('hidden');
+        bCont.classList.remove('hidden');
+        bBtn.className = 'view-btn-selected px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer';
+        tBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#fb923c] cursor-pointer';
+      } else {
+        tCont.classList.remove('hidden');
+        bCont.classList.add('hidden');
+        tBtn.className = 'view-btn-selected px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer';
+        bBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#fb923c] cursor-pointer';
+      }
+      window.render();
+    };
+
+    // 7. Dropdowns & Filters
+    window.initDropdowns = function () {
+      const statusFilter = document.getElementById('statusFilter');
+      const candStatus = document.getElementById('candStatus');
+      if (statusFilter) {
+        statusFilter.innerHTML = '<option value="">All Active Statuses</option>' +
+          STATUSES.map(s => `<option value="${s}">${s}</option>`).join('');
+      }
+      if (candStatus) {
+        candStatus.innerHTML = STATUSES.map(s => `<option value="${s}">${s}</option>`).join('');
+      }
+    };
+
+    window.updateAutoSuggestAndFilters = function () {
+      const clients = [...new Set(candidates.map(c => c.client).filter(Boolean))].sort();
+      const positions = [...new Set(candidates.map(c => c.position).filter(Boolean))].sort();
+
+      const cSug = document.getElementById('clientSuggestions');
+      const pSug = document.getElementById('positionSuggestions');
+      if (cSug) cSug.innerHTML = clients.map(c => `<option value="${escapeHtml(c)}">`).join('');
+      if (pSug) pSug.innerHTML = positions.map(p => `<option value="${escapeHtml(p)}">`).join('');
+
+      const clientFilter = document.getElementById('clientFilter');
+      if (clientFilter) {
+        const prev = clientFilter.value;
+        clientFilter.innerHTML = '<option value="">All Clients</option>' +
+          clients.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+        clientFilter.value = prev;
+      }
+
+      const posFilter = document.getElementById('positionFilter');
+      if (posFilter) {
+        const prev = posFilter.value;
+        posFilter.innerHTML = '<option value="">All Positions</option>' +
+          positions.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join('');
+        posFilter.value = prev;
+      }
+
+      const chartScope = document.getElementById('chartClientScope');
+      if (chartScope) {
+        const prev = chartScope.value;
+        chartScope.innerHTML = '<option value="">All Active Clients</option>' +
+          clients.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+        chartScope.value = prev;
+      }
+    };
+
+    window.getFilteredActiveCandidates = function () {
+      const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+      const cFilter = document.getElementById('clientFilter')?.value || '';
+      const pFilter = document.getElementById('positionFilter')?.value || '';
+      const sFilter = document.getElementById('statusFilter')?.value || '';
+
+      return candidates.filter(c => {
+        if (c.archived) return false;
+        if (cFilter && c.client !== cFilter) return false;
+        if (pFilter && c.position !== pFilter) return false;
+        if (sFilter && c.status !== sFilter) return false;
+        if (q) {
+          const hay = `${c.name} ${c.position} ${c.client} ${c.gmail} ${c.contact} ${c.notes}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    };
+
+    // ===================================================================
+    // MULTI-SELECT & BULK ACTIONS (DELETE, REJECT, HOLD, ARCHIVE)
+    // ===================================================================
+    window.toggleSelectionMode = function () {
+      selectionMode = !selectionMode;
+      if (!selectionMode) {
+        selectedCandidateIds.clear();
+      }
+      window.render();
+    };
+
+    window.toggleSelectCandidate = function (id, checked) {
+      if (checked) {
+        selectedCandidateIds.add(id);
+      } else {
+        selectedCandidateIds.delete(id);
+      }
+      window.updateBulkActionBarUI();
+    };
+
+    window.toggleSelectAllVisible = function (checked) {
+      const activeList = window.getFilteredActiveCandidates();
+      if (checked) {
+        activeList.forEach(c => selectedCandidateIds.add(c.id));
+      } else {
+        activeList.forEach(c => selectedCandidateIds.delete(c.id));
+      }
+      window.render();
+    };
+
+    window.updateBulkActionBarUI = function () {
+      const count = selectedCandidateIds.size;
+      const countBadge = document.getElementById('selectedCountText');
+      const bulkBtns = document.getElementById('bulkActionButtons');
+      const selectBtn = document.getElementById('toggleSelectModeBtn');
+      const selectAllChk = document.getElementById('selectAllHeaderCheckbox');
+      const activeList = window.getFilteredActiveCandidates();
+
+      if (countBadge) countBadge.textContent = `${count} selected`;
+      if (bulkBtns) {
+        bulkBtns.classList.toggle('hidden', count === 0 && !selectionMode);
+      }
+      if (selectBtn) {
+        if (selectionMode || count > 0) {
+          selectBtn.className = 'view-btn-selected px-3 py-1.5 rounded-xl text-xs font-extrabold cursor-pointer';
+          selectBtn.textContent = count > 0 ? `Selected (${count})` : 'Cancel Select';
+        } else {
+          selectBtn.className = 'white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold text-slate-800';
+          selectBtn.textContent = '☑ Select Candidatures';
+        }
+      }
+      if (selectAllChk) {
+        selectAllChk.checked = activeList.length > 0 && activeList.every(c => selectedCandidateIds.has(c.id));
+      }
+    };
+
+    window.executeBulkAction = function (action) {
+      const ids = Array.from(selectedCandidateIds);
+      if (ids.length === 0) {
+        alert('Please tap at least one candidate checkbox first.');
+        return;
+      }
+
+      const now = new Date().toISOString();
+
+      if (action === 'delete') {
+        if (!confirm(`Delete ${ids.length} selected candidature(s) permanently?`)) return;
+        candidates = candidates.filter(c => !selectedCandidateIds.has(c.id));
+        scheduleItems = scheduleItems.filter(i => !selectedCandidateIds.has(i.candidateId));
+        selectedCandidateIds.clear();
+        saveScheduleState(true);
+        window.persistData();
+      } else if (action === 'hold') {
+        ids.forEach(id => {
+          const idx = candidates.findIndex(c => c.id === id);
+          if (idx > -1 && candidates[idx].status !== 'HOLD') {
+            candidates[idx].status = 'HOLD';
+            candidates[idx].statusChangedAt = now;
+            candidates[idx].updatedAt = now;
+            if (!Array.isArray(candidates[idx].statusHistory)) candidates[idx].statusHistory = [];
+            candidates[idx].statusHistory.push({ status: 'HOLD', changedAt: now });
+          }
+        });
+        selectedCandidateIds.clear();
+        window.persistData();
+      } else if (action === 'archive') {
+        ids.forEach(id => {
+          const idx = candidates.findIndex(c => c.id === id);
+          if (idx > -1) {
+            candidates[idx].archived = true;
+            candidates[idx].updatedAt = now;
+          }
+        });
+        selectedCandidateIds.clear();
+        window.persistData();
+      } else if (action === 'reject') {
+        window.openRejectModal(ids);
+      }
+    };
+
+    // ===================================================================
+    // REJECT CANDIDATE MODAL (WHATSAPP OR MAIL WITH EDITABLE DEFAULT MSG)
+    // ===================================================================
+    window.openRejectModal = function (idOrIds) {
+      rejectTargetIds = Array.isArray(idOrIds) ? idOrIds : [idOrIds];
+      const targetCands = candidates.filter(c => rejectTargetIds.includes(c.id));
+      if (targetCands.length === 0) return;
+
+      const primary = targetCands[0];
+      const namesLabel = targetCands.map(c => c.name).join(', ');
+      document.getElementById('rejectCandidateNameLabel').textContent = namesLabel;
+      document.getElementById('rejectCandidateSubLabel').textContent =
+        targetCands.length === 1
+          ? `${primary.position || 'Role'} • ${primary.client || 'Client'} | Phone: ${primary.contact || 'N/A'} | Email: ${primary.gmail || 'N/A'}`
+          : `${targetCands.length} candidates selected`;
+
+      const defaultMsg = targetCands.length === 1
+        ? `Hi ${primary.name}, thank you for your time and interest in the ${primary.position || 'open'} role${primary.client ? ' for ' + primary.client : ''}. After careful review, we regret to inform you that your profile is not moving further at this stage. We will keep your profile in our database for future opportunities. Best regards, Pradeep G A`
+        : `Hi, thank you for your time and interest in the role. After careful review, we regret to inform you that your profile is not moving further at this stage. Best regards, Pradeep G A`;
+
+      document.getElementById('rejectMessageTextarea').value = defaultMsg;
+      window.setRejectChannel('whatsapp');
+      document.getElementById('rejectModal').classList.remove('hidden');
+    };
+
+    window.closeRejectModal = function () {
+      document.getElementById('rejectModal').classList.add('hidden');
+      rejectTargetIds = [];
+    };
+
+    window.setRejectChannel = function (ch) {
+      rejectChannel = ch;
+      const waBtn = document.getElementById('btnRejectChannelWhatsapp');
+      const mailBtn = document.getElementById('btnRejectChannelMail');
+      if (ch === 'whatsapp') {
+        waBtn.className = 'flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs bg-emerald-600 text-white shadow-sm cursor-pointer transition flex items-center justify-center gap-2';
+        mailBtn.className = 'flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-white text-slate-800 border border-orange-200 hover:border-orange-400 cursor-pointer transition flex items-center justify-center gap-2';
+      } else {
+        mailBtn.className = 'flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs bg-[#0077b6] text-white shadow-sm cursor-pointer transition flex items-center justify-center gap-2';
+        waBtn.className = 'flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-white text-slate-800 border border-orange-200 hover:border-orange-400 cursor-pointer transition flex items-center justify-center gap-2';
+      }
+    };
+
+    window.pushRejectionMessage = function (e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const msg = (document.getElementById('rejectMessageTextarea')?.value || '').trim();
+      if (!msg) return;
+
+      const targetCands = candidates.filter(c => rejectTargetIds.includes(c.id));
+      if (targetCands.length === 0) return;
+
+      const now = new Date().toISOString();
+      targetCands.forEach(c => {
+        if (c.status !== 'Not to proceed') {
+          c.status = 'Not to proceed';
+          c.statusChangedAt = now;
+          c.updatedAt = now;
+          if (!Array.isArray(c.statusHistory)) c.statusHistory = [];
+          c.statusHistory.push({ status: 'Not to proceed', changedAt: now });
+        }
+      });
+
+      const primary = targetCands[0];
+
+      if (rejectChannel === 'whatsapp') {
+        let rawPhone = String(primary.contact || '').replace(/[^0-9]/g, '');
+        if (rawPhone.length === 10) rawPhone = '91' + rawPhone;
+        const waUrl = rawPhone
+          ? `https://wa.me/${rawPhone}?text=${encodeURIComponent(msg)}`
+          : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank', 'noopener');
+      } else {
+        const emails = targetCands.map(c => c.gmail).filter(Boolean).join(',');
+        const subject = encodeURIComponent(`Update on your candidature - ${primary.position || 'Application Status'}`);
+        const body = encodeURIComponent(msg);
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          window.location.href = `mailto:${emails}?subject=${subject}&body=${body}`;
+        } else {
+          window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emails)}&su=${subject}&body=${body}`, '_blank', 'noopener');
+        }
+      }
+
+      selectedCandidateIds.clear();
+      window.closeRejectModal();
+      window.persistData();
+    };
+
+    // 8. Render Table, 3D Board & Archive
+    window.render = function () {
+      const activeList = window.getFilteredActiveCandidates();
+      const archivedList = candidates.filter(c => c.archived);
+
+      const badge = document.getElementById('archiveCountBadge');
+      if (badge) badge.textContent = archivedList.length;
+
+      const countLbl = document.getElementById('activeCountLabel');
+      if (countLbl) countLbl.textContent = `Showing ${activeList.length} active prospect(s)`;
+
+      window.renderNotifications();
+      window.renderTasksList();
+      window.updateCloudStatsUI();
+      window.updateBulkActionBarUI();
+
+      const tbody = document.getElementById('tableBody');
+      if (tbody) {
+        if (activeList.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="9" class="p-10 text-center text-slate-500 text-xs">No active prospects match your filters. Click <strong class="text-[#FF5514]">+ Add Prospect</strong> in the top bar to add one.</td></tr>`;
+        } else {
+          tbody.innerHTML = activeList.map((c, idx) => {
+            const rowBgClass = (idx % 2 === 0) ? 'tracker-row-orange' : 'tracker-row-white';
+            const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff5514';
+            const isChecked = selectedCandidateIds.has(c.id);
+
+            return `
+              <tr class="${rowBgClass} transition">
+                <td class="p-3 text-center w-10">
+                  <input type="checkbox" ${isChecked ? 'checked' : ''}
+                         onchange="window.toggleSelectCandidate('${escapeHtml(c.id)}', this.checked)"
+                         class="w-4 h-4 accent-[#FF5514] rounded cursor-pointer" />
+                </td>
+                <td class="p-3">
+                  <button type="button" onclick="window.openDetailModal('${escapeHtml(c.id)}')"
+                          class="text-left font-extrabold text-slate-900 hover:text-[#FF5514] underline decoration-orange-400 decoration-dotted underline-offset-4 cursor-pointer">
+                    ${escapeHtml(c.name)}
+                  </button>
+                </td>
+                <td class="p-3 text-purple-700 font-bold text-xs">${escapeHtml(c.position)}</td>
+                <td class="p-3 text-sky-700 font-extrabold text-xs">${escapeHtml(c.client)}</td>
+                <td class="p-3 text-xs space-y-0.5">
+                  ${c.gmail ? `<div class="text-slate-800 font-medium break-all">${escapeHtml(c.gmail)}</div>` : ''}
+                  ${c.contact ? `<div class="text-slate-600">${escapeHtml(c.contact)}</div>` : ''}
+                </td>
+                <td class="p-3 text-slate-800 text-xs font-bold whitespace-nowrap">${escapeHtml(c.experience || '-')}</td>
+                <td class="p-3">
+                  <select onchange="window.quickStatusChange('${escapeHtml(c.id)}', this.value)"
+                          style="background-color: ${statusBgHex}; color: #ffffff; border-color: ${statusBgHex};"
+                          class="px-3 py-1.5 rounded-xl text-xs font-extrabold shadow-sm cursor-pointer focus:outline-none">
+                    ${STATUSES.map(s => `<option style="background-color: #ffffff; color: #0f172a;" value="${s}" ${c.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                  </select>
+                </td>
+                <td class="p-3 text-xs text-slate-700 max-w-[180px] truncate" title="${escapeHtml(c.notes || '')}">${escapeHtml(c.notes || '-')}</td>
+                <td class="p-3 text-right space-x-1 whitespace-nowrap">
+                  <button type="button" onclick="window.openCandidateModal('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-slate-800">Edit</button>
+                  <button type="button" onclick="window.openRejectModal('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-red-600 border-red-200 hover:border-red-500">Reject</button>
+                  <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', true)" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF5514]">Archive</button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      const board = document.getElementById('kanbanBoard');
+      if (board) {
+        board.innerHTML = STATUSES.map(status => {
+          const statusBgHex = STATUS_HEX_MAP[status] || '#ff5514';
+          const colItems = activeList.filter(c => c.status === status);
+          return `
+            <div class="kanban-col ash-gel-panel rounded-2xl p-3.5 flex flex-col"
+                 ondragover="event.preventDefault()"
+                 ondrop="window.handleDrop(event, '${status}')">
+              <div style="background-color: ${statusBgHex}; color: #ffffff;"
+                   class="rounded-xl px-3.5 py-2 mb-3 flex items-center justify-between shadow-sm">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-white">${status}</span>
+                <span class="text-xs font-black bg-white/25 px-2 py-0.5 rounded-md text-white">${colItems.length}</span>
+              </div>
+              <div class="space-y-3 flex-1 min-h-[220px]">
+                ${colItems.map(c => {
+                  const isChecked = selectedCandidateIds.has(c.id);
+                  return `
+                    <div class="orangish-card-3d rounded-2xl p-3.5 cursor-grab"
+                         draggable="true"
+                         ondragstart="window.handleDragStart(event, '${escapeHtml(c.id)}')">
+                      <div class="flex justify-between items-start gap-2">
+                        <div class="flex items-center gap-2">
+                          <input type="checkbox" ${isChecked ? 'checked' : ''}
+                                 onchange="window.toggleSelectCandidate('${escapeHtml(c.id)}', this.checked)"
+                                 class="w-3.5 h-3.5 accent-[#ea580c] rounded cursor-pointer" />
+                          <button type="button" onclick="window.openDetailModal('${escapeHtml(c.id)}')"
+                                  class="text-left font-extrabold text-orange-950 hover:text-[#ea580c] text-sm underline decoration-dotted cursor-pointer">
+                            ${escapeHtml(c.name)}
+                          </button>
+                        </div>
+                        <span class="bg-white border border-orange-300 text-[10px] px-2 py-0.5 rounded-md font-extrabold text-orange-900">${escapeHtml(c.experience || 'N/A')}</span>
+                      </div>
+                      <p class="text-xs text-purple-700 font-bold mt-1">${escapeHtml(c.position)}</p>
+                      <p class="text-[11px] text-sky-700 font-extrabold mt-0.5">${escapeHtml(c.client)}</p>
+                      ${c.notes ? `<p class="mt-2 text-xs text-orange-950 bg-white/85 p-2 rounded-xl border border-orange-200">${escapeHtml(c.notes)}</p>` : ''}
+                      <div class="mt-3 pt-2 border-t border-orange-200/80 flex justify-between items-center">
+                        <button type="button" onclick="window.openDetailModal('${escapeHtml(c.id)}')" class="text-[10px] font-extrabold text-[#ea580c] hover:underline cursor-pointer">Profile</button>
+                        <div class="space-x-2">
+                          <button type="button" onclick="window.openCandidateModal('${escapeHtml(c.id)}')" class="text-[11px] text-slate-900 hover:underline font-extrabold cursor-pointer">Edit</button>
+                          <button type="button" onclick="window.openRejectModal('${escapeHtml(c.id)}')" class="text-[11px] text-red-600 hover:underline font-extrabold cursor-pointer">Reject</button>
+                          <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', true)" class="text-[11px] text-[#ea580c] hover:underline font-extrabold cursor-pointer">Archive</button>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const archBody = document.getElementById('archiveTableBody');
+      if (archBody) {
+        if (archivedList.length === 0) {
+          archBody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-500 text-xs">No archived candidates.</td></tr>`;
+        } else {
+          archBody.innerHTML = archivedList.map(c => `
+            <tr>
+              <td class="p-2.5 font-extrabold text-slate-900">${escapeHtml(c.name)}</td>
+              <td class="p-2.5 text-purple-600 font-bold">${escapeHtml(c.position)}<div class="text-xs text-sky-600 font-bold">${escapeHtml(c.client)}</div></td>
+              <td class="p-2.5">
+                <span style="background-color: ${STATUS_HEX_MAP[c.status] || '#64748b'}; color: #ffffff;" class="px-2.5 py-1 rounded-lg text-xs font-extrabold">
+                  ${escapeHtml(c.status)}
+                </span>
+              </td>
+              <td class="p-2.5 text-xs text-slate-600">${escapeHtml(c.notes || '-')}</td>
+              <td class="p-2.5 text-right space-x-2">
+                <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', false)" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-slate-800">Restore</button>
+                <button type="button" onclick="window.deleteCandidatePermanently('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF5514]">Delete</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    };
+
+    // 9. Persist & Full Google Cloud Database Sync
+    window.persistData = async function () {
+      localStorage.setItem('tt_candidates_v1', JSON.stringify(candidates));
+      window.updateAutoSuggestAndFilters();
+      window.render();
+      await window.syncAllToGoogleCloud();
+    };
+
+    window.handleDragStart = function (e, id) { draggedId = id; };
+    window.handleDrop = function (e, newStatus) {
+      e.preventDefault();
+      if (!draggedId) return;
+      window.quickStatusChange(draggedId, newStatus);
+      draggedId = null;
+    };
+
+    window.quickStatusChange = function (id, newStatus) {
+      const idx = candidates.findIndex(c => c.id === id);
+      if (idx > -1 && candidates[idx].status !== newStatus) {
+        const now = new Date().toISOString();
+        candidates[idx].status = newStatus;
+        candidates[idx].statusChangedAt = now;
+        candidates[idx].updatedAt = now;
+        if (!Array.isArray(candidates[idx].statusHistory)) candidates[idx].statusHistory = [];
+        candidates[idx].statusHistory.push({ status: newStatus, changedAt: now });
+        window.persistData();
+      }
+    };
+
+    window.archiveCandidate = function (id, isArchived) {
+      const idx = candidates.findIndex(c => c.id === id);
+      if (idx > -1) {
+        candidates[idx].archived = isArchived;
+        candidates[idx].updatedAt = new Date().toISOString();
+        selectedCandidateIds.delete(id);
+        window.persistData();
+      }
+    };
+
+    window.deleteCandidatePermanently = function (id) {
+      if (!confirm('Delete this candidate permanently?')) return;
+      candidates = candidates.filter(c => c.id !== id);
+      scheduleItems = scheduleItems.filter(i => i.candidateId !== id);
+      selectedCandidateIds.delete(id);
+      saveScheduleState(true);
+      window.persistData();
+    };
+
+    // 10. Add / Edit Candidate Modal
+    window.openCandidateModal = function (id = null) {
+      const modal = document.getElementById('candidateModal');
+      const form = document.getElementById('candidateForm');
+      if (form) form.reset();
+      window.initDropdowns();
+
+      if (id) {
+        const c = candidates.find(item => item.id === id);
+        if (c) {
+          document.getElementById('modalTitle').textContent = 'Edit Prospect Candidate';
+          document.getElementById('candId').value = c.id;
+          document.getElementById('candName').value = c.name;
+          document.getElementById('candPosition').value = c.position;
+          document.getElementById('candClient').value = c.client;
+          document.getElementById('candGmail').value = c.gmail || '';
+          document.getElementById('candContact').value = c.contact || '';
+          document.getElementById('candExp').value = c.experience || '';
+          document.getElementById('candStatus').value = c.status;
+          document.getElementById('candNotes').value = c.notes || '';
+        }
+      } else {
+        document.getElementById('modalTitle').textContent = 'Add Prospect Candidate';
+        document.getElementById('candId').value = '';
+        document.getElementById('candStatus').value = STATUSES[0];
+      }
+      modal.classList.remove('hidden');
+    };
+
+    window.closeCandidateModal = function () {
+      document.getElementById('candidateModal').classList.add('hidden');
+    };
+
+    window.saveCandidate = function (e) {
+      e.preventDefault();
+      const id = document.getElementById('candId').value;
+      const now = new Date().toISOString();
+      const chosenStatus = document.getElementById('candStatus').value;
+      const nameVal = document.getElementById('candName').value.trim();
+      const posVal = document.getElementById('candPosition').value.trim();
+      const clientVal = document.getElementById('candClient').value.trim();
+
+      let savedCandId = id;
+
+      if (id) {
+        const idx = candidates.findIndex(c => c.id === id);
+        if (idx > -1) {
+          const prev = candidates[idx];
+          const changed = prev.status !== chosenStatus;
+          const history = Array.isArray(prev.statusHistory) ? [...prev.statusHistory] : [];
+          if (changed) history.push({ status: chosenStatus, changedAt: now });
+          candidates[idx] = {
+            ...prev,
+            name: nameVal,
+            position: posVal,
+            client: clientVal,
+            gmail: document.getElementById('candGmail').value.trim(),
+            contact: document.getElementById('candContact').value.trim(),
+            experience: document.getElementById('candExp').value.trim(),
+            status: chosenStatus,
+            notes: document.getElementById('candNotes').value.trim(),
+            statusChangedAt: changed ? now : (prev.statusChangedAt || now),
+            statusHistory: history,
+            updatedAt: now
+          };
+        }
+      } else {
+        savedCandId = 'cand_' + Date.now();
+        candidates.unshift({
+          id: savedCandId,
+          name: nameVal,
+          position: posVal,
+          client: clientVal,
+          gmail: document.getElementById('candGmail').value.trim(),
+          contact: document.getElementById('candContact').value.trim(),
+          experience: document.getElementById('candExp').value.trim(),
+          status: chosenStatus,
+          notes: document.getElementById('candNotes').value.trim(),
+          archived: false,
+          statusChangedAt: now,
+          statusHistory: [{ status: chosenStatus, changedAt: now }],
+          updatedAt: now
+        });
+      }
+
+      const remTitle = (document.getElementById('candRemTitle')?.value || '').trim();
+      const remDate = document.getElementById('candRemDate')?.value || '';
+      const remTime = document.getElementById('candRemTime')?.value || '10:00';
+      if (remTitle && remDate) {
+        scheduleItems.unshift({
+          id: 'sched_' + Date.now(),
+          title: remTitle,
+          date: remDate,
+          time: remTime,
+          notes: `Linked to candidature: ${nameVal} (${posVal} - ${clientVal})`,
+          candidateId: savedCandId,
+          candidateName: nameVal,
+          position: posVal,
+          client: clientVal,
+          completed: false,
+          starred: false,
+          createdAt: now
+        });
+        saveScheduleState(true);
+      }
+
+      window.closeCandidateModal();
+      window.persistData();
+    };
+
+    // 11. Candidature Detail Modal (ORANGISH THEME)
+    window.addReminderFromCandidature = function (e) {
+      e.preventDefault();
+      if (!activeDetailCandidateId) return;
+      const c = candidates.find(item => item.id === activeDetailCandidateId);
+      if (!c) return;
+
+      const titleEl = document.getElementById('detailRemTitle');
+      const dateEl = document.getElementById('detailRemDate');
+      const timeEl = document.getElementById('detailRemTime');
+
+      const title = (titleEl?.value || '').trim();
+      const date = dateEl?.value || new Date().toISOString().slice(0, 10);
+      const time = timeEl?.value || '10:00';
+      if (!title) return;
+
+      scheduleItems.unshift({
+        id: 'sched_' + Date.now(),
+        title,
+        date,
+        time,
+        notes: `Candidature reminder for ${c.name}`,
+        candidateId: c.id,
+        candidateName: c.name,
+        position: c.position,
+        client: c.client,
+        completed: false,
+        starred: false,
+        createdAt: new Date().toISOString()
+      });
+
+      saveScheduleState();
+    };
+
+    window.openDetailModal = function (id) {
+      const c = candidates.find(item => item.id === id);
+      if (!c) return;
+      activeDetailCandidateId = id;
+      const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff5514';
+      document.getElementById('detailName').textContent = c.name;
+
+      const historyHtml = (c.statusHistory || []).slice().reverse().map(h => `
+        <div class="flex items-center justify-between py-1.5 border-b border-orange-200 last:border-none">
+          <span style="background-color: ${STATUS_HEX_MAP[h.status] || '#64748b'}; color: #ffffff;" class="px-2 py-0.5 rounded-md text-[10px] font-extrabold">${escapeHtml(h.status)}</span>
+          <span class="text-[11px] text-orange-950 font-medium">${formatDateTime(h.changedAt)}</span>
+        </div>
+      `).join('');
+
+      const candReminders = scheduleItems.filter(i => i.candidateId === c.id);
+      const remindersHtml = candReminders.length === 0
+        ? `<div class="text-orange-900/70 text-[11px] py-2">No reminders or interviews scheduled for this candidate yet.</div>`
+        : candReminders.map(rem => {
+            return `
+              <div class="bg-white rounded-xl p-2.5 border border-orange-200 flex items-center justify-between gap-2 mb-1.5 last:mb-0">
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <input type="checkbox" ${rem.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(rem.id)}')" class="accent-[#FF5514] cursor-pointer" />
+                    <span class="text-xs font-extrabold ${rem.completed ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(rem.title)}</span>
+                  </div>
+                  <div class="text-[10px] font-bold text-[#ea580c] mt-0.5">${escapeHtml(formatShortDate(rem.date, rem.time))}</div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(rem.id)}')"
+                          class="px-2 py-1 rounded bg-[#FF5514] hover:bg-[#ea580c] text-white text-[10px] font-bold transition cursor-pointer">Google Cal</button>
+                  <button type="button" onclick="window.deleteScheduleItem('${escapeHtml(rem.id)}')" class="text-slate-400 hover:text-slate-900 font-bold px-1 cursor-pointer">&times;</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+      const todayIso = new Date().toISOString().slice(0, 10);
+
+      document.getElementById('detailBody').innerHTML = `
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-2">
+          <div class="flex justify-between"><span class="text-orange-900 font-semibold">Position:</span><span class="font-extrabold text-orange-950">${escapeHtml(c.position)}</span></div>
+          <div class="flex justify-between"><span class="text-orange-900 font-semibold">Client:</span><span class="font-extrabold text-orange-950">${escapeHtml(c.client)}</span></div>
+          <div class="flex justify-between items-center"><span class="text-orange-900 font-semibold">Current Status:</span><span style="background-color: ${statusBgHex}; color: #ffffff;" class="px-2.5 py-0.5 rounded-lg font-extrabold text-xs">${escapeHtml(c.status)}</span></div>
+          <div class="flex justify-between"><span class="text-orange-900 font-semibold">Experience:</span><span class="font-bold text-orange-950">${escapeHtml(c.experience || '-')}</span></div>
+          <div class="flex justify-between"><span class="text-orange-900 font-semibold">Gmail ID:</span><span class="font-medium text-orange-950 break-all">${escapeHtml(c.gmail || '-')}</span></div>
+          <div class="flex justify-between"><span class="text-orange-900 font-semibold">Contact:</span><span class="font-medium text-orange-950">${escapeHtml(c.contact || '-')}</span></div>
+        </div>
+
+        <div class="orangish-inner-panel rounded-2xl p-3 border-l-4 border-l-white">
+          <div class="text-[10px] uppercase tracking-wider font-extrabold text-[#ea580c] mb-0.5">Status Last Changed On</div>
+          <div class="text-xs font-extrabold text-orange-950">${formatDateTime(c.statusChangedAt || c.updatedAt)}</div>
+        </div>
+
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase tracking-wider font-extrabold text-orange-950">Candidature Reminders & Interviews</span>
+            <span class="text-[10px] font-bold text-[#ea580c]">Event / Task Ready</span>
+          </div>
+          <div class="max-h-32 overflow-y-auto">${remindersHtml}</div>
+          <form onsubmit="window.addReminderFromCandidature(event)" class="pt-2 border-t border-orange-300 grid grid-cols-1 sm:grid-cols-12 gap-2">
+            <input id="detailRemTitle" required type="text" placeholder="Add interview or follow-up reminder..." class="gel-input sm:col-span-5 px-2.5 py-1.5 rounded-lg text-xs" />
+            <input id="detailRemDate" required type="date" value="${todayIso}" class="gel-input sm:col-span-4 px-2 py-1.5 rounded-lg text-xs" />
+            <input id="detailRemTime" type="time" value="10:00" class="gel-input sm:col-span-3 px-2 py-1.5 rounded-lg text-xs" />
+            <button type="submit" class="sm:col-span-12 py-1.5 rounded-lg bg-[#ea580c] hover:bg-[#9a3412] text-white font-extrabold text-xs cursor-pointer transition">
+              + Add Reminder to Calendar & Tasks
+            </button>
+          </form>
+        </div>
+
+        <div class="orangish-inner-panel rounded-2xl p-3">
+          <div class="text-[10px] uppercase tracking-wider font-extrabold text-orange-900 mb-1">Status Change Timeline</div>
+          <div class="bg-white/90 rounded-xl p-2.5 border border-orange-200 max-h-24 overflow-y-auto">${historyHtml}</div>
+        </div>
+
+        ${c.notes ? `<div class="orangish-inner-panel rounded-2xl p-3"><div class="text-[10px] uppercase tracking-wider font-extrabold text-orange-900 mb-1">Notes</div><div class="bg-white/90 rounded-xl p-2.5 border border-orange-200 text-orange-950">${escapeHtml(c.notes)}</div></div>` : ''}
+      `;
+
+      document.getElementById('detailEditBtn').onclick = function () {
+        window.closeDetailModal();
+        window.openCandidateModal(c.id);
+      };
+      document.getElementById('detailRejectBtn').onclick = function () {
+        window.closeDetailModal();
+        window.openRejectModal(c.id);
+      };
+      document.getElementById('detailModal').classList.remove('hidden');
+    };
+
+    window.closeDetailModal = function () {
+      document.getElementById('detailModal').classList.add('hidden');
+    };
+
+    // 12. Interactive SVG Pie Chart Modal
+    window.openChartModal = function () {
+      window.updateAutoSuggestAndFilters();
+      window.renderPieChart();
+      document.getElementById('chartModal').classList.remove('hidden');
+    };
+
+    window.closeChartModal = function () {
+      document.getElementById('chartModal').classList.add('hidden');
+    };
+
+    window.setChartDimension = function (dim) {
+      currentChartDimension = dim;
+      window.renderPieChart();
+    };
+
+    window.renderPieChart = function () {
+      const clientScope = document.getElementById('chartClientScope')?.value || '';
+      const active = candidates.filter(c => !c.archived && (!clientScope || c.client === clientScope));
+      const container = document.getElementById('pieChartContainer');
+      if (!container) return;
+
+      ['status', 'client', 'position', 'experience'].forEach(d => {
+        const btn = document.getElementById('chartTab_' + d);
+        if (btn) {
+          btn.style.borderColor = (d === currentChartDimension) ? '#fb923c' : '#cbd5e1';
+          btn.style.color = (d === currentChartDimension) ? '#fb923c' : '#1e293b';
+        }
+      });
+
+      if (active.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-slate-500 text-xs">No active candidates available to plot. Add candidates first.</div>`;
+        return;
+      }
+
+      let rawItems = [];
+      if (currentChartDimension === 'status') {
+        rawItems = STATUSES.map((s, i) => ({
+          label: s,
+          count: active.filter(c => c.status === s).length,
+          color: STATUS_HEX_MAP[s] || PIE_HEX_COLORS[i % PIE_HEX_COLORS.length]
+        })).filter(i => i.count > 0);
+      } else if (currentChartDimension === 'client') {
+        const map = {};
+        active.forEach(c => { map[c.client || 'Unspecified'] = (map[c.client || 'Unspecified'] || 0) + 1; });
+        rawItems = Object.entries(map).sort((a, b) => b[1] - a[1]).map(([k, v], i) => ({
+          label: k, count: v, color: PIE_HEX_COLORS[i % PIE_HEX_COLORS.length]
+        }));
+      } else if (currentChartDimension === 'position') {
+        const map = {};
+        active.forEach(c => { map[c.position || 'Unspecified'] = (map[c.position || 'Unspecified'] || 0) + 1; });
+        rawItems = Object.entries(map).sort((a, b) => b[1] - a[1]).map(([k, v], i) => ({
+          label: k, count: v, color: PIE_HEX_COLORS[i % PIE_HEX_COLORS.length]
+        }));
+      } else if (currentChartDimension === 'experience') {
+        const buckets = { '0 - 2 Years': 0, '3 - 5 Years': 0, '6 - 10 Years': 0, '10+ Years': 0, 'Not Specified': 0 };
+        active.forEach(c => {
+          const num = parseFloat(String(c.experience || '').replace(/[^0-9.]/g, ''));
+          if (isNaN(num)) buckets['Not Specified']++;
+          else if (num <= 2) buckets['0 - 2 Years']++;
+          else if (num <= 5) buckets['3 - 5 Years']++;
+          else if (num <= 10) buckets['6 - 10 Years']++;
+          else buckets['10+ Years']++;
+        });
+        rawItems = Object.entries(buckets).filter(([, v]) => v > 0).map(([k, v], i) => ({
+          label: k, count: v, color: PIE_HEX_COLORS[i % PIE_HEX_COLORS.length]
+        }));
+      }
+
+      const total = active.length;
+      let cumulativeAngle = -Math.PI / 2;
+      const cx = 110, cy = 110, r = 92;
+
+      let pathsHtml = '';
+      if (rawItems.length === 1) {
+        pathsHtml = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${rawItems[0].color}" stroke="#ffffff" stroke-width="2" />`;
+      } else {
+        pathsHtml = rawItems.map(item => {
+          const sliceAngle = (item.count / total) * (2 * Math.PI);
+          const x1 = cx + r * Math.cos(cumulativeAngle);
+          const y1 = cy + r * Math.sin(cumulativeAngle);
+          cumulativeAngle += sliceAngle;
+          const x2 = cx + r * Math.cos(cumulativeAngle);
+          const y2 = cy + r * Math.sin(cumulativeAngle);
+          const largeArc = sliceAngle > Math.PI ? 1 : 0;
+          return `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${item.color}" stroke="#ffffff" stroke-width="2.5"></path>`;
+        }).join('');
+      }
+
+      const legendHtml = rawItems.map(item => {
+        const pct = Math.round((item.count / total) * 100);
+        return `
+          <div class="white-box-btn rounded-xl px-3.5 py-2.5 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full inline-block" style="background:${item.color}"></span>
+              <span class="text-xs font-extrabold text-slate-800">${escapeHtml(item.label)}</span>
+            </div>
+            <div class="text-xs font-black text-slate-900">
+              ${item.count} <span class="text-[10px] font-semibold text-slate-500">(${pct}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="flex flex-col items-center justify-center bg-white rounded-2xl p-4 border border-slate-200">
+            <svg width="220" height="220" viewBox="0 0 220 220">
+              ${pathsHtml}
+              <circle cx="${cx}" cy="${cy}" r="42" fill="#ffffff" />
+              <text x="${cx}" y="${cy - 4}" text-anchor="middle" class="text-xl font-black fill-slate-900" style="font-size:20px;font-weight:900;">${total}</text>
+              <text x="${cx}" y="${cy + 14}" text-anchor="middle" class="text-[10px] font-bold fill-slate-500" style="font-size:10px;font-weight:700;">ACTIVE</text>
+            </svg>
+          </div>
+          <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+            ${legendHtml}
+          </div>
+        </div>
+      `;
+    };
+
+    // ===================================================================
+    // 13. UNIFIED GOOGLE CLOUD DATABASE SYNC (AUTO-CONNECTED BY DEFAULT)
+    // ===================================================================
+    window.updateCloudStatsUI = function () {
+      const cStat = document.getElementById('cloudStatCandidates');
+      const sStat = document.getElementById('cloudStatSchedule');
+      const aStat = document.getElementById('cloudStatAi');
+      const lastEl = document.getElementById('cloudLastSyncText');
+      if (cStat) cStat.textContent = candidates.length;
+      if (sStat) sStat.textContent = scheduleItems.length;
+      if (aStat) aStat.textContent = tequilaChatHistory.length;
+      if (lastEl) lastEl.textContent = lastCloudSyncAt ? `Last synced: ${formatDateTime(lastCloudSyncAt)}` : 'Auto-connected to default Google Cloud DB';
+    };
+
+    window.openSheetModal = function () {
+      document.getElementById('sheetUrlInput').value = sheetScriptUrl || DEFAULT_CLOUD_SCRIPT_URL;
+      document.getElementById('firestoreProjectInput').value = firestoreProjectId;
+      document.getElementById('firestoreKeyInput').value = firestoreApiKey;
+      window.updateCloudStatsUI();
+      document.getElementById('sheetSyncStatusMsg').textContent =
+        'Default Google Cloud Database is permanently linked. Works automatically on any PC or mobile device.';
+      document.getElementById('sheetModal').classList.remove('hidden');
+    };
+
+    window.closeSheetModal = function () {
+      document.getElementById('sheetModal').classList.add('hidden');
+    };
+
+    window.resetDefaultCloudUrl = function () {
+      sheetScriptUrl = DEFAULT_CLOUD_SCRIPT_URL;
+      localStorage.setItem('tt_sheet_url_v1', sheetScriptUrl);
+      const input = document.getElementById('sheetUrlInput');
+      if (input) input.value = sheetScriptUrl;
+      window.pullFromGoogleSheet();
+    };
+
+    window.updateSyncUI = function (state, text) {
+      const dot = document.getElementById('syncDot');
+      const label = document.getElementById('syncBtnText');
+      if (label) label.textContent = text;
+      if (dot) {
+        dot.className = 'w-2 h-2 rounded-full ';
+        if (state === 'connected') dot.className += 'bg-[#FF5514]';
+        else if (state === 'syncing') dot.className += 'bg-[#FF5514] animate-ping';
+        else dot.className += 'bg-slate-400';
+      }
+    };
+
+    window.buildCloudPayload = function () {
+      const now = new Date().toISOString();
+      const appSettings = {
+        appName: 'KinetiQ Hire',
+        currentView,
+        creator: 'Pradeep G A',
+        version: '2.9'
+      };
+
+      const metaCarrier = {
+        id: '__tt_cloud_meta__',
+        name: '__CLOUD_META__',
+        position: 'SYSTEM_SYNC',
+        client: 'SYSTEM_SYNC',
+        gmail: '',
+        contact: '',
+        experience: '',
+        status: 'Prospect',
+        notes: JSON.stringify({
+          scheduleItems,
+          tequilaChatHistory,
+          appSettings,
+          updatedAt: now
+        }),
+        archived: true,
+        statusChangedAt: now,
+        statusHistory: [],
+        updatedAt: now
+      };
+
+      return {
+        candidates: [...candidates, metaCarrier],
+        scheduleItems,
+        tequilaChatHistory,
+        appSettings,
+        updatedAt: now
+      };
+    };
+
+    window.syncAllToGoogleCloud = async function () {
+      const targetUrl = sheetScriptUrl || DEFAULT_CLOUD_SCRIPT_URL;
+      const hasSheet = Boolean(targetUrl);
+      const hasFirestore = Boolean(firestoreProjectId);
+      if (!hasSheet && !hasFirestore) return;
+
+      window.updateSyncUI('syncing', 'Syncing Cloud...');
+      const payload = window.buildCloudPayload();
+      let ok = false;
+
+      if (hasSheet) {
+        try {
+          await fetch(targetUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          ok = true;
+        } catch (err) {
+          console.warn('Google Sheet Cloud Sync warning:', err);
+        }
+      }
+
+      if (hasFirestore) {
+        try {
+          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/kinetiq_hire_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
+          await fetch(baseUrl, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: {
+                candidatesJson: { stringValue: JSON.stringify(candidates) },
+                scheduleItemsJson: { stringValue: JSON.stringify(payload.scheduleItems) },
+                tequilaChatJson: { stringValue: JSON.stringify(payload.tequilaChatHistory) },
+                appSettingsJson: { stringValue: JSON.stringify(payload.appSettings) },
+                updatedAt: { stringValue: payload.updatedAt }
+              }
+            })
+          });
+          ok = true;
+        } catch (err) {
+          console.warn('Google Cloud Firestore Sync warning:', err);
+        }
+      }
+
+      if (ok) {
+        lastCloudSyncAt = payload.updatedAt;
+        localStorage.setItem('tt_last_sync_v1', lastCloudSyncAt);
+        window.updateSyncUI('connected', 'Cloud Synced');
+        window.updateCloudStatsUI();
+      } else {
+        window.updateSyncUI('error', 'Sync Error');
+      }
+    };
+
+    window.pushToGoogleSheet = window.syncAllToGoogleCloud;
+
+    window.pullFromGoogleSheet = async function () {
+      const urlInput = document.getElementById('sheetUrlInput')?.value.trim();
+      const fsProjInput = document.getElementById('firestoreProjectInput')?.value.trim();
+      const fsKeyInput = document.getElementById('firestoreKeyInput')?.value.trim();
+
+      if (urlInput) {
+        sheetScriptUrl = urlInput;
+      } else if (!sheetScriptUrl) {
+        sheetScriptUrl = DEFAULT_CLOUD_SCRIPT_URL;
+      }
+      localStorage.setItem('tt_sheet_url_v1', sheetScriptUrl);
+
+      if (fsProjInput !== undefined) {
+        firestoreProjectId = fsProjInput;
+        localStorage.setItem('tt_firestore_project_v1', firestoreProjectId);
+      }
+      if (fsKeyInput !== undefined) {
+        firestoreApiKey = fsKeyInput;
+        localStorage.setItem('tt_firestore_apikey_v1', firestoreApiKey);
+      }
+
+      const msgEl = document.getElementById('sheetSyncStatusMsg');
+      if (msgEl) msgEl.textContent = 'Loading Candidates, Calendar, Tasks & Tequila AI from Google Cloud...';
+
+      let loaded = false;
+
+      if (sheetScriptUrl) {
+        try {
+          const res = await fetch(sheetScriptUrl);
+          const data = await res.json();
+          if (data && typeof data === 'object') {
+            if (Array.isArray(data.candidates)) {
+              const metaRow = data.candidates.find(
+                c => c && (c.id === '__tt_cloud_meta__' || c.name === '__CLOUD_META__')
+              );
+              if (metaRow && metaRow.notes) {
+                try {
+                  const parsedMeta = JSON.parse(metaRow.notes);
+                  if (Array.isArray(parsedMeta.scheduleItems) && !Array.isArray(data.scheduleItems)) {
+                    data.scheduleItems = parsedMeta.scheduleItems;
+                  }
+                  if (Array.isArray(parsedMeta.tequilaChatHistory) && !Array.isArray(data.tequilaChatHistory)) {
+                    data.tequilaChatHistory = parsedMeta.tequilaChatHistory;
+                  }
+                } catch (e) {}
+              }
+
+              candidates = normalizeCandidateList(data.candidates);
+              localStorage.setItem('tt_candidates_v1', JSON.stringify(candidates));
+            }
+            if (Array.isArray(data.scheduleItems)) {
+              scheduleItems = data.scheduleItems;
+              localStorage.setItem('tt_schedule_v1', JSON.stringify(scheduleItems));
+            }
+            if (Array.isArray(data.tequilaChatHistory)) {
+              tequilaChatHistory = data.tequilaChatHistory;
+              localStorage.setItem('tt_tequila_chat_v1', JSON.stringify(tequilaChatHistory));
+            }
+            loaded = true;
+          }
+        } catch (err) {
+          console.warn('Pull from Google Sheet warning:', err);
+        }
+      }
+
+      if (!loaded && firestoreProjectId) {
+        try {
+          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/kinetiq_hire_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
+          const res = await fetch(baseUrl);
+          const doc = await res.json();
+          if (doc && doc.fields) {
+            if (doc.fields.candidatesJson?.stringValue) {
+              candidates = normalizeCandidateList(JSON.parse(doc.fields.candidatesJson.stringValue));
+              localStorage.setItem('tt_candidates_v1', JSON.stringify(candidates));
+            }
+            if (doc.fields.scheduleItemsJson?.stringValue) {
+              scheduleItems = JSON.parse(doc.fields.scheduleItemsJson.stringValue);
+              localStorage.setItem('tt_schedule_v1', JSON.stringify(scheduleItems));
+            }
+            if (doc.fields.tequilaChatJson?.stringValue) {
+              tequilaChatHistory = JSON.parse(doc.fields.tequilaChatJson.stringValue);
+              localStorage.setItem('tt_tequila_chat_v1', JSON.stringify(tequilaChatHistory));
+            }
+            loaded = true;
+          }
+        } catch (err) {
+          console.warn('Pull from Firestore warning:', err);
+        }
+      }
+
+      if (loaded) {
+        lastCloudSyncAt = new Date().toISOString();
+        localStorage.setItem('tt_last_sync_v1', lastCloudSyncAt);
+        window.updateAutoSuggestAndFilters();
+        window.render();
+        window.renderTequilaHistory();
+        window.updateSyncUI('connected', 'Cloud Synced');
+        if (msgEl) {
+          msgEl.textContent = `Loaded ${candidates.length} candidate(s), ${scheduleItems.length} calendar/task item(s), and ${tequilaChatHistory.length} Tequila AI message(s) from Google Cloud.`;
+        }
+      } else {
+        window.updateSyncUI('error', 'Sync Error');
+        if (msgEl) msgEl.textContent = 'Could not load from Cloud. Verify your URL/Project permissions.';
+      }
+    };
+
+    window.saveSheetUrlAndSync = async function () {
+      const enteredUrl = (document.getElementById('sheetUrlInput')?.value || '').trim();
+      sheetScriptUrl = enteredUrl || DEFAULT_CLOUD_SCRIPT_URL;
+      firestoreProjectId = (document.getElementById('firestoreProjectInput')?.value || '').trim();
+      firestoreApiKey = (document.getElementById('firestoreKeyInput')?.value || '').trim();
+
+      localStorage.setItem('tt_sheet_url_v1', sheetScriptUrl);
+      localStorage.setItem('tt_firestore_project_v1', firestoreProjectId);
+      localStorage.setItem('tt_firestore_apikey_v1', firestoreApiKey);
+
+      document.getElementById('sheetSyncStatusMsg').textContent = 'Syncing Candidates, Calendar, Tasks & Tequila AI to Google Cloud...';
+      await window.syncAllToGoogleCloud();
+      document.getElementById('sheetSyncStatusMsg').textContent = `All workspace data (${candidates.length} candidates, ${scheduleItems.length} calendar/tasks, ${tequilaChatHistory.length} Tequila AI logs) synced to Google Cloud.`;
+    };
+
+    window.copyAppsScriptTemplate = function () {
+      const code = `// KinetiQ Hire v2.9 - Full Google Cloud Database Script (Candidates + Calendar + Tasks + Tequila AI)
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+  try {
+    const payload = JSON.parse(e.postData.contents || '{}');
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    let stateSheet = ss.getSheetByName('Cloud_State') || ss.insertSheet('Cloud_State');
+    stateSheet.clear();
+    stateSheet.getRange(1, 1, 1, 2).setValues([['UpdatedAt', 'FullWorkspaceJSON']]);
+    stateSheet.getRange(2, 1, 1, 2).setValues([[new Date().toISOString(), JSON.stringify(payload)]]);
+
+    let candSheet = ss.getSheetByName('Candidates') || ss.insertSheet('Candidates');
+    candSheet.clear();
+    candSheet.appendRow(['ID', 'Name', 'Position', 'Client', 'Gmail', 'Contact', 'Experience', 'Status', 'StatusChangedAt', 'Archived', 'Notes']);
+    (payload.candidates || []).filter(c => c.id !== '__tt_cloud_meta__').forEach(c => {
+      candSheet.appendRow([c.id, c.name, c.position, c.client, c.gmail, c.contact, c.experience, c.status, c.statusChangedAt, c.archived, c.notes]);
+    });
+
+    let schedSheet = ss.getSheetByName('Calendar_Tasks') || ss.insertSheet('Calendar_Tasks');
+    schedSheet.clear();
+    schedSheet.appendRow(['ID', 'Title', 'Date', 'Time', 'CandidateName', 'Position', 'Client', 'Completed', 'Starred', 'Notes']);
+    (payload.scheduleItems || []).forEach(i => {
+      schedSheet.appendRow([i.id, i.title, i.date, i.time, i.candidateName, i.position, i.client, i.completed, i.starred, i.notes]);
+    });
+
+    let aiSheet = ss.getSheetByName('Tequila_AI_Logs') || ss.insertSheet('Tequila_AI_Logs');
+    aiSheet.clear();
+    aiSheet.appendRow(['Timestamp', 'Sender', 'Message']);
+    (payload.tequilaChatHistory || []).forEach(m => {
+      aiSheet.appendRow([m.timestamp, m.sender, m.text || m.html]);
+    });
+
+    return ContentService.createTextOutput(JSON.stringify({ status: 'ok' })).setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function doGet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const stateSheet = ss.getSheetByName('Cloud_State');
+  if (stateSheet && stateSheet.getLastRow() >= 2) {
+    const rawJson = stateSheet.getRange(2, 2).getValue();
+    if (rawJson) {
+      return ContentService.createTextOutput(rawJson).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+  return ContentService.createTextOutput(JSON.stringify({ candidates: [], scheduleItems: [], tequilaChatHistory: [] })).setMimeType(ContentService.MimeType.JSON);
+}`;
+      navigator.clipboard.writeText(code);
+      const msg = document.getElementById('sheetSyncStatusMsg');
+      if (msg) msg.textContent = 'Copied full Google Apps Script (Code.gs) to clipboard!';
+    };
+
+    window.openArchiveModal = function () {
+      document.getElementById('archiveModal').classList.remove('hidden');
+    };
+
+    window.closeArchiveModal = function () {
+      document.getElementById('archiveModal').classList.add('hidden');
+    };
+
+    window.downloadCandidateListAsCSV = function (list, filenamePrefix = 'KinetiQ_Hire') {
+      const headers = ['Candidate Name', 'Position', 'Client', 'Gmail ID', 'Contact', 'Total Experience', 'Status', 'Status Changed At', 'Archived', 'Notes'];
+      const rows = (list || []).map(c => [
+        c.name, c.position, c.client, c.gmail, c.contact, c.experience, c.status, formatDateTime(c.statusChangedAt || c.updatedAt), c.archived ? 'Yes' : 'No', c.notes
+      ]);
+      const csvContent = [headers, ...rows]
+        .map(row => row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${filenamePrefix}_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    };
+
+    window.exportCSV = function () {
+      window.downloadCandidateListAsCSV(candidates, 'KinetiQ_Hire_All');
+    };
+
+    window.downloadTequilaSearchCSV = function (exportId) {
+      const list = tequilaSearchExports[exportId];
+      if (!Array.isArray(list) || list.length === 0) {
+        window.downloadCandidateListAsCSV(candidates.filter(c => !c.archived), 'KinetiQ_Hire_Search');
+        return;
+      }
+      window.downloadCandidateListAsCSV(list, 'KinetiQ_Hire_Matched_Candidates');
+    };
+
+    function buildTequilaCsvButtonHtml(matchedArray) {
+      if (!Array.isArray(matchedArray) || matchedArray.length === 0) return '';
+      const exportId = 'exp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      tequilaSearchExports[exportId] = matchedArray;
+      return `
+        <div class="mt-3 pt-2.5 border-t border-sky-100 flex items-center justify-between gap-2">
+          <span class="text-[10px] font-bold text-slate-500">${matchedArray.length} candidate(s) ready</span>
+          <button type="button" onclick="window.downloadTequilaSearchCSV('${exportId}')"
+                  class="px-3 py-1.5 rounded-xl bg-[#0077b6] hover:bg-[#005f87] text-white text-[11px] font-extrabold flex items-center gap-1.5 shadow-sm transition cursor-pointer">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Download CSV</span>
+          </button>
+        </div>
+      `;
+    }
+
+    // ===================================================================
+    // 14. "Tequila" OCEAN BLUE INTELLIGENT CHATBOT ASSISTANT
+    // ===================================================================
+    window.toggleTequilaChat = function (forceState) {
+      const win = document.getElementById('tequilaWindow');
+      if (!win) return;
+      const isHidden = win.classList.contains('hidden');
+      const shouldOpen = forceState !== undefined ? forceState : isHidden;
+      if (shouldOpen) {
+        win.classList.remove('hidden');
+        setTimeout(() => document.getElementById('tequilaInput')?.focus(), 80);
+      } else {
+        win.classList.add('hidden');
+      }
+    };
+
+    window.renderTequilaHistory = function () {
+      const box = document.getElementById('tequilaMessages');
+      if (!box) return;
+      const tod = window.getTimeOfDayGreeting();
+      const welcomeHtml = `
+        <div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-slate-700 leading-relaxed shadow-xs">
+          Hi! ${tod}! I am <strong class="text-[#006994]">Tequila</strong>, your <strong>KinetiQ Hire</strong> AI recruitment & schedule chatbot. Search any keyword, skill, client, or candidate and download matched results as a CSV right from here!
+        </div>
+      `;
+      if (!Array.isArray(tequilaChatHistory) || tequilaChatHistory.length === 0) {
+        box.innerHTML = welcomeHtml;
+        return;
+      }
+      box.innerHTML = welcomeHtml + tequilaChatHistory.map(m => {
+        if (m.sender === 'user') {
+          return `<div class="ml-auto bg-[#0077b6] text-white px-3.5 py-2.5 rounded-2xl max-w-[85%] font-medium text-right shadow-xs">${m.html}</div>`;
+        }
+        return `<div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-slate-800 shadow-xs max-w-[92%] leading-relaxed">${m.html}</div>`;
+      }).join('');
+      box.scrollTop = box.scrollHeight;
+    };
+
+    window.clearTequilaChat = function () {
+      tequilaChatHistory = [];
+      saveTequilaChatState();
+      window.renderTequilaHistory();
+    };
+
+    window.handleTequilaSubmit = function (e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const input = document.getElementById('tequilaInput');
+      const query = (input?.value || '').trim();
+      if (!query) return;
+
+      const userHtml = escapeHtml(query);
+      appendTequilaMessage(userHtml, 'user', query);
+      input.value = '';
+
+      setTimeout(() => {
+        const reply = generateTequilaResponse(query);
+        appendTequilaMessage(reply, 'Tequila', reply.replace(/<[^>]+>/g, ' '));
+      }, 180);
+    };
+
+    function appendTequilaMessage(html, sender, plainText = '') {
+      const box = document.getElementById('tequilaMessages');
+      if (!box) return;
+      const div = document.createElement('div');
+      if (sender === 'user') {
+        div.className = 'ml-auto bg-[#0077b6] text-white px-3.5 py-2.5 rounded-2xl max-w-[85%] font-medium text-right shadow-xs';
+      } else {
+        div.className = 'bg-white p-3.5 rounded-2xl border border-slate-200 text-slate-800 shadow-xs max-w-[92%] leading-relaxed';
+      }
+      div.innerHTML = html;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+
+      tequilaChatHistory.push({
+        id: 'msg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        sender,
+        html,
+        text: plainText || html.replace(/<[^>]+>/g, ' ').trim(),
+        timestamp: new Date().toISOString()
+      });
+      saveTequilaChatState();
+    }
+
+    function editDistance(a, b) {
+      a = a.toLowerCase();
+      b = b.toLowerCase();
+      const matrix = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+      for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+      for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j - 1] + cost
+          );
+        }
+      }
+      return matrix[a.length][b.length];
+    }
+
+    function wordsRoughlyMatch(w1, w2) {
+      w1 = w1.toLowerCase();
+      w2 = w2.toLowerCase();
+      if (!w1 || !w2) return false;
+      if (w1.includes(w2) || w2.includes(w1)) return true;
+      if (w1.length >= 4 && w2.length >= 4 && editDistance(w1, w2) <= 2) return true;
+      return false;
+    }
+
+    function normalizeAndCatchGrammar(raw) {
+      let corrected = raw.trim();
+      const replacements = [
+        { pattern: /\bpipeilne\b|\bpipline\b|\bpipelne\b|\bpipleine\b/gi, fix: 'pipeline' },
+        { pattern: /\bsuitble\b|\bsutable\b|\bsuitabel\b|\bsutiable\b/gi, fix: 'suitable' },
+        { pattern: /\bcandiate\b|\bcandiates\b|\bcandidture\b|\bcanditate\b/gi, fix: 'candidate' },
+        { pattern: /\bposision\b|\bpostion\b|\bpositon\b/gi, fix: 'position' },
+        { pattern: /\bprocesed\b|\bproccessed\b/gi, fix: 'processed' },
+        { pattern: /\bprehire\b|\bpre-hire\b/gi, fix: 'pre hire' },
+        { pattern: /\bjoind\b|\bjoinned\b/gi, fix: 'joined' },
+        { pattern: /\bclint\b|\bcleint\b/gi, fix: 'client' },
+        { pattern: /\bstatuse\b|\bstaus\b|\bsttaus\b/gi, fix: 'status' },
+        { pattern: /\bcalender\b|\bcalander\b|\bcallendar\b|\bcalndr\b/gi, fix: 'calendar' },
+        { pattern: /\bremider\b|\bremiders\b|\bremainder\b|\bremainders\b|\bremindr\b/gi, fix: 'reminder' },
+        { pattern: /\binterveiw\b|\bintrview\b|\benterview\b|\binterviews\b/gi, fix: 'interview' },
+        { pattern: /\btaks\b|\btaskes\b/gi, fix: 'tasks' },
+        { pattern: /\btommorow\b|\btomorow\b|\btmrw\b|\btomrw\b/gi, fix: 'tomorrow' },
+        { pattern: /\btday\b|\btody\b/gi, fix: 'today' },
+        { pattern: /\bscedule\b|\bshedule\b|\bschedual\b/gi, fix: 'schedule' },
+        { pattern: /\bdedline\b|\bdeadlines\b/gi, fix: 'deadline' },
+        { pattern: /\bnotifcation\b|\bnotfication\b/gi, fix: 'notification' },
+        { pattern: /\bwat\b|\bwht\b/gi, fix: 'what' },
+        { pattern: /\bare current in\b/gi, fix: 'are currently in' },
+        { pattern: /\bis current in\b/gi, fix: 'is currently in' },
+        { pattern: /\bwho will suitable\b/gi, fix: 'who will be suitable' },
+        { pattern: /\bwho is suitable to\b/gi, fix: 'who is suitable for' },
+        { pattern: /\bhow much people\b/gi, fix: 'how many people' }
+      ];
+
+      let grammarNote = '';
+      replacements.forEach(r => {
+        if (r.pattern.test(corrected)) {
+          corrected = corrected.replace(r.pattern, r.fix);
+        }
+      });
+
+      if (corrected.toLowerCase() !== raw.trim().toLowerCase()) {
+        grammarNote = `<div class="text-[10px] text-[#0077b6] bg-sky-50 border border-sky-200 rounded-lg px-2.5 py-1 mb-2">Interpreted as: <em>"${escapeHtml(corrected)}"</em></div>`;
+      }
+      return { cleanText: corrected, lc: corrected.toLowerCase(), grammarNote };
+    }
+
+    function generateTequilaResponse(rawQuery) {
+      const { lc, grammarNote } = normalizeAndCatchGrammar(rawQuery);
+      const active = candidates.filter(c => !c.archived);
+      const archived = candidates.filter(c => c.archived);
+      const activeTasks = scheduleItems.filter(i => !i.completed);
+      const alertsCount = window.getUpcomingAlerts().length;
+      const tod = window.getTimeOfDayGreeting();
+
+      // 0. CONVERSATIONAL CHATBOT GREETINGS
+      const cleanGreetingCheck = lc.replace(/[^a-z\s]/g, '').trim();
+      const isDirectGreeting =
+        /^(hi+|hey+|helo+|hello+|hola|yo|sup|namaste|vanakkam|gm|ga|ge|gn)(\s+tequila|\s+there|\s+pradeep)?$/.test(cleanGreetingCheck) ||
+        /^(good\s+(morning|afternoon|evening|night))(\s+tequila)?$/.test(cleanGreetingCheck);
+
+      if (isDirectGreeting) {
+        let chosenGreeting = tod;
+        if (cleanGreetingCheck.includes('morning') || cleanGreetingCheck === 'gm') chosenGreeting = 'Good morning';
+        else if (cleanGreetingCheck.includes('afternoon') || cleanGreetingCheck === 'ga') chosenGreeting = 'Good afternoon';
+        else if (cleanGreetingCheck.includes('evening') || cleanGreetingCheck === 'ge') chosenGreeting = 'Good evening';
+        else if (cleanGreetingCheck.includes('night') || cleanGreetingCheck === 'gn') chosenGreeting = 'Good night';
+
+        return `Hi! <strong class="text-[#0077b6]">${chosenGreeting}!</strong> 👋<br><br>I'm <strong>Tequila</strong>, your <strong>KinetiQ Hire</strong> chatbot. Here is your live workspace status:<br>• <strong>${active.length}</strong> active candidate(s) in your pipeline<br>• <strong>${activeTasks.length}</strong> pending calendar reminder(s) & task(s)${alertsCount > 0 ? ` (<strong>${alertsCount}</strong> due within 24 hours)` : ''}<br><br>How can I help you right now?`;
+      }
+
+      if (/\b(how are you|how r u|how are u|whats up|what is up|how is it going|who are you)\b/.test(cleanGreetingCheck)) {
+        return `Hi! <strong class="text-[#0077b6]">${tod}!</strong> I'm doing great and keeping your entire KinetiQ Hire database, calendar, and tasks synced with Google Cloud. You currently have <strong>${active.length}</strong> active candidate(s) and <strong>${activeTasks.length}</strong> pending task(s). What would you like to check?`;
+      }
+
+      if (/^(thanks|thank you|thx|ty|awesome|super|great|nice|ok|okay|cool)(\s+tequila)?$/.test(cleanGreetingCheck)) {
+        return `You're most welcome! ${tod} — let me know anytime you need to search candidates, export a CSV, or check your schedule.`;
+      }
+
+      if (/^(bye|goodbye|see you|see ya|cya|take care)(\s+tequila)?$/.test(cleanGreetingCheck)) {
+        return `<strong class="text-[#0077b6]">${tod}!</strong> All your candidates, calendar reminders, tasks, and our chat history are safely backed up. Talk to you soon!`;
+      }
+
+      // 1. CALENDAR, REMINDER, INTERVIEW, TASK & DEADLINE QUERIES
+      const isScheduleQuery =
+        lc.includes('calendar') ||
+        lc.includes('reminder') ||
+        lc.includes('interview') ||
+        lc.includes('task') ||
+        lc.includes('tasks') ||
+        lc.includes('schedule') ||
+        lc.includes('deadline') ||
+        lc.includes('notification') ||
+        lc.includes('today') ||
+        lc.includes('tomorrow') ||
+        lc.includes('upcoming');
+
+      if (isScheduleQuery) {
+        if (activeTasks.length === 0) {
+          return `${grammarNote}You currently have no pending reminders, interviews, or tasks on your calendar. You can add one using the <strong>Calendar</strong> or <strong>Tasks</strong> icons in the top bar, or inside any candidate's profile.`;
+        }
+
+        const todayIso = new Date().toISOString().slice(0, 10);
+        const tomorrowIso = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+
+        let targetList = activeTasks;
+        let scopeLabel = 'in your schedule';
+
+        if (lc.includes('today')) {
+          targetList = activeTasks.filter(i => i.date === todayIso);
+          scopeLabel = 'scheduled for today';
+        } else if (lc.includes('tomorrow')) {
+          targetList = activeTasks.filter(i => i.date === tomorrowIso);
+          scopeLabel = 'scheduled for tomorrow';
+        } else {
+          const candMatch = candidates.find(c => lc.includes(c.name.toLowerCase()) || lc.split(/\s+/).some(w => w.length >= 3 && wordsRoughlyMatch(w, c.name.toLowerCase())));
+          if (candMatch) {
+            targetList = activeTasks.filter(i => i.candidateId === candMatch.id || (i.candidateName && i.candidateName.toLowerCase() === candMatch.name.toLowerCase()));
+            scopeLabel = `for candidate ${candMatch.name}`;
+          }
+        }
+
+        if (targetList.length === 0) {
+          return `${grammarNote}You have no pending reminders, interviews, or tasks ${escapeHtml(scopeLabel)}. Overall, you have <strong>${activeTasks.length}</strong> active reminder(s)/task(s) across other dates.`;
+        }
+
+        let reply = `${grammarNote}You currently have <strong>${targetList.length} pending item(s)</strong> ${escapeHtml(scopeLabel)}${alertsCount > 0 ? ` (with <strong>${alertsCount}</strong> due within the next 24 hours)` : ''}:<br><br>`;
+
+        targetList.forEach(item => {
+          reply += `• <strong class="text-[#0077b6]">${escapeHtml(item.title)}</strong> — Scheduled for <strong>${escapeHtml(formatShortDate(item.date, item.time))}</strong>${item.candidateName ? ` (Candidate: <strong>${escapeHtml(item.candidateName)}</strong>, ${escapeHtml(item.client)})` : ''}${item.notes ? `<br><span class="text-[11px] text-slate-500">Notes: ${escapeHtml(item.notes)}</span>` : ''}<br>`;
+        });
+
+        return reply;
+      }
+
+      if (candidates.length === 0) {
+        return `${grammarNote}Hi! ${tod}! Your recruitment pipeline does not have any candidates yet, though you have <strong>${activeTasks.length}</strong> active task(s)/reminder(s) on your calendar. Click <strong class="text-[#0077b6]">+ Add Prospect</strong> in the top bar to add candidates.`;
+      }
+
+      // 2. SUITABILITY MATCHING ("who will be suitable for...", "fit for") + CSV DOWNLOAD
+      const isSuitabilityQuery =
+        lc.includes('suitable') ||
+        lc.includes('suit') ||
+        lc.includes('fit for') ||
+        lc.includes('good for') ||
+        lc.includes('recommend') ||
+        lc.includes('suggest') ||
+        lc.includes('matching') ||
+        lc.includes('designation') ||
+        (lc.includes('who') && (lc.includes('position') || lc.includes('role') || lc.includes('for')));
+
+      if (isSuitabilityQuery) {
+        const stopWords = new Set([
+          'who', 'will', 'be', 'is', 'are', 'the', 'for', 'to', 'in', 'at', 'of', 'and', 'or',
+          'suitable', 'suit', 'position', 'role', 'designation', 'candidate', 'candidates',
+          'candidature', 'so', 'such', 'which', 'person', 'people', 'good', 'fit', 'best',
+          'can', 'you', 'find', 'tell', 'me', 'show', 'suggest', 'recommend', 'any', 'a', 'an'
+        ]);
+
+        const tokens = lc
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .split(/\s+/)
+          .filter(w => w.length >= 2 && !stopWords.has(w));
+
+        if (tokens.length === 0) {
+          return `${grammarNote}Please mention the position name, skill, or designation keywords you are looking for (for example: <em>"Who will be suitable for Workday HCM?"</em>), and I will scan every candidate's position and notes to find the best match.`;
+        }
+
+        const scored = candidates.map(c => {
+          let score = 0;
+          const matchedReasons = [];
+          const posWords = (c.position || '').toLowerCase().split(/[^a-z0-9]+/);
+          const noteWords = (c.notes || '').toLowerCase().split(/[^a-z0-9]+/);
+          const clientWords = (c.client || '').toLowerCase().split(/[^a-z0-9]+/);
+          const expWords = (c.experience || '').toLowerCase().split(/[^a-z0-9]+/);
+
+          tokens.forEach(tok => {
+            if ((c.position || '').toLowerCase().includes(tok) || posWords.some(pw => wordsRoughlyMatch(pw, tok))) {
+              score += 5;
+              matchedReasons.push(`Position/Designation matches "${c.position}"`);
+            }
+            if ((c.notes || '').toLowerCase().includes(tok) || noteWords.some(nw => wordsRoughlyMatch(nw, tok))) {
+              score += 4;
+              matchedReasons.push(`Notes mention "${c.notes}"`);
+            }
+            if ((c.client || '').toLowerCase().includes(tok) || clientWords.some(cw => wordsRoughlyMatch(cw, tok))) {
+              score += 2;
+              matchedReasons.push(`Client experience with "${c.client}"`);
+            }
+            if ((c.experience || '').toLowerCase().includes(tok) || expWords.some(ew => wordsRoughlyMatch(ew, tok))) {
+              score += 1;
+            }
+          });
+
+          if (c.status === 'Not to proceed') score -= 2;
+          if (c.archived) score -= 1;
+
+          return { candidate: c, score, reasons: [...new Set(matchedReasons)] };
+        }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
+
+        if (scored.length === 0) {
+          return `${grammarNote}I scanned all <strong>${candidates.length}</strong> candidate profiles across their positions, designations, and notes for <strong>"${escapeHtml(tokens.join(' '))}"</strong>, but no direct match was found.`;
+        }
+
+        const matchedCandidatesOnly = scored.map(s => s.candidate);
+        const topNames = scored.map(s => `<strong>${escapeHtml(s.candidate.name)}</strong>`).join(', ');
+        let paragraph = `${grammarNote}Based on your current database, I found <strong>${scored.length} suitable candidate(s)</strong> matching <strong>"${escapeHtml(tokens.join(' '))}"</strong>: ${topNames}.<br><br>`;
+
+        scored.forEach(({ candidate: c, reasons }) => {
+          const reasonText = reasons.length > 0 ? reasons.join('; ') : `Matches profile criteria`;
+          const candRems = activeTasks.filter(i => i.candidateId === c.id);
+          paragraph += `<div class="mb-2 pb-2 border-b border-slate-100 last:border-none">
+            <strong class="text-[#0077b6]">${escapeHtml(c.name)}</strong> — <span class="font-bold text-slate-800">${escapeHtml(c.position)}</span> (${escapeHtml(c.client)})<br>
+            <span class="text-[11px] text-slate-600">Experience: <strong>${escapeHtml(c.experience || 'N/A')}</strong> | Status: <strong>${escapeHtml(c.status)}</strong></span><br>
+            <span class="text-[11px] text-slate-500">Match Reason: ${escapeHtml(reasonText)}</span>
+            ${candRems.length > 0 ? `<br><span class="text-[11px] text-[#0077b6] font-semibold">Scheduled Reminder: ${escapeHtml(candRems[0].title)} (${escapeHtml(formatShortDate(candRems[0].date, candRems[0].time))})</span>` : ''}
+          </div>`;
+        });
+
+        paragraph += buildTequilaCsvButtonHtml(matchedCandidatesOnly);
+        return paragraph;
+      }
+
+      // 3. SPECIFIC CLIENT STATUS CHECK + CSV DOWNLOAD
+      const uniqueClients = [...new Set(candidates.map(c => c.client).filter(Boolean))];
+      const matchedClient = uniqueClients.find(cl => {
+        const clLc = cl.toLowerCase();
+        if (lc.includes(clLc)) return true;
+        return lc.split(/\s+/).some(w => w.length >= 3 && wordsRoughlyMatch(w, clLc));
+      });
+
+      if (matchedClient && (lc.includes('status') || lc.includes('client') || lc.includes('how many') || lc.includes('for') || lc.includes('about') || lc.includes(matchedClient.toLowerCase()))) {
+        const clientCands = active.filter(c => c.client.toLowerCase() === matchedClient.toLowerCase());
+        if (clientCands.length === 0) {
+          return `${grammarNote}There are currently no active candidates in the pipeline for <strong>${escapeHtml(matchedClient)}</strong>.`;
+        }
+
+        const stageSummary = STATUSES.map(s => {
+          const count = clientCands.filter(c => c.status === s).length;
+          return count > 0 ? `<strong>${count}</strong> in <strong>${s}</strong>` : null;
+        }).filter(Boolean).join(', ');
+
+        let reply = `${grammarNote}For client <strong class="text-[#0077b6]">${escapeHtml(matchedClient)}</strong>, there ${clientCands.length === 1 ? 'is currently <strong>1 active candidate</strong>' : `are currently <strong>${clientCands.length} active candidates</strong>`} in the pipeline (${stageSummary}):<br><br>`;
+
+        clientCands.forEach(c => {
+          const candRems = activeTasks.filter(i => i.candidateId === c.id);
+          reply += `• <strong>${escapeHtml(c.name)}</strong> (${escapeHtml(c.position)}, Exp: ${escapeHtml(c.experience || 'N/A')}) is marked as <strong class="text-[#0077b6]">${escapeHtml(c.status)}</strong>${candRems.length > 0 ? ` [Reminder: ${escapeHtml(candRems[0].title)} on ${escapeHtml(formatShortDate(candRems[0].date, candRems[0].time))}]` : ''}.<br>`;
+        });
+        reply += buildTequilaCsvButtonHtml(clientCands);
+        return reply;
+      }
+
+      // 4. HOW MANY PEOPLE IN THE PIPELINE / OVERALL SUMMARY PARAGRAPH + CSV DOWNLOAD
+      const isPipelineCountQuery =
+        lc.includes('pipeline') ||
+        lc.includes('how many') ||
+        lc.includes('total') ||
+        lc.includes('summary') ||
+        lc.includes('current') ||
+        lc.includes('count') ||
+        lc.includes('people') ||
+        lc.includes('overview');
+
+      if (isPipelineCountQuery) {
+        const pCount = active.filter(c => c.status === 'Prospect').length;
+        const okCount = active.filter(c => c.status === 'Ok to process').length;
+        const procCount = active.filter(c => c.status === 'Processed').length;
+        const preHireCount = active.filter(c => c.status === 'Pre hire').length;
+        const joinedCount = active.filter(c => c.status === 'Joined').length;
+        const holdCount = active.filter(c => c.status === 'HOLD').length;
+        const ntpCount = active.filter(c => c.status === 'Not to proceed').length;
+        const clientList = [...new Set(active.map(c => c.client).filter(Boolean))];
+
+        let paragraph = `${grammarNote}There ${active.length === 1 ? 'is currently <strong>1 active person</strong>' : `are currently <strong>${active.length} active people</strong>`} in your recruitment pipeline across <strong>${clientList.length} client(s)</strong> (${clientList.map(escapeHtml).join(', ') || 'none'}). `;
+        paragraph += `Looking at the stage breakdown, <strong>${pCount}</strong> ${pCount === 1 ? 'candidate is' : 'candidates are'} in <strong>Prospect</strong>, <strong>${okCount}</strong> in <strong>Ok to process</strong>, <strong>${procCount}</strong> in <strong>Processed</strong>, <strong>${preHireCount}</strong> in <strong>Pre hire</strong>, and <strong>${joinedCount}</strong> ${joinedCount === 1 ? 'has' : 'have'} <strong>Joined</strong>. `;
+        paragraph += `Additionally, <strong>${holdCount}</strong> ${holdCount === 1 ? 'profile is' : 'profiles are'} on <strong>HOLD</strong> and <strong>${ntpCount}</strong> ${ntpCount === 1 ? 'is' : 'are'} marked as <strong>Not to proceed</strong>. `;
+        paragraph += `On your calendar and task list, you have <strong>${activeTasks.length}</strong> pending reminder(s)/task(s)${archived.length > 0 ? ` and <strong>${archived.length}</strong> archived profile(s)` : ''}.`;
+        paragraph += buildTequilaCsvButtonHtml(active);
+        return paragraph;
+      }
+
+      // 5. SPECIFIC STAGE QUERY + CSV DOWNLOAD
+      const matchedStatus = STATUSES.find(s => lc.includes(s.toLowerCase()));
+      if (matchedStatus) {
+        const list = active.filter(c => c.status === matchedStatus);
+        if (list.length === 0) {
+          return `${grammarNote}There are currently no active candidates in the <strong>${matchedStatus}</strong> stage.`;
+        }
+        let reply = `${grammarNote}There ${list.length === 1 ? 'is currently <strong>1 candidate</strong>' : `are currently <strong>${list.length} candidates</strong>`} in the <strong class="text-[#0077b6]">${matchedStatus}</strong> stage:<br><br>`;
+        list.forEach(c => {
+          reply += `• <strong>${escapeHtml(c.name)}</strong> for <strong>${escapeHtml(c.position)}</strong> (${escapeHtml(c.client)}) — Exp: ${escapeHtml(c.experience || 'N/A')}<br>`;
+        });
+        reply += buildTequilaCsvButtonHtml(list);
+        return reply;
+      }
+
+      // 6. CANDIDATE NAME OR KEYWORD SEARCH + CSV DOWNLOAD
+      const matchedCands = candidates.filter(c => {
+        const hay = `${c.name} ${c.position} ${c.client} ${c.notes} ${c.gmail} ${c.contact} ${c.experience}`.toLowerCase();
+        if (hay.includes(lc)) return true;
+        return lc.split(/\s+/).filter(w => w.length >= 2).some(w => hay.includes(w) || wordsRoughlyMatch(w, c.name.toLowerCase()) || wordsRoughlyMatch(w, c.position.toLowerCase()) || wordsRoughlyMatch(w, c.client.toLowerCase()));
+      });
+
+      if (matchedCands.length > 0) {
+        let reply = `${grammarNote}I found <strong>${matchedCands.length} candidate profile(s)</strong> matching your keyword search:<br><br>`;
+        matchedCands.forEach(c => {
+          const candRems = activeTasks.filter(i => i.candidateId === c.id);
+          const remInfo = candRems.length > 0
+            ? ` Scheduled reminder: <strong>${escapeHtml(candRems.map(r => `${r.title} on ${formatShortDate(r.date, r.time)}`).join('; '))}</strong>.`
+            : '';
+          reply += `• <strong class="text-[#0077b6]">${escapeHtml(c.name)}</strong> — <strong>${escapeHtml(c.position)}</strong> (${escapeHtml(c.client)}), Exp: <strong>${escapeHtml(c.experience || 'N/A')}</strong> | Status: <strong>${escapeHtml(c.status)}</strong>.${c.notes ? ` Notes: <em>"${escapeHtml(c.notes)}"</em>.` : ''}${remInfo}<br><br>`;
+        });
+        reply += buildTequilaCsvButtonHtml(matchedCands);
+        return reply;
+      }
+
+      return `${grammarNote}Hi! <strong class="text-[#0077b6]">${tod}!</strong> I couldn't find any candidates matching that exact keyword across your <strong>${candidates.length}</strong> profiles. Try searching a position, skill, client, or status, and you'll get a <strong>Download CSV</strong> button at the bottom of the results!`;
+    }
+
+    // Boot Application & Automatically Pull from Default Google Cloud URL on Any PC
+    window.addEventListener('DOMContentLoaded', function () {
+      loadSavedState();
+      window.initDropdowns();
+      window.updateAutoSuggestAndFilters();
+      window.setView(currentView);
+      window.renderNotifications();
+      window.renderTasksList();
+      window.renderTequilaHistory();
+      window.updateCloudStatsUI();
+
+      // Always auto-connect and pull from default Google Cloud DB on load
+      window.updateSyncUI('connected', 'Cloud Synced');
+      window.pullFromGoogleSheet();
+
+      setTimeout(function () {
+        window.enterTrackerWorkspace();
+      }, 1000);
+
+      setInterval(function () {
+        window.renderNotifications();
+      }, 60000);
+    });
+  </script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- 1. SPLASH SCREEN (EXACT KinetiQ Hire LOGO & FONT LOCKUP) -->
+  <section id="splashScreen"
+           class="fixed inset-0 z-50 flex items-center justify-center p-6 select-none">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 splash-brand-enter">
+      <!-- KinetiQ Hire Shield + Orbital Swoosh + Magnifying Q + Chevron SVG -->
+      <svg class="w-28 h-28 sm:w-36 sm:h-36 shrink-0" viewBox="0 0 160 160" fill="none">
+        <defs>
+          <mask id="kinetiqSplashMask">
+            <rect width="160" height="160" fill="white" />
+            <!-- Center Magnifying Glass / Q Cutout -->
+            <circle cx="78" cy="63" r="24" fill="black" />
+            <path d="M93 78 L113 98" stroke="black" stroke-width="11" stroke-linecap="square" />
+            <!-- Inner Shield Cutout Gap for Orbital Ring -->
+            <path d="M22 86 C16 106 48 112 88 92 C126 73 148 40 116 26" stroke="black" stroke-width="5" fill="none" />
+          </mask>
+        </defs>
+        <g mask="url(#kinetiqSplashMask)">
+          <!-- Shield Base -->
+          <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+        </g>
+        <!-- Forward Chevron (>) Inside Circle -->
+        <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+        <!-- Dynamic Orbital Swoosh Wrapping Shield -->
+        <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
+      </svg>
+
+      <!-- KinetiQ Hire Typography -->
+      <h1 class="kinetiq-brand-font text-4xl sm:text-6xl md:text-7xl text-white tracking-tight flex items-baseline gap-2.5 sm:gap-3.5">
+        <span class="font-black">KinetiQ</span>
+        <span class="font-light">Hire</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- 2. RIGHT-SIDE HAMBURGER DRAWER (WITH CREATOR - PRADEEP G A AT BOTTOM) -->
+  <div id="hamburgerBackdrop" onclick="window.toggleHamburgerMenu(false)"
+       class="fixed inset-0 bg-slate-900/25 z-40 hidden"></div>
+
+  <aside id="rightHamburgerDrawer"
+         class="fixed top-0 right-0 bottom-0 w-72 sm:w-80 z-50 white-gel-panel border-l border-slate-200 p-5 flex flex-col justify-between shadow-2xl">
+    <div>
+      <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-200">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#FF5514] flex items-center justify-center shadow-xs shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 160 160" fill="none">
+              <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+              <circle cx="78" cy="63" r="24" fill="#FF5514" />
+              <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+              <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+              <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
+            </svg>
+          </div>
+          <span class="kinetiq-brand-font text-base tracking-tight text-slate-900 flex items-baseline gap-1">
+            <strong class="font-black">KinetiQ</strong><span class="font-light text-[#FF5514]">Hire</span>
+          </span>
+        </div>
+        <button type="button" onclick="window.toggleHamburgerMenu(false)"
+                class="white-box-btn w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 text-base font-bold">
+          &times;
+        </button>
+      </div>
+
+      <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2.5 px-1">Menu Options</div>
+
+      <div class="space-y-2">
+        <button type="button" onclick="window.toggleHamburgerMenu(false); window.openChartModal();"
+                class="white-box-btn w-full rounded-xl px-3.5 py-2.5 text-left flex items-center justify-between">
+          <div>
+            <div class="text-xs font-extrabold text-slate-900">Data Pie Charts</div>
+            <p class="text-[10px] text-slate-500">View pipeline & client pie charts</p>
+          </div>
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+          </svg>
+        </button>
+
+        <button type="button" onclick="window.toggleHamburgerMenu(false); window.openSheetModal();"
+                class="white-box-btn w-full rounded-xl px-3.5 py-2.5 text-left flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span id="syncDot" class="w-2 h-2 rounded-full bg-[#FF5514]"></span>
+              <span id="syncBtnText" class="text-xs font-extrabold text-slate-900">Cloud Synced</span>
+            </div>
+            <p class="text-[10px] text-slate-500">Auto-linked to your Google Cloud DB</p>
+          </div>
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </button>
+
+        <button type="button" onclick="window.toggleHamburgerMenu(false); window.exportCSV();"
+                class="white-box-btn w-full rounded-xl px-3.5 py-2.5 text-left flex items-center justify-between">
+          <div>
+            <div class="text-xs font-extrabold text-slate-900">Download CSV</div>
+            <p class="text-[10px] text-slate-500">Export tracker to Excel file</p>
+          </div>
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+
+        <button type="button" onclick="window.toggleHamburgerMenu(false); window.openArchiveModal();"
+                class="white-box-btn w-full rounded-xl px-3.5 py-2.5 text-left flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-extrabold text-slate-900">Archive Vault</span>
+              <span id="archiveCountBadge" class="px-1.5 py-0.5 text-[10px] rounded-md border border-slate-300 bg-white text-[#FF5514] font-black">0</span>
+            </div>
+            <p class="text-[10px] text-slate-500">View or restore archived profiles</p>
+          </div>
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="21 8 21 21 3 21 3 8"></polyline>
+            <rect x="1" y="3" width="22" height="5"></rect>
+            <line x1="10" y1="12" x2="14" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CREATOR - PRADEEP G A (SHOWN EXCLUSIVELY INSIDE HAMBURGER MENU) -->
+    <div class="pt-3.5 border-t border-slate-200 flex items-center justify-between text-xs select-none">
+      <span class="text-[10px] uppercase tracking-wider font-bold text-slate-500">Creator</span>
+      <span class="font-extrabold text-[#FF5514]">- Pradeep G A</span>
+    </div>
+  </aside>
+
+  <!-- 3. GOOGLE TASKS-STYLE RIGHT DRAWER -->
+  <div id="tasksBackdrop" onclick="window.toggleTasksDrawer(false)"
+       class="fixed inset-0 bg-slate-900/25 z-40 hidden"></div>
+
+  <aside id="rightTasksDrawer"
+         class="fixed top-0 right-0 bottom-0 w-80 sm:w-96 z-50 white-gel-panel border-l border-slate-200 p-5 flex flex-col justify-between shadow-2xl">
+    <div class="flex-1 flex flex-col min-h-0">
+      <div class="flex items-center justify-between pb-3.5 mb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#FF5514] flex items-center justify-center text-white">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-sm font-extrabold text-slate-900 leading-none">Tasks</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Synced with Calendar, Candidatures & Cloud DB</div>
+          </div>
+        </div>
+        <button type="button" onclick="window.toggleTasksDrawer(false)"
+                class="white-box-btn w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 text-base font-bold">
+          &times;
+        </button>
+      </div>
+
+      <div class="ash-gel-panel p-1 rounded-xl flex items-center gap-1 mb-3">
+        <button type="button" id="taskTab_active" onclick="window.setTaskTab('active')"
+                class="flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF5514] text-white transition cursor-pointer">
+          My Tasks
+        </button>
+        <button type="button" id="taskTab_starred" onclick="window.setTaskTab('starred')"
+                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition cursor-pointer">
+          Starred
+        </button>
+        <button type="button" id="taskTab_completed" onclick="window.setTaskTab('completed')"
+                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition cursor-pointer">
+          Completed
+        </button>
+      </div>
+
+      <form onsubmit="window.addTaskFromDrawer(event)" class="ash-gel-panel rounded-2xl p-3 mb-3 space-y-2">
+        <input id="taskTitleInput" required type="text" placeholder="+ Add a task or interview follow-up..."
+               class="gel-input w-full px-3 py-2 rounded-xl text-xs font-semibold" />
+        <input id="taskNotesInput" type="text" placeholder="Details / notes (optional)"
+               class="gel-input w-full px-3 py-1.5 rounded-xl text-xs" />
+        <div class="grid grid-cols-2 gap-2">
+          <input id="taskDateInput" type="date" class="gel-input px-2.5 py-1.5 rounded-xl text-xs" />
+          <input id="taskTimeInput" type="time" value="10:00" class="gel-input px-2.5 py-1.5 rounded-xl text-xs" />
+        </div>
+        <select id="taskCandSelect" class="gel-input w-full px-2.5 py-1.5 rounded-xl text-xs">
+          <option value="">General Work / No Candidate Linked</option>
+        </select>
+        <button type="submit"
+                class="w-full py-2 rounded-xl bg-[#FF5514] hover:bg-[#ea580c] text-white text-xs font-extrabold transition cursor-pointer">
+          Save Task & Sync to Cloud DB
+        </button>
+      </form>
+
+      <div id="tasksListContainer" class="flex-1 overflow-y-auto space-y-2 pr-1"></div>
+    </div>
+  </aside>
+
+  <!-- 4. MAIN WORKSPACE -->
+  <div id="mainWorkspace" class="flex-1 flex flex-col max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6">
+
+    <header class="white-gel-panel rounded-2xl px-3.5 sm:px-5 py-3 mb-4 flex flex-wrap items-center justify-between gap-2.5 border-t-4 border-t-[#FF5514]">
+      <!-- KinetiQ Hire Brand Header Lockup -->
+      <div class="flex items-center gap-2.5 select-none">
+        <div onclick="window.showSplashScreen()"
+             class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#FF5514] flex items-center justify-center cursor-pointer shadow-sm shrink-0"
+             title="Replay KinetiQ Hire Splash">
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 160 160" fill="none">
+            <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+            <circle cx="78" cy="63" r="24" fill="#FF5514" />
+            <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+            <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+            <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
+          </svg>
+        </div>
+        <h1 class="kinetiq-brand-font text-lg sm:text-xl md:text-2xl tracking-tight text-slate-900 flex items-baseline gap-1.5">
+          <span class="font-black">KinetiQ</span><span class="font-light text-[#FF5514]">Hire</span>
+        </h1>
+      </div>
+
+      <!-- TOP-RIGHT CONTROLS: LIGHT ORANGE VIEW SWITCHER + ICON-ONLY TASKS & CALENDAR -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <div class="ash-gel-panel p-1 rounded-xl flex items-center gap-1">
+          <button type="button" id="btnTableView" onclick="window.setView('table')"
+                  class="view-btn-selected px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer">
+            Table View
+          </button>
+          <button type="button" id="btnBoardView" onclick="window.setView('board')"
+                  class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#fb923c] cursor-pointer">
+            3D Board
+          </button>
+        </div>
+
+        <button type="button" onclick="window.openCandidateModal()"
+                class="white-box-btn px-3 sm:px-4 py-2 rounded-xl text-xs font-extrabold text-slate-900">
+          + Add Prospect
+        </button>
+
+        <!-- Tasks Button: LOGO ONLY -->
+        <button type="button" onclick="window.toggleTasksDrawer(true)"
+                class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex items-center justify-center relative"
+                title="Tasks">
+          <svg class="w-4 h-4 text-[#FF5514]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <span id="headerTaskCountBadge" class="hidden absolute -top-1.5 -right-1.5 px-1.5 py-0.2 rounded-full bg-slate-900 text-white text-[10px] font-black shadow">0</span>
+        </button>
+
+        <!-- Calendar Button: LOGO ONLY -->
+        <button type="button" onclick="window.openCalendarModal()"
+                class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex items-center justify-center"
+                title="Calendar & Reminders">
+          <svg class="w-4 h-4 text-[#FF5514]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </button>
+
+        <!-- Notification Button: LOGO ONLY -->
+        <button type="button" onclick="window.openNotificationsModal()"
+                class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex items-center justify-center relative"
+                title="Upcoming Reminders & Deadline Notifications">
+          <svg class="w-4 h-4 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span id="notifCountBadge"
+                class="hidden absolute -top-1.5 -right-1.5 px-1.5 py-0.2 rounded-full bg-[#FF5514] text-white text-[10px] font-black shadow">
+            0
+          </span>
+        </button>
+
+        <!-- Hamburger Menu Trigger -->
+        <button type="button" onclick="window.toggleHamburgerMenu(true)"
+                class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex flex-col items-center justify-center gap-1"
+                title="Open Menu">
+          <span class="w-4 h-0.5 bg-[#FF5514] rounded-full"></span>
+          <span class="w-4 h-0.5 bg-slate-900 rounded-full"></span>
+          <span class="w-4 h-0.5 bg-[#FF5514] rounded-full"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- FILTERS BAR -->
+    <section class="ash-gel-panel rounded-2xl p-3.5 sm:p-4 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-center">
+      <div>
+        <label class="text-[10px] uppercase tracking-widest text-slate-800 font-extrabold">Search Prospect / Notes</label>
+        <input id="searchInput" oninput="window.render()" type="text" placeholder="Name, gmail, phone, notes..."
+               class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-xs" />
+      </div>
+      <div>
+        <label class="text-[10px] uppercase tracking-widest text-slate-800 font-extrabold">Filter by Client</label>
+        <select id="clientFilter" onchange="window.render()"
+                class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-xs font-semibold">
+          <option value="">All Clients</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] uppercase tracking-widest text-slate-800 font-extrabold">Filter by Position</label>
+        <select id="positionFilter" onchange="window.render()"
+                class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-xs font-semibold">
+          <option value="">All Positions</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] uppercase tracking-widest text-slate-800 font-extrabold">Filter by Status</label>
+        <select id="statusFilter" onchange="window.render()"
+                class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-xs font-semibold">
+          <option value="">All Active Statuses</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- TOP MULTI-SELECT & SINGLE-TAP BULK ACTION BAR -->
+    <section class="white-gel-panel rounded-2xl px-3.5 py-2.5 mb-3 flex flex-wrap items-center justify-between gap-2 border border-orange-200">
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" id="toggleSelectModeBtn" onclick="window.toggleSelectionMode()"
+                class="white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold text-slate-800">
+          ☑ Select Candidatures
+        </button>
+        <label class="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer select-none px-2 py-1 rounded-lg hover:bg-orange-50">
+          <input type="checkbox" id="selectAllHeaderCheckbox" onchange="window.toggleSelectAllVisible(this.checked)" class="w-4 h-4 accent-[#FF5514] rounded cursor-pointer" />
+          <span>Select All</span>
+        </label>
+        <span id="selectedCountText" class="text-xs font-extrabold text-[#FF5514] px-1">0 selected</span>
+      </div>
+
+      <div id="bulkActionButtons" class="hidden flex flex-wrap items-center gap-1.5">
+        <button type="button" onclick="window.executeBulkAction('hold')"
+                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#eab308] text-white hover:opacity-90 transition cursor-pointer shadow-xs">
+          HOLD
+        </button>
+        <button type="button" onclick="window.executeBulkAction('reject')"
+                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-red-600 text-white hover:bg-red-700 transition cursor-pointer shadow-xs">
+          Reject (WhatsApp / Mail)
+        </button>
+        <button type="button" onclick="window.executeBulkAction('archive')"
+                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#FF5514] text-white hover:bg-[#ea580c] transition cursor-pointer shadow-xs">
+          Archive
+        </button>
+        <button type="button" onclick="window.executeBulkAction('delete')"
+                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-white hover:bg-slate-700 transition cursor-pointer shadow-xs">
+          Delete
+        </button>
+      </div>
+
+      <div class="text-[11px] text-slate-600 ml-auto flex items-center gap-3">
+        <span class="hidden lg:inline">Tap any <strong class="text-[#FF5514]">Candidate Name</strong> for profile & reminders.</span>
+        <span id="activeCountLabel" class="font-bold text-slate-800"></span>
+      </div>
+    </section>
+
+    <main id="tableViewContainer" class="white-gel-panel rounded-2xl overflow-hidden flex-1 mb-6">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[780px]">
+          <thead>
+            <tr class="border-b border-orange-200 bg-orange-100/70 text-[10px] uppercase tracking-widest text-slate-800 font-extrabold">
+              <th class="p-3 text-center w-10">Sel</th>
+              <th class="p-3">Candidate Name</th>
+              <th class="p-3">Position</th>
+              <th class="p-3">Client</th>
+              <th class="p-3">Gmail ID & Contact</th>
+              <th class="p-3">Total Exp</th>
+              <th class="p-3">Pipeline Status</th>
+              <th class="p-3">Notes</th>
+              <th class="p-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-orange-100 text-sm"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <main id="boardViewContainer" class="hidden flex-1 mb-6">
+      <div id="kanbanBoard" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-4"></div>
+    </main>
+
+    <!-- FOOTER: KinetiQ Hire BRANDING ONLY (CREATOR REMOVED FROM FOOTER AS REQUESTED) -->
+    <footer class="ash-gel-panel rounded-2xl px-4 sm:px-6 py-3.5 mt-auto flex flex-wrap items-center justify-between gap-2 text-xs select-none">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-[#FF5514] flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 160 160" fill="none">
+            <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+            <circle cx="78" cy="63" r="24" fill="#FF5514" />
+            <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+            <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+            <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
+          </svg>
+        </div>
+        <span class="kinetiq-brand-font text-sm tracking-tight text-slate-900 flex items-baseline gap-1">
+          <strong class="font-black">KinetiQ</strong><span class="font-light text-[#FF5514]">Hire</span>
+        </span>
+      </div>
+      <span class="px-2.5 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-extrabold text-slate-800">
+        v2.9
+      </span>
+    </footer>
+  </div>
+
+  <!-- 5. OCEAN BLUE "Tequila" AI CHATBOT WIDGET -->
+  <div id="tequilaWidget" class="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-40 hidden flex flex-col items-end pointer-events-none">
+    <div id="tequilaWindow"
+         class="hidden pointer-events-auto white-gel-panel rounded-2xl w-[92vw] sm:w-96 h-[420px] max-h-[78vh] mb-2.5 border border-[#0077b6]/40 shadow-2xl flex flex-col overflow-hidden">
+      <div class="px-4 py-3 ocean-header text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span class="text-sm font-extrabold tracking-wide">Tequila</span>
+          <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-semibold">AI Chatbot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="window.clearTequilaChat()" class="text-[10px] text-white/80 hover:text-white underline cursor-pointer" title="Clear Chat History">Clear</button>
+          <button type="button" onclick="window.toggleTequilaChat(false)" class="text-white/80 hover:text-white text-lg font-bold leading-none cursor-pointer">&times;</button>
+        </div>
+      </div>
+
+      <div id="tequilaMessages" class="flex-1 p-3.5 overflow-y-auto space-y-2.5 text-xs bg-slate-50/60"></div>
+
+      <form onsubmit="window.handleTequilaSubmit(event)" class="p-2.5 bg-white border-t border-slate-200 flex gap-2">
+        <input id="tequilaInput" type="text" placeholder="Search keyword for CSV or say hi to Tequila..." class="gel-input ocean-input flex-1 px-3 py-2 rounded-xl text-xs" />
+        <button type="submit" class="ocean-trigger-btn px-4 py-2 rounded-xl text-xs font-extrabold">Send</button>
+      </form>
+    </div>
+
+    <button type="button" onclick="window.toggleTequilaChat()"
+            class="pointer-events-auto ocean-trigger-btn px-5 py-2.5 rounded-full flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#0077b6]"></span>
+      <span class="text-xs font-extrabold tracking-wide">Tequila</span>
+    </button>
+  </div>
+
+  <!-- 6. MODAL: CALENDAR & GOOGLE CALENDAR INTEGRATION (ORANGISH THEME) -->
+  <div id="calendarModal" class="fixed inset-0 bg-slate-900/50 hidden flex items-center justify-center p-3 sm:p-4 z-50">
+    <div class="orangish-theme-modal rounded-3xl max-w-4xl w-full p-4 sm:p-6 max-h-[92vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/25">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#FF5514] shadow-sm">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-base font-extrabold text-white">Recruitment Calendar & Reminders</h2>
+            <p class="text-xs text-orange-100">Schedule interviews & choose Event or Task when opening Google Calendar</p>
+          </div>
+        </div>
+        <button type="button" onclick="window.closeCalendarModal()" class="text-white/90 hover:text-white text-2xl font-bold cursor-pointer">&times;</button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 overflow-y-auto flex-1 pr-1">
+        <div class="lg:col-span-6 orangish-inner-panel rounded-2xl p-4 flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <button type="button" onclick="window.changeCalendarMonth(-1)" class="white-box-btn px-3 py-1 rounded-lg text-xs font-extrabold text-orange-950">&larr;</button>
+            <span id="calMonthYearTitle" class="text-sm font-extrabold text-orange-950"></span>
+            <button type="button" onclick="window.changeCalendarMonth(1)" class="white-box-btn px-3 py-1 rounded-lg text-xs font-extrabold text-orange-950">&rarr;</button>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5 text-center text-[10px] font-extrabold uppercase text-orange-800 mb-1.5">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+          </div>
+          <div id="calDaysGrid" class="grid grid-cols-7 gap-1.5 flex-1"></div>
+        </div>
+
+        <div class="lg:col-span-6 flex flex-col justify-between space-y-4">
+          <div class="orangish-inner-panel rounded-2xl p-4 flex-1 flex flex-col min-h-[170px]">
+            <div id="calSelectedDateLabel" class="text-xs font-extrabold uppercase tracking-wider text-[#ea580c] mb-2.5"></div>
+            <div id="calDayAgendaList" class="space-y-2 overflow-y-auto max-h-48 flex-1"></div>
+          </div>
+
+          <form onsubmit="window.saveCalendarReminder(event)" class="orangish-inner-panel rounded-2xl p-4 space-y-2.5">
+            <div class="text-xs font-extrabold text-orange-950">Add Interview / Reminder</div>
+            <input id="calTitleInput" required type="text" placeholder="Reminder or Interview title..." class="gel-input w-full px-3 py-2 rounded-xl text-xs font-semibold" />
+            <div class="grid grid-cols-2 gap-2">
+              <input id="calDateInput" required type="date" class="gel-input px-2.5 py-1.5 rounded-xl text-xs" />
+              <input id="calTimeInput" type="time" value="10:00" class="gel-input px-2.5 py-1.5 rounded-xl text-xs" />
+            </div>
+            <select id="calCandSelect" class="gel-input w-full px-2.5 py-1.5 rounded-xl text-xs">
+              <option value="">General Work / No Candidate Linked</option>
+            </select>
+            <input id="calNotesInput" type="text" placeholder="Additional notes (optional)..." class="gel-input w-full px-3 py-1.5 rounded-xl text-xs" />
+            <button type="submit" class="w-full py-2 rounded-xl bg-[#ea580c] hover:bg-[#9a3412] text-white text-xs font-extrabold transition cursor-pointer shadow-sm">
+              + Save Reminder (Syncs to Tasks, Candidature & Cloud DB)
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6B. MODAL: GOOGLE CALENDAR EVENT VS TASK CHOOSER -->
+  <div id="gcalChoiceModal" class="fixed inset-0 bg-slate-900/55 hidden flex items-center justify-center p-4 z-[60]">
+    <div class="orangish-theme-modal rounded-3xl max-w-md w-full p-5 sm:p-6">
+      <div class="flex justify-between items-start mb-3 pb-2.5 border-b border-white/25">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-orange-100 font-extrabold">Google Calendar Action</span>
+          <h3 class="text-base font-extrabold text-white mt-0.5">Add as Event or Task?</h3>
+        </div>
+        <button type="button" onclick="window.closeGoogleCalChoice()" class="text-white/90 hover:text-white text-2xl font-bold leading-none cursor-pointer">&times;</button>
+      </div>
+
+      <div class="orangish-inner-panel rounded-2xl p-3.5 mb-4">
+        <div id="gcalChoiceItemTitle" class="text-xs font-extrabold text-orange-950"></div>
+        <div id="gcalChoiceItemSub" class="text-[11px] font-bold text-[#ea580c] mt-0.5"></div>
+      </div>
+
+      <div class="space-y-2.5">
+        <button type="button" onclick="window.proceedGoogleCalChoice('event')"
+                class="w-full py-3 px-4 rounded-2xl bg-white text-orange-950 hover:bg-orange-50 font-extrabold text-xs flex items-center justify-between shadow-sm cursor-pointer transition">
+          <div class="text-left">
+            <div>1. Add as Google Calendar Event</div>
+            <div class="text-[10px] font-medium text-slate-600">Opens pre-filled Event composer in Google Calendar</div>
+          </div>
+          <span class="text-[#FF5514] font-black">&rarr;</span>
+        </button>
+
+        <button type="button" onclick="window.proceedGoogleCalChoice('task')"
+                class="w-full py-3 px-4 rounded-2xl bg-slate-900 text-white hover:bg-slate-800 font-extrabold text-xs flex items-center justify-between shadow-sm cursor-pointer transition">
+          <div class="text-left">
+            <div>2. Add as Google Calendar Task</div>
+            <div class="text-[10px] font-normal text-orange-200">Copies task details & opens Google Calendar Tasks view</div>
+          </div>
+          <span class="text-orange-400 font-black">&rarr;</span>
+        </button>
+
+        <button type="button" onclick="window.proceedGoogleCalChoice('daypage')"
+                class="w-full py-2.5 px-4 rounded-2xl bg-white/20 text-white hover:bg-white/30 font-bold text-xs flex items-center justify-between cursor-pointer transition">
+          <div class="text-left">
+            <div>3. Open Google Calendar Day Page</div>
+            <div class="text-[10px] font-normal text-orange-100">Switch between Event & Task tabs on the calendar grid</div>
+          </div>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6C. MODAL: REJECT CANDIDATE & PUSH TO WHATSAPP OR MAIL -->
+  <div id="rejectModal" class="fixed inset-0 bg-slate-900/55 hidden flex items-center justify-center p-4 z-[60]">
+    <div class="orangish-theme-modal rounded-3xl max-w-lg w-full p-5 sm:p-6">
+      <div class="flex justify-between items-start mb-3 pb-2.5 border-b border-white/25">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-orange-100 font-extrabold">Candidate Rejection Push</span>
+          <h3 id="rejectCandidateNameLabel" class="text-base font-extrabold text-white mt-0.5">Reject Candidate</h3>
+          <p id="rejectCandidateSubLabel" class="text-[11px] text-orange-100 mt-0.5"></p>
+        </div>
+        <button type="button" onclick="window.closeRejectModal()" class="text-white/90 hover:text-white text-2xl font-bold leading-none cursor-pointer">&times;</button>
+      </div>
+
+      <form onsubmit="window.pushRejectionMessage(event)" class="space-y-3.5">
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-2.5">
+          <label class="text-[11px] uppercase tracking-wider font-extrabold text-orange-950 block">1. Select Channel (WhatsApp or Mail)</label>
+          <div class="flex gap-2">
+            <button type="button" id="btnRejectChannelWhatsapp" onclick="window.setRejectChannel('whatsapp')"
+                    class="flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs bg-emerald-600 text-white shadow-sm cursor-pointer transition flex items-center justify-center gap-2">
+              <span>WhatsApp</span>
+            </button>
+            <button type="button" id="btnRejectChannelMail" onclick="window.setRejectChannel('mail')"
+                    class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-white text-slate-800 border border-orange-200 cursor-pointer transition flex items-center justify-center gap-2">
+              <span>Mail (Gmail / Email)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-2">
+          <label class="text-[11px] uppercase tracking-wider font-extrabold text-orange-950 block">2. Editable Rejection Message</label>
+          <textarea id="rejectMessageTextarea" rows="4" required
+                    class="gel-input w-full p-3 rounded-xl text-xs font-medium leading-relaxed"></textarea>
+          <p class="text-[10px] text-orange-900">Pushing this message will also mark the candidate status as <strong>Not to proceed</strong>.</p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="window.closeRejectModal()"
+                  class="px-4 py-2 rounded-xl bg-white/20 text-white text-xs font-bold hover:bg-white/30 cursor-pointer">
+            Cancel
+          </button>
+          <button type="submit"
+                  class="px-5 py-2 rounded-xl bg-white text-[#ea580c] hover:bg-orange-50 text-xs font-extrabold shadow-md cursor-pointer transition">
+            Push Rejection Message &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. MODAL: NOTIFICATIONS -->
+  <div id="notificationsModal" class="fixed inset-0 bg-slate-900/40 hidden flex items-center justify-center p-4 z-50">
+    <div class="white-gel-panel rounded-3xl max-w-xl w-full p-6 border border-slate-300 max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Upcoming Reminders & Deadline Alerts</h2>
+          <p class="text-xs text-slate-500">Notifying you of interviews, tasks, and reminders due within 1 hour or 1 day</p>
+        </div>
+        <button type="button" onclick="window.closeNotificationsModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div id="notifListContainer" class="flex-1 overflow-y-auto ash-gel-panel rounded-2xl p-4 space-y-2.5"></div>
+    </div>
+  </div>
+
+  <!-- 8. MODAL: INTERACTIVE PIE CHARTS -->
+  <div id="chartModal" class="fixed inset-0 bg-slate-900/40 hidden flex items-center justify-center p-4 z-50">
+    <div class="white-gel-panel rounded-3xl max-w-3xl w-full p-6 border border-slate-300 max-h-[88vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Recruitment Pipeline Pie Charts</h2>
+          <p class="text-xs text-slate-500">Analyze your live KinetiQ Hire data across different options</p>
+        </div>
+        <button type="button" onclick="window.closeChartModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div class="flex flex-wrap gap-2">
+          <button type="button" id="chartTab_status" onclick="window.setChartDimension('status')" class="white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold">By Status</button>
+          <button type="button" id="chartTab_client" onclick="window.setChartDimension('client')" class="white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold">By Client</button>
+          <button type="button" id="chartTab_position" onclick="window.setChartDimension('position')" class="white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold">By Position</button>
+          <button type="button" id="chartTab_experience" onclick="window.setChartDimension('experience')" class="white-box-btn px-3 py-1.5 rounded-xl text-xs font-extrabold">By Experience</button>
+        </div>
+        <select id="chartClientScope" onchange="window.renderPieChart()" class="gel-input px-3 py-1.5 rounded-xl text-xs font-bold text-slate-800">
+          <option value="">All Active Clients</option>
+        </select>
+      </div>
+      <div id="pieChartContainer" class="flex-1 overflow-y-auto ash-gel-panel rounded-2xl p-5"></div>
+    </div>
+  </div>
+
+  <!-- 9. MODAL: CANDIDATURE DETAILS (ORANGISH THEME) -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/50 hidden flex items-center justify-center p-3 sm:p-4 z-50">
+    <div class="orangish-theme-modal rounded-3xl max-w-lg w-full p-5 sm:p-6 max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-start mb-4 pb-3 border-b border-white/25">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-orange-100 font-extrabold">Candidature Profile Card</span>
+          <h2 id="detailName" class="text-lg font-extrabold text-white mt-0.5"></h2>
+        </div>
+        <button type="button" onclick="window.closeDetailModal()" class="text-white/90 hover:text-white text-2xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div id="detailBody" class="space-y-3 text-xs overflow-y-auto pr-1 flex-1"></div>
+      <div class="mt-4 pt-3 border-t border-white/25 flex flex-wrap justify-end gap-2">
+        <button type="button" id="detailEditBtn" class="px-4 py-2 rounded-xl bg-white text-orange-950 hover:bg-orange-50 text-xs font-extrabold cursor-pointer">Edit Candidate</button>
+        <button type="button" id="detailRejectBtn" class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 text-xs font-extrabold cursor-pointer">Reject (WhatsApp / Mail)</button>
+        <button type="button" onclick="window.closeDetailModal()" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/30 text-xs font-extrabold cursor-pointer">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. MODAL: ADD / EDIT CANDIDATE (ORANGISH THEME) -->
+  <div id="candidateModal" class="fixed inset-0 bg-slate-900/50 hidden flex items-center justify-center p-3 sm:p-4 z-50">
+    <div class="orangish-theme-modal rounded-3xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/25">
+        <h2 id="modalTitle" class="text-base font-extrabold text-white">Add Prospect Candidate</h2>
+        <button type="button" onclick="window.closeCandidateModal()" class="text-white/90 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <form id="candidateForm" onsubmit="window.saveCandidate(event)" class="space-y-3">
+        <input type="hidden" id="candId" />
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-3">
+          <div>
+            <label class="text-xs text-orange-950 font-extrabold">Candidate Name *</label>
+            <input id="candName" required type="text" placeholder="e.g. Karthik Subramanian" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs text-orange-950 font-extrabold">Position / Designation *</label>
+              <input id="candPosition" list="positionSuggestions" required type="text" placeholder="e.g. Workday HCM Consultant" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+              <datalist id="positionSuggestions"></datalist>
+            </div>
+            <div>
+              <label class="text-xs text-orange-950 font-extrabold">Client *</label>
+              <input id="candClient" list="clientSuggestions" required type="text" placeholder="e.g. Airbus / TCS" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+              <datalist id="clientSuggestions"></datalist>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="text-xs text-orange-950 font-extrabold">Gmail ID</label>
+              <input id="candGmail" type="email" placeholder="name@gmail.com" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+            </div>
+            <div>
+              <label class="text-xs text-orange-950 font-extrabold">Contact Number</label>
+              <input id="candContact" type="text" placeholder="+91 98765 43210" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+            </div>
+            <div>
+              <label class="text-xs text-orange-950 font-extrabold">Total Experience</label>
+              <input id="candExp" type="text" placeholder="e.g. 4.5 Years" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="text-xs text-orange-950 font-extrabold">Pipeline Status *</label>
+            <select id="candStatus" class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm font-bold"></select>
+          </div>
+          <div>
+            <label class="text-xs text-orange-950 font-extrabold">Notes / Skills / Remarks</label>
+            <textarea id="candNotes" rows="2" placeholder="Skills, designations, notice period, CTC details, or manager notes..." class="gel-input w-full mt-1 px-3 py-2 rounded-xl text-sm"></textarea>
+          </div>
+        </div>
+
+        <div class="orangish-inner-panel rounded-2xl p-3.5 space-y-2">
+          <div class="text-[11px] font-extrabold text-orange-950">Optional: Add Candidature Reminder / Interview (Synced to Calendar & Cloud DB)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
+            <input id="candRemTitle" type="text" placeholder="e.g. L1 Interview / Follow-up call" class="gel-input sm:col-span-6 px-2.5 py-1.5 rounded-xl text-xs" />
+            <input id="candRemDate" type="date" class="gel-input sm:col-span-3 px-2 py-1.5 rounded-xl text-xs" />
+            <input id="candRemTime" type="time" value="10:00" class="gel-input sm:col-span-3 px-2 py-1.5 rounded-xl text-xs" />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="window.closeCandidateModal()" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/30 text-xs font-extrabold cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-white text-[#ea580c] hover:bg-orange-50 text-xs font-extrabold shadow-md cursor-pointer">Save Prospect</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 11. MODAL: UNIFIED GOOGLE CLOUD DATABASE SYNC -->
+  <div id="sheetModal" class="fixed inset-0 bg-slate-900/40 hidden flex items-center justify-center p-4 z-50">
+    <div class="white-gel-panel rounded-3xl max-w-xl w-full p-6 border border-slate-300 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Google Cloud Database Sync</h2>
+          <p class="text-xs text-slate-500">Permanently linked to your default Google Cloud URL across all PCs & devices</p>
+        </div>
+        <button type="button" onclick="window.closeSheetModal()" class="text-slate-500 hover:text-[#FF5514] text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+
+      <div class="ash-gel-panel rounded-2xl p-3.5 mb-4 grid grid-cols-3 gap-2 text-center">
+        <div class="bg-white rounded-xl p-2 border border-slate-200">
+          <div id="cloudStatCandidates" class="text-base font-black text-slate-900">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase">Candidates</div>
+        </div>
+        <div class="bg-white rounded-xl p-2 border border-slate-200">
+          <div id="cloudStatSchedule" class="text-base font-black text-[#FF5514]">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase">Calendar & Tasks</div>
+        </div>
+        <div class="bg-white rounded-xl p-2 border border-slate-200">
+          <div id="cloudStatAi" class="text-base font-black text-[#0077b6]">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase">Tequila AI Logs</div>
+        </div>
+      </div>
+
+      <div class="space-y-3.5">
+        <div class="ash-gel-panel rounded-2xl p-3.5 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-1">
+            <label class="text-xs text-slate-900 font-extrabold">Default Google Cloud Sheet Web App URL (/exec)</label>
+            <div class="flex gap-1.5">
+              <button type="button" onclick="window.resetDefaultCloudUrl()"
+                      class="white-box-btn px-2 py-1 rounded-lg text-[10px] font-extrabold text-slate-700">
+                Reset Default URL
+              </button>
+              <button type="button" onclick="window.copyAppsScriptTemplate()"
+                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF5514]">
+                Copy Cloud Apps Script
+              </button>
+            </div>
+          </div>
+          <input id="sheetUrlInput" type="url" value="https://script.google.com/macros/s/AKfycbyalium00VeY2U7DTgt1rPshoML7c2tmcA-u6KFfVZIphG6fGIdyApdePb1n4a87k-hfw/exec" class="gel-input w-full px-3 py-2 rounded-xl text-xs" />
+        </div>
+
+        <div class="ash-gel-panel rounded-2xl p-3.5 space-y-2">
+          <div class="text-xs text-slate-900 font-extrabold">Option 2: Google Cloud Firestore Database (Optional Direct Sync)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input id="firestoreProjectInput" type="text" placeholder="GCP Project ID (e.g. kinetiq-hire-db)" class="gel-input px-3 py-2 rounded-xl text-xs" />
+            <input id="firestoreKeyInput" type="password" placeholder="Web API Key (optional)" class="gel-input px-3 py-2 rounded-xl text-xs" />
+          </div>
+        </div>
+
+        <div id="cloudLastSyncText" class="text-[11px] text-slate-500 font-semibold"></div>
+        <div id="sheetSyncStatusMsg" class="text-xs text-slate-700 font-semibold"></div>
+
+        <div class="flex flex-wrap justify-between items-center gap-2 pt-3 border-t border-slate-200">
+          <button type="button" onclick="window.pullFromGoogleSheet()" class="white-box-btn px-3.5 py-2 rounded-xl text-xs font-extrabold text-slate-900">Load All From Cloud</button>
+          <div class="flex gap-2">
+            <button type="button" onclick="window.closeSheetModal()" class="white-box-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700">Close</button>
+            <button type="button" onclick="window.saveSheetUrlAndSync()" class="white-box-btn px-4 py-2 rounded-xl text-xs font-extrabold text-[#FF5514]">Save & Sync Everything</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. MODAL: ARCHIVE VAULT -->
+  <div id="archiveModal" class="fixed inset-0 bg-slate-900/40 hidden flex items-center justify-center p-4 z-50">
+    <div class="white-gel-panel rounded-3xl max-w-4xl w-full p-6 border border-slate-300 max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Archived Candidatures</h2>
+          <p class="text-xs text-slate-500">Restore candidates back to the active pipeline or delete permanently.</p>
+        </div>
+        <button type="button" onclick="window.closeArchiveModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div class="overflow-y-auto flex-1">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-100 text-[10px] text-slate-800 uppercase tracking-wider font-extrabold">
+              <th class="p-2.5">Candidate</th>
+              <th class="p-2.5">Position & Client</th>
+              <th class="p-2.5">Last Status</th>
+              <th class="p-2.5">Notes</th>
+              <th class="p-2.5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="archiveTableBody" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
