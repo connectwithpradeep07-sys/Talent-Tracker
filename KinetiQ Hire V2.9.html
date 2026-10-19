@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>TalentTracker v2.9 - Pradeep G A</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 rx=%2228%22 fill=%22%23FF6B1A%22/><path d=%22M36 22 H84 L89 32 H65 V52 L60 40 L55 52 V32 H31 Z%22 fill=%22white%22/><path d=%22M28 38 H40 C34 55 42 75 60 92 C78 75 86 55 80 38 H92 C100 60 88 86 60 106 C32 86 20 60 28 38 Z%22 fill=%22white%22/><polygon points=%2260,36 66,50 82,50 69,60 74,75 60,65 46,75 51,60 38,50 54,50%22 fill=%22white%22/></svg>">
+  <title>KinetiQ Hire v2.9</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 160%22><rect width=%22160%22 height=%22160%22 rx=%2234%22 fill=%22%23FF5514%22/><path d=%22M78 20 L34 36 C34 68 42 94 78 134 C114 94 122 68 122 36 Z%22 fill=%22white%22/><circle cx=%2278%22 cy=%2264%22 r=%2224%22 fill=%22%23FF5514%22/><path d=%22M92 78 L112 98%22 stroke=%22%23FF5514%22 stroke-width=%2211%22 stroke-linecap=%22square%22/><polygon points=%2270,50 80,50 91,64 80,78 70,78 81,64%22 fill=%22white%22/><path d=%22M28 84 C12 108 42 114 86 92 C126 72 150 36 112 28 C134 38 118 64 82 82 C46 98 22 98 28 84 Z%22 fill=%22white%22/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -21,10 +21,17 @@
       margin: 0;
     }
 
+    /* KinetiQ Hire Brand Typography */
+    .kinetiq-brand-font {
+      font-family: 'Montserrat', 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
     /* =================================================================== */
     /* SILKY GOOGLE CALENDAR-STYLE SPLASH & WORKSPACE TRANSITION           */
     /* =================================================================== */
     #splashScreen {
+      background-color: #FF5514;
       opacity: 1;
       transform: scale(1);
       filter: blur(0px);
@@ -85,7 +92,7 @@
     /* EDIT MODAL, CALENDAR MODAL & 3D CANDIDATURE CARDS                   */
     /* =================================================================== */
     .orangish-theme-modal {
-      background: linear-gradient(145deg, #ff6b1a 0%, #ea580c 55%, #c2410c 100%);
+      background: linear-gradient(145deg, #ff5514 0%, #ea580c 55%, #c2410c 100%);
       border: 2px solid #fdba74;
       color: #ffffff;
       box-shadow: 0 24px 48px -12px rgba(194, 65, 12, 0.45);
@@ -227,7 +234,7 @@
     // SOLID VIBRANT BOX COLOURS WITH WHITE FONT FOR PIPELINE STATUS
     const STATUS_HEX_MAP = {
       "Prospect": "#0284c7",       // Sky Blue
-      "Ok to process": "#ff6b1a",  // Vibrant Orange
+      "Ok to process": "#ff5514",  // KinetiQ Vibrant Orange
       "Processed": "#9333ea",      // Purple
       "Pre hire": "#0077b6",       // Ocean Blue
       "Joined": "#10b981",         // Emerald Green
@@ -246,7 +253,7 @@
     };
 
     const PIE_HEX_COLORS = [
-      "#ff6b1a", "#0284c7", "#9333ea", "#0ea5e9",
+      "#ff5514", "#0284c7", "#9333ea", "#0ea5e9",
       "#10b981", "#eab308", "#64748b", "#334155"
     ];
 
@@ -414,7 +421,7 @@
     // GOOGLE CALENDAR EVENT VS TASK CHOOSER
     // ===================================================================
     window.buildGoogleCalendarEventUrl = function (item) {
-      const title = encodeURIComponent(`[TalentTracker] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}`);
+      const title = encodeURIComponent(`[KinetiQ Hire] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}`);
       const details = encodeURIComponent(
         `Candidate: ${item.candidateName || 'N/A'}\nPosition: ${item.position || 'N/A'}\nClient: ${item.client || 'N/A'}\nNotes: ${item.notes || ''}`
       );
@@ -455,7 +462,7 @@
     window.proceedGoogleCalChoice = function (mode) {
       if (!pendingGcalItem) return;
       const item = pendingGcalItem;
-      const summaryText = `[TalentTracker] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}\nDate: ${formatShortDate(item.date, item.time)}\nCandidate: ${item.candidateName || 'N/A'} (${item.position || 'N/A'} - ${item.client || 'N/A'})\nNotes: ${item.notes || ''}`;
+      const summaryText = `[KinetiQ Hire] ${item.title}${item.candidateName ? ' - ' + item.candidateName : ''}\nDate: ${formatShortDate(item.date, item.time)}\nCandidate: ${item.candidateName || 'N/A'} (${item.position || 'N/A'} - ${item.client || 'N/A'})\nNotes: ${item.notes || ''}`;
 
       if (mode === 'event') {
         window.open(window.buildGoogleCalendarEventUrl(item), '_blank', 'noopener');
@@ -553,9 +560,9 @@
         const btn = document.getElementById('taskTab_' + t);
         if (btn) {
           if (t === tab) {
-            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF6B1A] text-white transition';
+            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF5514] text-white transition';
           } else {
-            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF6B1A] transition';
+            btn.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition';
           }
         }
       });
@@ -645,9 +652,9 @@
 
       container.innerHTML = filtered.map(item => {
         return `
-          <div class="bg-white rounded-xl p-3 border border-slate-200 hover:border-[#FF6B1A] transition flex items-start gap-3">
+          <div class="bg-white rounded-xl p-3 border border-slate-200 hover:border-[#FF5514] transition flex items-start gap-3">
             <button type="button" onclick="window.toggleScheduleCompleted('${escapeHtml(item.id)}')"
-                    class="mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition cursor-pointer ${item.completed ? 'bg-[#FF6B1A] border-[#FF6B1A] text-white' : 'border-slate-400 hover:border-[#FF6B1A]'}"
+                    class="mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition cursor-pointer ${item.completed ? 'bg-[#FF5514] border-[#FF5514] text-white' : 'border-slate-400 hover:border-[#FF5514]'}"
                     title="Mark Completed">
               ${item.completed ? '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </button>
@@ -658,17 +665,17 @@
               </div>
               ${item.notes ? `<div class="text-[11px] text-slate-600 mt-0.5 break-words">${escapeHtml(item.notes)}</div>` : ''}
               <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px] font-bold text-[#FF6B1A]">
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px] font-bold text-[#FF5514]">
                   ${escapeHtml(formatShortDate(item.date, item.time))}
                 </span>
                 ${item.candidateName ? `
                   <button type="button" onclick="window.toggleTasksDrawer(false); window.openDetailModal('${escapeHtml(item.candidateId)}');"
-                          class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-[10px] font-bold cursor-pointer hover:bg-[#FF6B1A] transition">
+                          class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-[10px] font-bold cursor-pointer hover:bg-[#FF5514] transition">
                     ${escapeHtml(item.candidateName)}
                   </button>
                 ` : ''}
                 <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
-                        class="px-2 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-bold text-slate-700 hover:border-[#FF6B1A] hover:text-[#FF6B1A] transition cursor-pointer">
+                        class="px-2 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-bold text-slate-700 hover:border-[#FF5514] hover:text-[#FF5514] transition cursor-pointer">
                   + Google Cal (Event / Task)
                 </button>
               </div>
@@ -676,8 +683,8 @@
 
             <div class="flex flex-col items-center gap-1.5 shrink-0">
               <button type="button" onclick="window.toggleScheduleStarred('${escapeHtml(item.id)}')"
-                      class="text-slate-400 hover:text-[#FF6B1A] cursor-pointer" title="Star Task">
-                <svg class="w-4 h-4 ${item.starred ? 'fill-[#FF6B1A] text-[#FF6B1A]' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      class="text-slate-400 hover:text-[#FF5514] cursor-pointer" title="Star Task">
+                <svg class="w-4 h-4 ${item.starred ? 'fill-[#FF5514] text-[#FF5514]' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                 </svg>
               </button>
@@ -798,7 +805,7 @@
           const isSelected = fullDate === selectedCalDate;
           const isToday = fullDate === todayStr;
 
-          let btnCls = 'bg-white text-slate-900 border-orange-200 hover:border-[#FF6B1A]';
+          let btnCls = 'bg-white text-slate-900 border-orange-200 hover:border-[#FF5514]';
           if (isSelected) btnCls = 'bg-[#ea580c] text-white border-white font-black shadow-md';
           else if (isToday) btnCls = 'bg-slate-900 text-white border-slate-900 font-extrabold';
 
@@ -806,7 +813,7 @@
             <button type="button" onclick="window.selectCalendarDay('${fullDate}')"
                     class="h-10 sm:h-11 rounded-xl border text-xs flex flex-col items-center justify-center relative transition cursor-pointer ${btnCls}">
               <span>${d}</span>
-              ${dayItems.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full mt-0.5 ${isSelected ? 'bg-white' : 'bg-[#FF6B1A]'}"></span>` : ''}
+              ${dayItems.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full mt-0.5 ${isSelected ? 'bg-white' : 'bg-[#FF5514]'}"></span>` : ''}
             </button>
           `;
         }
@@ -827,7 +834,7 @@
               <div class="bg-white rounded-xl p-3 border border-orange-200 flex items-start justify-between gap-2">
                 <div class="min-w-0">
                   <div class="flex items-center gap-2">
-                    <input type="checkbox" ${item.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(item.id)}')" class="accent-[#FF6B1A] cursor-pointer" />
+                    <input type="checkbox" ${item.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(item.id)}')" class="accent-[#FF5514] cursor-pointer" />
                     <span class="text-xs font-extrabold ${item.completed ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(item.title)}</span>
                   </div>
                   <div class="text-[11px] font-bold text-[#ea580c] mt-1">${escapeHtml(item.time || 'All Day')} ${item.candidateName ? `• ${escapeHtml(item.candidateName)} (${escapeHtml(item.client)})` : ''}</div>
@@ -835,7 +842,7 @@
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
                   <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
-                          class="px-2.5 py-1 rounded-lg bg-[#FF6B1A] hover:bg-[#ea580c] text-white text-[10px] font-extrabold transition cursor-pointer">
+                          class="px-2.5 py-1 rounded-lg bg-[#FF5514] hover:bg-[#ea580c] text-white text-[10px] font-extrabold transition cursor-pointer">
                     Google Cal
                   </button>
                   <button type="button" onclick="window.deleteScheduleItem('${escapeHtml(item.id)}')"
@@ -864,11 +871,11 @@
           let badgeCls = 'bg-slate-900 text-white';
           if (diffHours < 0) {
             urgency = 'Due Now / Overdue';
-            badgeCls = 'bg-[#FF6B1A] text-white';
+            badgeCls = 'bg-[#FF5514] text-white';
           } else if (diffHours <= 1) {
             const mins = Math.max(1, Math.round(diffMs / 60000));
             urgency = `In ${mins} min(s) (Within 1 Hour)`;
-            badgeCls = 'bg-[#FF6B1A] text-white';
+            badgeCls = 'bg-[#FF5514] text-white';
           } else {
             const hrs = Math.round(diffHours);
             urgency = `In ${hrs} hour(s) (Within 1 Day)`;
@@ -905,7 +912,7 @@
                 <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold ${badgeCls}">${escapeHtml(urgency)}</span>
                 <span class="text-xs font-extrabold text-slate-900">${escapeHtml(item.title)}</span>
               </div>
-              <div class="text-[11px] font-bold text-[#FF6B1A]">
+              <div class="text-[11px] font-bold text-[#FF5514]">
                 ${escapeHtml(formatShortDate(item.date, item.time))}
                 ${item.candidateName ? ` • Candidate: ${escapeHtml(item.candidateName)} (${escapeHtml(item.client)})` : ''}
               </div>
@@ -915,7 +922,7 @@
               <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(item.id)}')"
                       class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-slate-800">Google Cal</button>
               <button type="button" onclick="window.toggleScheduleCompleted('${escapeHtml(item.id)}')"
-                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF6B1A]">Done</button>
+                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF5514]">Done</button>
             </div>
           </div>
         `;
@@ -1227,11 +1234,11 @@
       const tbody = document.getElementById('tableBody');
       if (tbody) {
         if (activeList.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="9" class="p-10 text-center text-slate-500 text-xs">No active prospects match your filters. Click <strong class="text-[#FF6B1A]">+ Add Prospect</strong> in the top bar to add one.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="9" class="p-10 text-center text-slate-500 text-xs">No active prospects match your filters. Click <strong class="text-[#FF5514]">+ Add Prospect</strong> in the top bar to add one.</td></tr>`;
         } else {
           tbody.innerHTML = activeList.map((c, idx) => {
             const rowBgClass = (idx % 2 === 0) ? 'tracker-row-orange' : 'tracker-row-white';
-            const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff6b1a';
+            const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff5514';
             const isChecked = selectedCandidateIds.has(c.id);
 
             return `
@@ -1239,11 +1246,11 @@
                 <td class="p-3 text-center w-10">
                   <input type="checkbox" ${isChecked ? 'checked' : ''}
                          onchange="window.toggleSelectCandidate('${escapeHtml(c.id)}', this.checked)"
-                         class="w-4 h-4 accent-[#FF6B1A] rounded cursor-pointer" />
+                         class="w-4 h-4 accent-[#FF5514] rounded cursor-pointer" />
                 </td>
                 <td class="p-3">
                   <button type="button" onclick="window.openDetailModal('${escapeHtml(c.id)}')"
-                          class="text-left font-extrabold text-slate-900 hover:text-[#FF6B1A] underline decoration-orange-400 decoration-dotted underline-offset-4 cursor-pointer">
+                          class="text-left font-extrabold text-slate-900 hover:text-[#FF5514] underline decoration-orange-400 decoration-dotted underline-offset-4 cursor-pointer">
                     ${escapeHtml(c.name)}
                   </button>
                 </td>
@@ -1265,7 +1272,7 @@
                 <td class="p-3 text-right space-x-1 whitespace-nowrap">
                   <button type="button" onclick="window.openCandidateModal('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-slate-800">Edit</button>
                   <button type="button" onclick="window.openRejectModal('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-red-600 border-red-200 hover:border-red-500">Reject</button>
-                  <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', true)" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF6B1A]">Archive</button>
+                  <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', true)" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF5514]">Archive</button>
                 </td>
               </tr>
             `;
@@ -1276,7 +1283,7 @@
       const board = document.getElementById('kanbanBoard');
       if (board) {
         board.innerHTML = STATUSES.map(status => {
-          const statusBgHex = STATUS_HEX_MAP[status] || '#ff6b1a';
+          const statusBgHex = STATUS_HEX_MAP[status] || '#ff5514';
           const colItems = activeList.filter(c => c.status === status);
           return `
             <div class="kanban-col ash-gel-panel rounded-2xl p-3.5 flex flex-col"
@@ -1343,7 +1350,7 @@
               <td class="p-2.5 text-xs text-slate-600">${escapeHtml(c.notes || '-')}</td>
               <td class="p-2.5 text-right space-x-2">
                 <button type="button" onclick="window.archiveCandidate('${escapeHtml(c.id)}', false)" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-slate-800">Restore</button>
-                <button type="button" onclick="window.deleteCandidatePermanently('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF6B1A]">Delete</button>
+                <button type="button" onclick="window.deleteCandidatePermanently('${escapeHtml(c.id)}')" class="white-box-btn px-2.5 py-1 rounded-lg text-xs font-extrabold text-[#FF5514]">Delete</button>
               </td>
             </tr>
           `).join('');
@@ -1547,7 +1554,7 @@
       const c = candidates.find(item => item.id === id);
       if (!c) return;
       activeDetailCandidateId = id;
-      const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff6b1a';
+      const statusBgHex = STATUS_HEX_MAP[c.status] || '#ff5514';
       document.getElementById('detailName').textContent = c.name;
 
       const historyHtml = (c.statusHistory || []).slice().reverse().map(h => `
@@ -1565,14 +1572,14 @@
               <div class="bg-white rounded-xl p-2.5 border border-orange-200 flex items-center justify-between gap-2 mb-1.5 last:mb-0">
                 <div class="min-w-0">
                   <div class="flex items-center gap-1.5">
-                    <input type="checkbox" ${rem.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(rem.id)}')" class="accent-[#FF6B1A] cursor-pointer" />
+                    <input type="checkbox" ${rem.completed ? 'checked' : ''} onchange="window.toggleScheduleCompleted('${escapeHtml(rem.id)}')" class="accent-[#FF5514] cursor-pointer" />
                     <span class="text-xs font-extrabold ${rem.completed ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(rem.title)}</span>
                   </div>
                   <div class="text-[10px] font-bold text-[#ea580c] mt-0.5">${escapeHtml(formatShortDate(rem.date, rem.time))}</div>
                 </div>
                 <div class="flex items-center gap-1 shrink-0">
                   <button type="button" onclick="window.openGoogleCalChoice('${escapeHtml(rem.id)}')"
-                          class="px-2 py-1 rounded bg-[#FF6B1A] hover:bg-[#ea580c] text-white text-[10px] font-bold transition cursor-pointer">Google Cal</button>
+                          class="px-2 py-1 rounded bg-[#FF5514] hover:bg-[#ea580c] text-white text-[10px] font-bold transition cursor-pointer">Google Cal</button>
                   <button type="button" onclick="window.deleteScheduleItem('${escapeHtml(rem.id)}')" class="text-slate-400 hover:text-slate-900 font-bold px-1 cursor-pointer">&times;</button>
                 </div>
               </div>
@@ -1758,8 +1765,6 @@
 
     // ===================================================================
     // 13. UNIFIED GOOGLE CLOUD DATABASE SYNC (AUTO-CONNECTED BY DEFAULT)
-    //     Embeds __tt_cloud_meta__ so Calendar, Tasks & Tequila AI sync
-    //     even on existing Google Sheet scripts without manual setup!
     // ===================================================================
     window.updateCloudStatsUI = function () {
       const cStat = document.getElementById('cloudStatCandidates');
@@ -1800,8 +1805,8 @@
       if (label) label.textContent = text;
       if (dot) {
         dot.className = 'w-2 h-2 rounded-full ';
-        if (state === 'connected') dot.className += 'bg-[#FF6B1A]';
-        else if (state === 'syncing') dot.className += 'bg-[#FF6B1A] animate-ping';
+        if (state === 'connected') dot.className += 'bg-[#FF5514]';
+        else if (state === 'syncing') dot.className += 'bg-[#FF5514] animate-ping';
         else dot.className += 'bg-slate-400';
       }
     };
@@ -1809,13 +1814,12 @@
     window.buildCloudPayload = function () {
       const now = new Date().toISOString();
       const appSettings = {
+        appName: 'KinetiQ Hire',
         currentView,
         creator: 'Pradeep G A',
         version: '2.9'
       };
 
-      // Hidden metadata carrier inside candidates array so even legacy candidate-only
-      // Google Sheet scripts automatically store Calendar, Tasks & Tequila AI history!
       const metaCarrier = {
         id: '__tt_cloud_meta__',
         name: '__CLOUD_META__',
@@ -1871,7 +1875,7 @@
 
       if (hasFirestore) {
         try {
-          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/talenttracker_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
+          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/kinetiq_hire_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
           await fetch(baseUrl, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -1935,7 +1939,6 @@
           const data = await res.json();
           if (data && typeof data === 'object') {
             if (Array.isArray(data.candidates)) {
-              // Check if embedded __tt_cloud_meta__ carrier exists inside candidates array
               const metaRow = data.candidates.find(
                 c => c && (c.id === '__tt_cloud_meta__' || c.name === '__CLOUD_META__')
               );
@@ -1971,7 +1974,7 @@
 
       if (!loaded && firestoreProjectId) {
         try {
-          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/talenttracker_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
+          const baseUrl = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(firestoreProjectId)}/databases/(default)/documents/kinetiq_hire_cloud/pradeep_workspace${firestoreApiKey ? `?key=${encodeURIComponent(firestoreApiKey)}` : ''}`;
           const res = await fetch(baseUrl);
           const doc = await res.json();
           if (doc && doc.fields) {
@@ -2026,7 +2029,7 @@
     };
 
     window.copyAppsScriptTemplate = function () {
-      const code = `// TalentTracker v2.9 - Full Google Cloud Database Script (Candidates + Calendar + Tasks + Tequila AI)
+      const code = `// KinetiQ Hire v2.9 - Full Google Cloud Database Script (Candidates + Calendar + Tasks + Tequila AI)
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.tryLock(10000);
@@ -2090,7 +2093,7 @@ function doGet() {
       document.getElementById('archiveModal').classList.add('hidden');
     };
 
-    window.downloadCandidateListAsCSV = function (list, filenamePrefix = 'TalentTracker') {
+    window.downloadCandidateListAsCSV = function (list, filenamePrefix = 'KinetiQ_Hire') {
       const headers = ['Candidate Name', 'Position', 'Client', 'Gmail ID', 'Contact', 'Total Experience', 'Status', 'Status Changed At', 'Archived', 'Notes'];
       const rows = (list || []).map(c => [
         c.name, c.position, c.client, c.gmail, c.contact, c.experience, c.status, formatDateTime(c.statusChangedAt || c.updatedAt), c.archived ? 'Yes' : 'No', c.notes
@@ -2108,16 +2111,16 @@ function doGet() {
     };
 
     window.exportCSV = function () {
-      window.downloadCandidateListAsCSV(candidates, 'TalentTracker_All');
+      window.downloadCandidateListAsCSV(candidates, 'KinetiQ_Hire_All');
     };
 
     window.downloadTequilaSearchCSV = function (exportId) {
       const list = tequilaSearchExports[exportId];
       if (!Array.isArray(list) || list.length === 0) {
-        window.downloadCandidateListAsCSV(candidates.filter(c => !c.archived), 'Tequila_Search');
+        window.downloadCandidateListAsCSV(candidates.filter(c => !c.archived), 'KinetiQ_Hire_Search');
         return;
       }
-      window.downloadCandidateListAsCSV(list, 'Tequila_Matched_Candidates');
+      window.downloadCandidateListAsCSV(list, 'KinetiQ_Hire_Matched_Candidates');
     };
 
     function buildTequilaCsvButtonHtml(matchedArray) {
@@ -2160,7 +2163,7 @@ function doGet() {
       const tod = window.getTimeOfDayGreeting();
       const welcomeHtml = `
         <div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-slate-700 leading-relaxed shadow-xs">
-          Hi Pradeep! ${tod}! I am <strong class="text-[#006994]">Tequila</strong>, your AI recruitment & schedule chatbot. Search any keyword, skill, client, or candidate and download matched results as a CSV right from here!
+          Hi! ${tod}! I am <strong class="text-[#006994]">Tequila</strong>, your <strong>KinetiQ Hire</strong> AI recruitment & schedule chatbot. Search any keyword, skill, client, or candidate and download matched results as a CSV right from here!
         </div>
       `;
       if (!Array.isArray(tequilaChatHistory) || tequilaChatHistory.length === 0) {
@@ -2311,19 +2314,19 @@ function doGet() {
         else if (cleanGreetingCheck.includes('evening') || cleanGreetingCheck === 'ge') chosenGreeting = 'Good evening';
         else if (cleanGreetingCheck.includes('night') || cleanGreetingCheck === 'gn') chosenGreeting = 'Good night';
 
-        return `Hi Pradeep! <strong class="text-[#0077b6]">${chosenGreeting}!</strong> 👋<br><br>I'm <strong>Tequila</strong>, your recruitment chatbot. Here is your live workspace status:<br>• <strong>${active.length}</strong> active candidate(s) in your pipeline<br>• <strong>${activeTasks.length}</strong> pending calendar reminder(s) & task(s)${alertsCount > 0 ? ` (<strong>${alertsCount}</strong> due within 24 hours)` : ''}<br><br>How can I help you right now?`;
+        return `Hi! <strong class="text-[#0077b6]">${chosenGreeting}!</strong> 👋<br><br>I'm <strong>Tequila</strong>, your <strong>KinetiQ Hire</strong> chatbot. Here is your live workspace status:<br>• <strong>${active.length}</strong> active candidate(s) in your pipeline<br>• <strong>${activeTasks.length}</strong> pending calendar reminder(s) & task(s)${alertsCount > 0 ? ` (<strong>${alertsCount}</strong> due within 24 hours)` : ''}<br><br>How can I help you right now?`;
       }
 
       if (/\b(how are you|how r u|how are u|whats up|what is up|how is it going|who are you)\b/.test(cleanGreetingCheck)) {
-        return `Hi Pradeep! <strong class="text-[#0077b6]">${tod}!</strong> I'm doing great and keeping your entire recruitment database, calendar, and tasks synced with Google Cloud. You currently have <strong>${active.length}</strong> active candidate(s) and <strong>${activeTasks.length}</strong> pending task(s). What would you like to check?`;
+        return `Hi! <strong class="text-[#0077b6]">${tod}!</strong> I'm doing great and keeping your entire KinetiQ Hire database, calendar, and tasks synced with Google Cloud. You currently have <strong>${active.length}</strong> active candidate(s) and <strong>${activeTasks.length}</strong> pending task(s). What would you like to check?`;
       }
 
       if (/^(thanks|thank you|thx|ty|awesome|super|great|nice|ok|okay|cool)(\s+tequila)?$/.test(cleanGreetingCheck)) {
-        return `You're most welcome, Pradeep! ${tod} — let me know anytime you need to search candidates, export a CSV, or check your schedule.`;
+        return `You're most welcome! ${tod} — let me know anytime you need to search candidates, export a CSV, or check your schedule.`;
       }
 
       if (/^(bye|goodbye|see you|see ya|cya|take care)(\s+tequila)?$/.test(cleanGreetingCheck)) {
-        return `<strong class="text-[#0077b6]">${tod}, Pradeep!</strong> All your candidates, calendar reminders, tasks, and our chat history are safely backed up. Talk to you soon!`;
+        return `<strong class="text-[#0077b6]">${tod}!</strong> All your candidates, calendar reminders, tasks, and our chat history are safely backed up. Talk to you soon!`;
       }
 
       // 1. CALENDAR, REMINDER, INTERVIEW, TASK & DEADLINE QUERIES
@@ -2379,7 +2382,7 @@ function doGet() {
       }
 
       if (candidates.length === 0) {
-        return `${grammarNote}Hi Pradeep! ${tod}! Your recruitment pipeline does not have any candidates yet, though you have <strong>${activeTasks.length}</strong> active task(s)/reminder(s) on your calendar. Click <strong class="text-[#0077b6]">+ Add Prospect</strong> in the top bar to add candidates.`;
+        return `${grammarNote}Hi! ${tod}! Your recruitment pipeline does not have any candidates yet, though you have <strong>${activeTasks.length}</strong> active task(s)/reminder(s) on your calendar. Click <strong class="text-[#0077b6]">+ Add Prospect</strong> in the top bar to add candidates.`;
       }
 
       // 2. SUITABILITY MATCHING ("who will be suitable for...", "fit for") + CSV DOWNLOAD
@@ -2559,7 +2562,7 @@ function doGet() {
         return reply;
       }
 
-      return `${grammarNote}Hi Pradeep! <strong class="text-[#0077b6]">${tod}!</strong> I couldn't find any candidates matching that exact keyword across your <strong>${candidates.length}</strong> profiles. Try searching a position, skill, client, or status, and you'll get a <strong>Download CSV</strong> button at the bottom of the results!`;
+      return `${grammarNote}Hi! <strong class="text-[#0077b6]">${tod}!</strong> I couldn't find any candidates matching that exact keyword across your <strong>${candidates.length}</strong> profiles. Try searching a position, skill, client, or status, and you'll get a <strong>Download CSV</strong> button at the bottom of the results!`;
     }
 
     // Boot Application & Automatically Pull from Default Google Cloud URL on Any PC
@@ -2589,24 +2592,41 @@ function doGet() {
 </head>
 <body class="flex flex-col min-h-screen">
 
-  <!-- 1. SPLASH SCREEN -->
+  <!-- 1. SPLASH SCREEN (EXACT KinetiQ Hire LOGO & FONT LOCKUP) -->
   <section id="splashScreen"
-           class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#FF731D] via-[#FF6B1A] to-[#EA580C] select-none">
-    <div class="max-w-lg w-full flex flex-col items-center splash-brand-enter">
-      <div class="mb-5 drop-shadow-xl">
-        <svg class="w-28 h-28 sm:w-32 sm:h-32 mx-auto" viewBox="0 0 140 150" fill="none">
-          <path d="M40 16 H100 L107 30 H76 V60 L70 46 L64 60 V30 H33 Z" fill="white"/>
-          <path d="M27 38 H42 C34 64 45 92 70 116 C95 92 106 64 98 38 H113 C124 68 108 104 70 134 C32 104 16 68 27 38 Z" fill="white"/>
-          <path d="M59 40 C47 47 41 61 45 75 C49 88 59 99 70 109 C81 99 91 88 95 75 C99 61 93 47 81 40 V57 L97 57 L78 70 L85 91 L70 78 L55 91 L62 70 L43 57 L59 57 Z" fill="white"/>
-        </svg>
-      </div>
-      <h1 class="text-4xl sm:text-6xl tracking-tight text-white">
-        <span class="font-extrabold">Talent</span><span class="font-light">Tracker</span>
+           class="fixed inset-0 z-50 flex items-center justify-center p-6 select-none">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 splash-brand-enter">
+      <!-- KinetiQ Hire Shield + Orbital Swoosh + Magnifying Q + Chevron SVG -->
+      <svg class="w-28 h-28 sm:w-36 sm:h-36 shrink-0" viewBox="0 0 160 160" fill="none">
+        <defs>
+          <mask id="kinetiqSplashMask">
+            <rect width="160" height="160" fill="white" />
+            <!-- Center Magnifying Glass / Q Cutout -->
+            <circle cx="78" cy="63" r="24" fill="black" />
+            <path d="M93 78 L113 98" stroke="black" stroke-width="11" stroke-linecap="square" />
+            <!-- Inner Shield Cutout Gap for Orbital Ring -->
+            <path d="M22 86 C16 106 48 112 88 92 C126 73 148 40 116 26" stroke="black" stroke-width="5" fill="none" />
+          </mask>
+        </defs>
+        <g mask="url(#kinetiqSplashMask)">
+          <!-- Shield Base -->
+          <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+        </g>
+        <!-- Forward Chevron (>) Inside Circle -->
+        <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+        <!-- Dynamic Orbital Swoosh Wrapping Shield -->
+        <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
+      </svg>
+
+      <!-- KinetiQ Hire Typography -->
+      <h1 class="kinetiq-brand-font text-4xl sm:text-6xl md:text-7xl text-white tracking-tight flex items-baseline gap-2.5 sm:gap-3.5">
+        <span class="font-black">KinetiQ</span>
+        <span class="font-light">Hire</span>
       </h1>
     </div>
   </section>
 
-  <!-- 2. RIGHT-SIDE HAMBURGER DRAWER -->
+  <!-- 2. RIGHT-SIDE HAMBURGER DRAWER (WITH CREATOR - PRADEEP G A AT BOTTOM) -->
   <div id="hamburgerBackdrop" onclick="window.toggleHamburgerMenu(false)"
        class="fixed inset-0 bg-slate-900/25 z-40 hidden"></div>
 
@@ -2615,14 +2635,17 @@ function doGet() {
     <div>
       <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-200">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-[#FF6B1A] flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 140 150" fill="none">
-              <path d="M40 16 H100 L107 30 H76 V60 L70 46 L64 60 V30 H33 Z" fill="white"/>
-              <path d="M27 38 H42 C34 64 45 92 70 116 C95 92 106 64 98 38 H113 C124 68 108 104 70 134 C32 104 16 68 27 38 Z" fill="white"/>
+          <div class="w-9 h-9 rounded-xl bg-[#FF5514] flex items-center justify-center shadow-xs shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 160 160" fill="none">
+              <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+              <circle cx="78" cy="63" r="24" fill="#FF5514" />
+              <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+              <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+              <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
             </svg>
           </div>
-          <span class="text-sm tracking-tight text-slate-900">
-            <strong class="font-extrabold">Talent</strong><span class="font-normal">Tracker</span>
+          <span class="kinetiq-brand-font text-base tracking-tight text-slate-900 flex items-baseline gap-1">
+            <strong class="font-black">KinetiQ</strong><span class="font-light text-[#FF5514]">Hire</span>
           </span>
         </div>
         <button type="button" onclick="window.toggleHamburgerMenu(false)"
@@ -2640,7 +2663,7 @@ function doGet() {
             <div class="text-xs font-extrabold text-slate-900">Data Pie Charts</div>
             <p class="text-[10px] text-slate-500">View pipeline & client pie charts</p>
           </div>
-          <svg class="w-4 h-4 text-[#FF6B1A] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
           </svg>
@@ -2650,12 +2673,12 @@ function doGet() {
                 class="white-box-btn w-full rounded-xl px-3.5 py-2.5 text-left flex items-center justify-between">
           <div>
             <div class="flex items-center gap-1.5">
-              <span id="syncDot" class="w-2 h-2 rounded-full bg-[#FF6B1A]"></span>
+              <span id="syncDot" class="w-2 h-2 rounded-full bg-[#FF5514]"></span>
               <span id="syncBtnText" class="text-xs font-extrabold text-slate-900">Cloud Synced</span>
             </div>
             <p class="text-[10px] text-slate-500">Auto-linked to your Google Cloud DB</p>
           </div>
-          <svg class="w-4 h-4 text-[#FF6B1A] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
           </svg>
@@ -2667,7 +2690,7 @@ function doGet() {
             <div class="text-xs font-extrabold text-slate-900">Download CSV</div>
             <p class="text-[10px] text-slate-500">Export tracker to Excel file</p>
           </div>
-          <svg class="w-4 h-4 text-[#FF6B1A] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -2679,11 +2702,11 @@ function doGet() {
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-extrabold text-slate-900">Archive Vault</span>
-              <span id="archiveCountBadge" class="px-1.5 py-0.5 text-[10px] rounded-md border border-slate-300 bg-white text-[#FF6B1A] font-black">0</span>
+              <span id="archiveCountBadge" class="px-1.5 py-0.5 text-[10px] rounded-md border border-slate-300 bg-white text-[#FF5514] font-black">0</span>
             </div>
             <p class="text-[10px] text-slate-500">View or restore archived profiles</p>
           </div>
-          <svg class="w-4 h-4 text-[#FF6B1A] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-[#FF5514] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="21 8 21 21 3 21 3 8"></polyline>
             <rect x="1" y="3" width="22" height="5"></rect>
             <line x1="10" y1="12" x2="14" y2="12"></line>
@@ -2692,9 +2715,10 @@ function doGet() {
       </div>
     </div>
 
+    <!-- CREATOR - PRADEEP G A (SHOWN EXCLUSIVELY INSIDE HAMBURGER MENU) -->
     <div class="pt-3.5 border-t border-slate-200 flex items-center justify-between text-xs select-none">
       <span class="text-[10px] uppercase tracking-wider font-bold text-slate-500">Creator</span>
-      <span class="font-extrabold text-[#FF6B1A]">- Pradeep G A</span>
+      <span class="font-extrabold text-[#FF5514]">- Pradeep G A</span>
     </div>
   </aside>
 
@@ -2707,7 +2731,7 @@ function doGet() {
     <div class="flex-1 flex flex-col min-h-0">
       <div class="flex items-center justify-between pb-3.5 mb-3 border-b border-slate-200">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-[#FF6B1A] flex items-center justify-center text-white">
+          <div class="w-8 h-8 rounded-lg bg-[#FF5514] flex items-center justify-center text-white">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
             </svg>
@@ -2725,15 +2749,15 @@ function doGet() {
 
       <div class="ash-gel-panel p-1 rounded-xl flex items-center gap-1 mb-3">
         <button type="button" id="taskTab_active" onclick="window.setTaskTab('active')"
-                class="flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF6B1A] text-white transition cursor-pointer">
+                class="flex-1 py-1.5 rounded-lg text-xs font-extrabold bg-[#FF5514] text-white transition cursor-pointer">
           My Tasks
         </button>
         <button type="button" id="taskTab_starred" onclick="window.setTaskTab('starred')"
-                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF6B1A] transition cursor-pointer">
+                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition cursor-pointer">
           Starred
         </button>
         <button type="button" id="taskTab_completed" onclick="window.setTaskTab('completed')"
-                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF6B1A] transition cursor-pointer">
+                class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-[#FF5514] transition cursor-pointer">
           Completed
         </button>
       </div>
@@ -2751,7 +2775,7 @@ function doGet() {
           <option value="">General Work / No Candidate Linked</option>
         </select>
         <button type="submit"
-                class="w-full py-2 rounded-xl bg-[#FF6B1A] hover:bg-[#ea580c] text-white text-xs font-extrabold transition cursor-pointer">
+                class="w-full py-2 rounded-xl bg-[#FF5514] hover:bg-[#ea580c] text-white text-xs font-extrabold transition cursor-pointer">
           Save Task & Sync to Cloud DB
         </button>
       </form>
@@ -2763,19 +2787,22 @@ function doGet() {
   <!-- 4. MAIN WORKSPACE -->
   <div id="mainWorkspace" class="flex-1 flex flex-col max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6">
 
-    <header class="white-gel-panel rounded-2xl px-3.5 sm:px-5 py-3 mb-4 flex flex-wrap items-center justify-between gap-2.5 border-t-4 border-t-[#FF6B1A]">
+    <header class="white-gel-panel rounded-2xl px-3.5 sm:px-5 py-3 mb-4 flex flex-wrap items-center justify-between gap-2.5 border-t-4 border-t-[#FF5514]">
+      <!-- KinetiQ Hire Brand Header Lockup -->
       <div class="flex items-center gap-2.5 select-none">
         <div onclick="window.showSplashScreen()"
-             class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#FF6B1A] flex items-center justify-center cursor-pointer shadow-sm shrink-0"
-             title="Replay Splash Intro">
-          <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 140 150" fill="none">
-            <path d="M40 16 H100 L107 30 H76 V60 L70 46 L64 60 V30 H33 Z" fill="white"/>
-            <path d="M27 38 H42 C34 64 45 92 70 116 C95 92 106 64 98 38 H113 C124 68 108 104 70 134 C32 104 16 68 27 38 Z" fill="white"/>
-            <path d="M59 40 C47 47 41 61 45 75 C49 88 59 99 70 109 C81 99 91 88 95 75 C99 61 93 47 81 40 V57 L97 57 L78 70 L85 91 L70 78 L55 91 L62 70 L43 57 L59 57 Z" fill="white"/>
+             class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#FF5514] flex items-center justify-center cursor-pointer shadow-sm shrink-0"
+             title="Replay KinetiQ Hire Splash">
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 160 160" fill="none">
+            <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+            <circle cx="78" cy="63" r="24" fill="#FF5514" />
+            <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+            <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+            <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
           </svg>
         </div>
-        <h1 class="text-lg sm:text-xl md:text-2xl tracking-tight text-slate-900">
-          <span class="font-extrabold">Talent</span><span class="font-light text-[#FF6B1A]">Tracker</span>
+        <h1 class="kinetiq-brand-font text-lg sm:text-xl md:text-2xl tracking-tight text-slate-900 flex items-baseline gap-1.5">
+          <span class="font-black">KinetiQ</span><span class="font-light text-[#FF5514]">Hire</span>
         </h1>
       </div>
 
@@ -2801,7 +2828,7 @@ function doGet() {
         <button type="button" onclick="window.toggleTasksDrawer(true)"
                 class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex items-center justify-center relative"
                 title="Tasks">
-          <svg class="w-4 h-4 text-[#FF6B1A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <svg class="w-4 h-4 text-[#FF5514]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
             <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
           </svg>
           <span id="headerTaskCountBadge" class="hidden absolute -top-1.5 -right-1.5 px-1.5 py-0.2 rounded-full bg-slate-900 text-white text-[10px] font-black shadow">0</span>
@@ -2811,7 +2838,7 @@ function doGet() {
         <button type="button" onclick="window.openCalendarModal()"
                 class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex items-center justify-center"
                 title="Calendar & Reminders">
-          <svg class="w-4 h-4 text-[#FF6B1A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <svg class="w-4 h-4 text-[#FF5514]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
         </button>
@@ -2824,7 +2851,7 @@ function doGet() {
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
           <span id="notifCountBadge"
-                class="hidden absolute -top-1.5 -right-1.5 px-1.5 py-0.2 rounded-full bg-[#FF6B1A] text-white text-[10px] font-black shadow">
+                class="hidden absolute -top-1.5 -right-1.5 px-1.5 py-0.2 rounded-full bg-[#FF5514] text-white text-[10px] font-black shadow">
             0
           </span>
         </button>
@@ -2833,9 +2860,9 @@ function doGet() {
         <button type="button" onclick="window.toggleHamburgerMenu(true)"
                 class="white-box-btn w-9 h-9 sm:w-10 sm:h-9 rounded-xl flex flex-col items-center justify-center gap-1"
                 title="Open Menu">
-          <span class="w-4 h-0.5 bg-[#FF6B1A] rounded-full"></span>
+          <span class="w-4 h-0.5 bg-[#FF5514] rounded-full"></span>
           <span class="w-4 h-0.5 bg-slate-900 rounded-full"></span>
-          <span class="w-4 h-0.5 bg-[#FF6B1A] rounded-full"></span>
+          <span class="w-4 h-0.5 bg-[#FF5514] rounded-full"></span>
         </button>
       </div>
     </header>
@@ -2878,10 +2905,10 @@ function doGet() {
           ☑ Select Candidatures
         </button>
         <label class="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer select-none px-2 py-1 rounded-lg hover:bg-orange-50">
-          <input type="checkbox" id="selectAllHeaderCheckbox" onchange="window.toggleSelectAllVisible(this.checked)" class="w-4 h-4 accent-[#FF6B1A] rounded cursor-pointer" />
+          <input type="checkbox" id="selectAllHeaderCheckbox" onchange="window.toggleSelectAllVisible(this.checked)" class="w-4 h-4 accent-[#FF5514] rounded cursor-pointer" />
           <span>Select All</span>
         </label>
-        <span id="selectedCountText" class="text-xs font-extrabold text-[#FF6B1A] px-1">0 selected</span>
+        <span id="selectedCountText" class="text-xs font-extrabold text-[#FF5514] px-1">0 selected</span>
       </div>
 
       <div id="bulkActionButtons" class="hidden flex flex-wrap items-center gap-1.5">
@@ -2894,7 +2921,7 @@ function doGet() {
           Reject (WhatsApp / Mail)
         </button>
         <button type="button" onclick="window.executeBulkAction('archive')"
-                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#FF6B1A] text-white hover:bg-[#ea580c] transition cursor-pointer shadow-xs">
+                class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#FF5514] text-white hover:bg-[#ea580c] transition cursor-pointer shadow-xs">
           Archive
         </button>
         <button type="button" onclick="window.executeBulkAction('delete')"
@@ -2904,7 +2931,7 @@ function doGet() {
       </div>
 
       <div class="text-[11px] text-slate-600 ml-auto flex items-center gap-3">
-        <span class="hidden lg:inline">Tap any <strong class="text-[#FF6B1A]">Candidate Name</strong> for profile & reminders.</span>
+        <span class="hidden lg:inline">Tap any <strong class="text-[#FF5514]">Candidate Name</strong> for profile & reminders.</span>
         <span id="activeCountLabel" class="font-bold text-slate-800"></span>
       </div>
     </section>
@@ -2934,25 +2961,25 @@ function doGet() {
       <div id="kanbanBoard" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-4"></div>
     </main>
 
+    <!-- FOOTER: KinetiQ Hire BRANDING ONLY (CREATOR REMOVED FROM FOOTER AS REQUESTED) -->
     <footer class="ash-gel-panel rounded-2xl px-4 sm:px-6 py-3.5 mt-auto flex flex-wrap items-center justify-between gap-2 text-xs select-none">
       <div class="flex items-center gap-2.5">
-        <div class="w-6 h-6 rounded-md bg-[#FF6B1A] flex items-center justify-center">
-          <svg class="w-4 h-4" viewBox="0 0 140 150" fill="none">
-            <path d="M40 16 H100 L107 30 H76 V60 L70 46 L64 60 V30 H33 Z" fill="white"/>
-            <path d="M27 38 H42 C34 64 45 92 70 116 C95 92 106 64 98 38 H113 C124 68 108 104 70 134 C32 104 16 68 27 38 Z" fill="white"/>
+        <div class="w-7 h-7 rounded-lg bg-[#FF5514] flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 160 160" fill="none">
+            <path d="M78 18 L34 34 C34 68 43 95 78 136 C113 95 122 68 122 34 Z" fill="white" />
+            <circle cx="78" cy="63" r="24" fill="#FF5514" />
+            <path d="M93 78 L113 98" stroke="#FF5514" stroke-width="11" stroke-linecap="square" />
+            <polygon points="69,49 79,49 91,63 79,77 69,77 81,63" fill="white" />
+            <path d="M30 76 C12 98 22 114 60 105 C98 96 144 62 138 36 C134 22 112 20 96 24 C114 23 126 30 124 44 C120 64 88 86 56 93 C32 98 24 88 30 76 Z" fill="white" />
           </svg>
         </div>
-        <span class="tracking-tight text-slate-900">
-          <strong class="font-extrabold">Talent</strong><span class="font-normal text-[#FF6B1A]">Tracker</span>
-        </span>
-        <span class="px-2 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-extrabold text-slate-800">
-          v2.9
+        <span class="kinetiq-brand-font text-sm tracking-tight text-slate-900 flex items-baseline gap-1">
+          <strong class="font-black">KinetiQ</strong><span class="font-light text-[#FF5514]">Hire</span>
         </span>
       </div>
-      <div class="flex items-center gap-1.5">
-        <span class="text-[10px] uppercase tracking-wider font-bold text-slate-500">Creator</span>
-        <span class="font-extrabold text-[#FF6B1A] tracking-wide">- Pradeep G A</span>
-      </div>
+      <span class="px-2.5 py-0.5 rounded-md bg-white border border-slate-300 text-[10px] font-extrabold text-slate-800">
+        v2.9
+      </span>
     </footer>
   </div>
 
@@ -2992,7 +3019,7 @@ function doGet() {
     <div class="orangish-theme-modal rounded-3xl max-w-4xl w-full p-4 sm:p-6 max-h-[92vh] flex flex-col">
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/25">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#FF6B1A] shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#FF5514] shadow-sm">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
@@ -3067,7 +3094,7 @@ function doGet() {
             <div>1. Add as Google Calendar Event</div>
             <div class="text-[10px] font-medium text-slate-600">Opens pre-filled Event composer in Google Calendar</div>
           </div>
-          <span class="text-[#FF6B1A] font-black">&rarr;</span>
+          <span class="text-[#FF5514] font-black">&rarr;</span>
         </button>
 
         <button type="button" onclick="window.proceedGoogleCalChoice('task')"
@@ -3147,7 +3174,7 @@ function doGet() {
           <h2 class="text-base font-extrabold text-slate-900">Upcoming Reminders & Deadline Alerts</h2>
           <p class="text-xs text-slate-500">Notifying you of interviews, tasks, and reminders due within 1 hour or 1 day</p>
         </div>
-        <button type="button" onclick="window.closeNotificationsModal()" class="text-slate-500 hover:text-[#FF6B1A] text-2xl font-bold cursor-pointer">&times;</button>
+        <button type="button" onclick="window.closeNotificationsModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
       </div>
       <div id="notifListContainer" class="flex-1 overflow-y-auto ash-gel-panel rounded-2xl p-4 space-y-2.5"></div>
     </div>
@@ -3159,9 +3186,9 @@ function doGet() {
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
         <div>
           <h2 class="text-base font-extrabold text-slate-900">Recruitment Pipeline Pie Charts</h2>
-          <p class="text-xs text-slate-500">Analyze your live tracker data across different options</p>
+          <p class="text-xs text-slate-500">Analyze your live KinetiQ Hire data across different options</p>
         </div>
-        <button type="button" onclick="window.closeChartModal()" class="text-slate-500 hover:text-[#FF6B1A] text-2xl font-bold cursor-pointer">&times;</button>
+        <button type="button" onclick="window.closeChartModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
       </div>
       <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div class="flex flex-wrap gap-2">
@@ -3272,7 +3299,7 @@ function doGet() {
           <h2 class="text-base font-extrabold text-slate-900">Google Cloud Database Sync</h2>
           <p class="text-xs text-slate-500">Permanently linked to your default Google Cloud URL across all PCs & devices</p>
         </div>
-        <button type="button" onclick="window.closeSheetModal()" class="text-slate-500 hover:text-[#FF6B1A] text-xl font-bold cursor-pointer">&times;</button>
+        <button type="button" onclick="window.closeSheetModal()" class="text-slate-500 hover:text-[#FF5514] text-xl font-bold cursor-pointer">&times;</button>
       </div>
 
       <div class="ash-gel-panel rounded-2xl p-3.5 mb-4 grid grid-cols-3 gap-2 text-center">
@@ -3281,7 +3308,7 @@ function doGet() {
           <div class="text-[10px] font-bold text-slate-500 uppercase">Candidates</div>
         </div>
         <div class="bg-white rounded-xl p-2 border border-slate-200">
-          <div id="cloudStatSchedule" class="text-base font-black text-[#FF6B1A]">0</div>
+          <div id="cloudStatSchedule" class="text-base font-black text-[#FF5514]">0</div>
           <div class="text-[10px] font-bold text-slate-500 uppercase">Calendar & Tasks</div>
         </div>
         <div class="bg-white rounded-xl p-2 border border-slate-200">
@@ -3300,7 +3327,7 @@ function doGet() {
                 Reset Default URL
               </button>
               <button type="button" onclick="window.copyAppsScriptTemplate()"
-                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF6B1A]">
+                      class="white-box-btn px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#FF5514]">
                 Copy Cloud Apps Script
               </button>
             </div>
@@ -3311,7 +3338,7 @@ function doGet() {
         <div class="ash-gel-panel rounded-2xl p-3.5 space-y-2">
           <div class="text-xs text-slate-900 font-extrabold">Option 2: Google Cloud Firestore Database (Optional Direct Sync)</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <input id="firestoreProjectInput" type="text" placeholder="GCP Project ID (e.g. talenttracker-db)" class="gel-input px-3 py-2 rounded-xl text-xs" />
+            <input id="firestoreProjectInput" type="text" placeholder="GCP Project ID (e.g. kinetiq-hire-db)" class="gel-input px-3 py-2 rounded-xl text-xs" />
             <input id="firestoreKeyInput" type="password" placeholder="Web API Key (optional)" class="gel-input px-3 py-2 rounded-xl text-xs" />
           </div>
         </div>
@@ -3323,7 +3350,7 @@ function doGet() {
           <button type="button" onclick="window.pullFromGoogleSheet()" class="white-box-btn px-3.5 py-2 rounded-xl text-xs font-extrabold text-slate-900">Load All From Cloud</button>
           <div class="flex gap-2">
             <button type="button" onclick="window.closeSheetModal()" class="white-box-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700">Close</button>
-            <button type="button" onclick="window.saveSheetUrlAndSync()" class="white-box-btn px-4 py-2 rounded-xl text-xs font-extrabold text-[#FF6B1A]">Save & Sync Everything</button>
+            <button type="button" onclick="window.saveSheetUrlAndSync()" class="white-box-btn px-4 py-2 rounded-xl text-xs font-extrabold text-[#FF5514]">Save & Sync Everything</button>
           </div>
         </div>
       </div>
@@ -3338,7 +3365,7 @@ function doGet() {
           <h2 class="text-base font-extrabold text-slate-900">Archived Candidatures</h2>
           <p class="text-xs text-slate-500">Restore candidates back to the active pipeline or delete permanently.</p>
         </div>
-        <button type="button" onclick="window.closeArchiveModal()" class="text-slate-500 hover:text-[#FF6B1A] text-2xl font-bold cursor-pointer">&times;</button>
+        <button type="button" onclick="window.closeArchiveModal()" class="text-slate-500 hover:text-[#FF5514] text-2xl font-bold cursor-pointer">&times;</button>
       </div>
       <div class="overflow-y-auto flex-1">
         <table class="w-full text-left border-collapse text-sm">
